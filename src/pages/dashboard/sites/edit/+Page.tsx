@@ -1,15 +1,14 @@
-import { Button, Center, Group, Loader, Stack, Text } from "@mantine/core";
+import { Center, Loader, Stack, Text } from "@mantine/core";
 import { readItem } from "@directus/sdk";
-import { IconArrowLeft, IconTrash } from "@tabler/icons-react";
 import { usePageContext } from "vike-react/usePageContext";
 
-import InternalLink from "/src/components/core/InternalLink";
 import SiteForm from "/src/pages/dashboard/sites/SiteForm";
-import DeleteSiteModal from "/src/pages/dashboard/sites/DeleteSiteModal";
 import useDirectusRequest from "/src/hooks/useDirectusRequest";
 import { Site } from "/src/utils/directus";
 import { CodeHighlight } from "@mantine/code-highlight";
 import { getDirectusUrl, getGitGatewayUrl } from "/src/utils/constants";
+import { useEffect } from "react";
+import navigate from "/src/utils/navigate";
 
 const getBackendConfig = (site: Site) => `
 backend:
@@ -26,6 +25,11 @@ const EditSitePage: React.FC = () => {
   } = usePageContext();
   const siteId = search.siteId;
   const { data } = useDirectusRequest(readItem("sites", siteId));
+  useEffect(() => {
+    if (!search.siteId) {
+      navigate("/dashboard/sites")
+    }
+  }, [search.siteId])
   return (
     <Stack>
       {/* <Group>
@@ -34,7 +38,7 @@ const EditSitePage: React.FC = () => {
           href="/dashboard/sites"
           variant="subtle"
           size="compact-md"
-          leftSection={<IconArrowLeft size="1.25rem" />}
+          leftSection={< size="1.25rem" />}
         >
           Back to all sites
         </Button>

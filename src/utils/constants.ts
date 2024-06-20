@@ -10,14 +10,14 @@ export const getPasswordResetUrl = () => `${window.location.origin}${passwordRes
 
 export const getDirectusUrl = () => {
   if (typeof window !== 'undefined' && window.location.origin.includes('prod-site.com')) {
-    return "http://prod-directus-url.com"
+    return "https://auth.decapbridge.com"
   }
   return "http://localhost:8055"
 }
 
 export const getGitGatewayUrl = () => {
   if (typeof window !== 'undefined' && window.location.origin.includes('prod-site.com')) {
-    return "http://prod-gateway.com"
+    return "https://gateway.decapbridge.com"
   }
   return "http://localhost:8081"
 }
