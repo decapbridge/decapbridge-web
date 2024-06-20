@@ -1,0 +1,71 @@
+.wrapper {
+  position: relative;
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+  @media (max-width: $mantine-breakpoint-sm) {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-text {
+  & h1 {
+    font-weight: 800;
+    font-size: rem(40px);
+    letter-spacing: -1px;
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    margin-bottom: var(--mantine-spacing-xs);
+    font-family: Greycliff CF, var(--mantine-font-family);
+    @media (max-width: $mantine-breakpoint-xs) {
+      font-size: rem(28px);
+      text-align: left;
+    }
+  }
+
+  & em {
+    font-style: normal;
+    color: var(--mantine-color-pink-6);
+  }
+
+  & p {
+    font-size: var(--mantine-font-size-lg);
+    color: var(--mantine-color-dimmed);
+    @media (max-width: $mantine-breakpoint-xs) {
+      text-align: left;
+      font-size: var(--mantine-font-size-md);
+    }
+  }
+}
+
+.controls {
+  margin-top: var(--mantine-spacing-lg);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex-direction: column;
+  }
+}
+
+.control {
+  &:not(:first-of-type) {
+    margin-left: var(--mantine-spacing-md);
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    height: rem(42px);
+    font-size: var(--mantine-font-size-md);
+
+    &:not(:first-of-type) {
+      margin-top: var(--mantine-spacing-md);
+      margin-left: 0;
+    }
+  }
+}

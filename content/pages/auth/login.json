@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Log in",
+    "description": "Log into your site-starter account"
+  },
+  "login_button": "Sign in",
+  "create_account": "Create account",
+  "sub_header": "Do not have an account yet?",
+  "header": "Welcome back!",
+  "email": {
+    "placeholder": "email@example.com",
+    "label": "Email"
+  },
+  "password": {
+    "placeholder": "Your password",
+    "label": "Password"
+  },
+  "forgot_password": "Forgot password?"
+}

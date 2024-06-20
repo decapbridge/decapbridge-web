@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "description": "Create a new site-starter account",
+    "title": "Sign up"
+  },
+  "login": "Log in",
+  "sub_header": "Already have an account?",
+  "header": "Create account",
+  "last_name": {
+    "placeholder": "My last name",
+    "label": "Last name"
+  },
+  "submit_button": "Create account",
+  "first_name": {
+    "label": "First name",
+    "placeholder": "My first name"
+  },
+  "password": {
+    "label": "Password",
+    "placeholder": "Your password"
+  },
+  "email": {
+    "label": "Email",
+    "placeholder": "email@example.com"
+  }
+}

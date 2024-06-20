@@ -1,0 +1,11 @@
+<svg version="1.1" id="Logo" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" xml:space="preserve">
+  <style>
+    .st0,.st1{fill:none;stroke:currentColor;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.st1{stroke-width:4}
+  </style>
+  <path id="Outer" class="st0" d="M13.5 34.7L63.7 5.5l50.1 29.2V93l-50.1 29.2L13.5 93z"/>
+  <path id="Inner" class="st1" d="M76.2 71.1l-12.5 7.3-12.6-7.3V56.5l12.6-7.3 12.5 7.3z"/>
+  <g id="Interior">
+    <path class="st1" d="M113.8 59.3L63.7 88.5 32.2 70.2V55.6l31.1-18" transform="translate(0 11.81)"/>
+    <path class="st1" d="M13.5 44.7l50.2-29.2 31.4 18.2v14.6L63.7 66.6" transform="translate(0 11.81)"/>
+  </g>
+</svg>

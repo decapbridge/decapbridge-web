@@ -1,0 +1,81 @@
+.button-root {
+  &[data-variant="transparent"] {
+    --button-bg: transparent !important;
+    --button-hover: var(--mantine-color-default-hover) !important;
+    --button-color: var(--mantine-color-default-color) !important;
+    --ai-bg: transparent !important;
+    --ai-hover: var(--mantine-color-default-hover) !important;
+    --ai-color: var(--mantine-color-default-color) !important;
+    @mixin dark {
+      --button-hover: var(--mantine-color-default) !important;
+      --ai-hover: var(--mantine-color-default) !important;
+    }
+  }
+}
+
+.nav-button {
+  font-weight: 500 !important;
+  &[aria-current="true"] {
+    font-weight: 600 !important;
+    --button-bg: var(--mantine-color-pink-light) !important;
+    --button-hover: var(--mantine-color-pink-light-hover) !important;
+    --button-color: light-dark(
+      var(--mantine-color-pink-8),
+      var(--mantine-color-pink-1)
+    ) !important;
+    --ai-bg: var(--button-bg) !important;
+    --ai-hover: var(--button-hover) !important;
+    --ai-color: var(--button-color) !important;
+  }
+}
+
+.alt-background {
+  background: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-8)
+  );
+}
+.top-border {
+  border-top: calc(0.0625rem * var(--mantine-scale)) solid
+    var(--app-shell-border-color);
+}
+.bottom-border {
+  border-bottom: calc(0.0625rem * var(--mantine-scale)) solid
+    var(--app-shell-border-color);
+}
+.left-border {
+  border-left: calc(0.0625rem * var(--mantine-scale)) solid
+    var(--app-shell-border-color);
+}
+.right-border {
+  border-right: calc(0.0625rem * var(--mantine-scale)) solid
+    var(--app-shell-border-color);
+}
+
+.page-transition {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3D(0, 1rem, 0) scale(0.99);
+  opacity: 0;
+  &[data-transition-state="iddle"] {
+    --transition-duration: 250ms;
+    transition: transform var(--transition-duration) ease-in-out,
+      opacity var(--transition-duration) ease-in-out;
+    transform: translate3D(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+.oversized-toc-wrapper {
+  @media (min-width: calc($mantine-breakpoint-md)) {
+    width: calc(100% + 9rem);
+    & > :first-child {
+      width: calc(100% - 20rem);
+    }
+  }
+  & > :last-child {
+    @media (max-width: calc($mantine-breakpoint-md)) {
+      display: none;
+    }
+  }
+}

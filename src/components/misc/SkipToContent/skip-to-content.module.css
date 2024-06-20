@@ -1,0 +1,11 @@
+.link {
+  position: absolute !important;
+  top: -100%;
+  left: -100%;
+  z-index: 250;
+  &:focus,
+  &:active {
+    top: 1rem;
+    left: 1rem;
+  }
+}

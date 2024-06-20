@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "title": "Contact us",
+    "description": "Questions? Comments? Suggestions? Contact us."
+  },
+  "name_label": "Name",
+  "email_label": "Email",
+  "message_label": "Your message",
+  "submit_button": "Send",
+  "success_message": "Message sent. We will get back to you shortly. Thanks!",
+  "error_message": "An error occurred while sending this message. Contact us via email."
+}

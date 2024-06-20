@@ -1,0 +1,32 @@
+{
+  "empty_label": "Nothing found...",
+  "social_links": [
+    {
+      "url": "https://github.com/loteoo/site-starter",
+      "name": "Github repo",
+      "icon": "IconBrandGithub"
+    },
+    {
+      "url": "http://localhost:3000/admin/index.html",
+      "name": "Decap CMS",
+      "icon": "IconEdit"
+    },
+    {
+      "url": "http://localhost:8055/admin/settings/project",
+      "name": "Directus Dashboard",
+      "icon": "IconUserCircle"
+    },
+    {
+      "url": "https://site-starter.pages.dev/",
+      "name": "Hosted demo",
+      "icon": "IconExternalLink"
+    }
+  ],
+  "token_expired_message": "Your session expired. Please login again.",
+  "logout": "Logout",
+  "footer_pages_column": "Site starter",
+  "logged_out_success": "Logged out successfully",
+  "search_label": "Search...",
+  "footer_text_pages_column": "Other",
+  "token_expired": "Logged out"
+}

@@ -1,0 +1,9 @@
+{
+  "hero_title": "# Github-free accounts for *Decap CMS*\n\nYou use [Decap CMS](https://decapcms.org/), but not on Netlify? You also don't want to ask your users to create a Github account to login? And you also don't want to setup your own authentication and user management service? This is just what you need.",
+  "hero_description": "Welcome to your new website!\n",
+  "meta": {
+    "title": "Home page",
+    "description": "Welcome page for your new website."
+  },
+  "cta_label": "Read more"
+}

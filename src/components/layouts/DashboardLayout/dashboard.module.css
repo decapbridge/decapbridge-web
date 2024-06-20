@@ -1,0 +1,32 @@
+.layout {
+  position: relative;
+  flex: 1;
+  @media (min-width: $mantine-breakpoint-sm) {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+}
+
+.sidebar {
+  padding: var(--mantine-spacing-md);
+  @media (max-width: $mantine-breakpoint-sm) {
+    margin: 1rem;
+    border: 1px solid var(--mantine-color-gray-3);
+    border-radius: var(--mantine-radius-md);
+    box-shadow: var(--mantine-shadow-md);
+    background-color: var(--mantine-color-body);
+  }
+}
+
+.sidebar-sticky {
+  @media (min-width: $mantine-breakpoint-sm) {
+    position: sticky;
+    top: 4.25rem;
+    width: 16rem;
+  }
+}
+
+.main-area {
+  flex: 1;
+}

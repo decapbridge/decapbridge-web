@@ -1,0 +1,23 @@
+import type { MantineColorScheme } from "@mantine/core";
+
+export const defaultColorScheme: Exclude<MantineColorScheme, "auto"> = "light";
+
+export const mainContentId = "main";
+
+export const passwordResetUrl = "/auth/password/reset";
+
+export const getPasswordResetUrl = () => `${window.location.origin}${passwordResetUrl}`
+
+export const getDirectusUrl = () => {
+  if (typeof window !== 'undefined' && window.location.origin.includes('prod-site.com')) {
+    return "http://prod-directus-url.com"
+  }
+  return "http://localhost:8055"
+}
+
+export const getGitGatewayUrl = () => {
+  if (typeof window !== 'undefined' && window.location.origin.includes('prod-site.com')) {
+    return "http://prod-gateway.com"
+  }
+  return "http://localhost:8081"
+}

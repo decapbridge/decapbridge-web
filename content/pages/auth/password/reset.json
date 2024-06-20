@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "title": "Reset password",
+    "description": "Enter a new password for your account"
+  },
+  "submit_button": "Reset password",
+  "password": {
+    "label": "New password",
+    "placeholder": "Your new password"
+  },
+  "sub_header": "Enter a new password for your account",
+  "header": "Reset password",
+  "token_missing": "Token is missing from URL",
+  "request_password": "Request a password reset link",
+  "success_message": "Password changed successfully"
+}

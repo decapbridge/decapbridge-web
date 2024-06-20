@@ -1,0 +1,17 @@
+{
+  "success_description": "A password reset link will be sent to your email address.",
+  "meta": {
+    "title": "Forgot password",
+    "description": "Enter your email to get a reset link"
+  },
+  "sub_header": "Enter your email to get a reset link",
+  "header": "Forgot your password?",
+  "login_link": "Back to login page",
+  "submit_button": "Reset password",
+  "home_link": "Back to home page",
+  "success_title": "Password reset request sent!",
+  "email": {
+    "label": "Your email",
+    "placeholder": "email@example.com"
+  }
+}

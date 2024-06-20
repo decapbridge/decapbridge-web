@@ -1,0 +1,26 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  transform: translate3D(0, -100%, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+  &[data-state*="light"] {
+    background: var(--mantine-color-white);
+  }
+  &[data-state*="dark"] {
+    background: var(--mantine-color-dark-7);
+  }
+  &[data-state*="start"] {
+    transition: transform calc(var(--transition-duration) * 1ms) ease-in;
+  }
+  &[data-state*="end"] {
+    transition: transform calc(var(--transition-duration) * 1ms) ease-out;
+  }
+  &[data-state*="start"] {
+    transform: translate3D(0, 0%, 0);
+  }
+  &[data-state*="end"] {
+    transform: translate3D(0, 100%, 0);
+  }
+}
