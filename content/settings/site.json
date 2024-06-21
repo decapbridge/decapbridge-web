@@ -1,5 +1,5 @@
 {
-  "site_name": "Decap Bridge",
+  "site_name": "DecapBridge",
   "site_url": "https://decap-bridge.pages.dev",
   "site_description": "Give your clients and non-technical users access to Decap CMS without needing a Github/Gitlab account. Let them chose their own password just for the CMS and create commits to the repo via Decap CMS, without ever touching third party at all. Invite them by email and have them start contributing in seconds.",
   "site_title": "Github-free accounts for Decap CMS"
