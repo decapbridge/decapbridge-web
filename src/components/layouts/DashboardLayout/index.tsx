@@ -15,8 +15,9 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { data } = usePageContext();
-  const [sites, ...rest] = usePageMeta(
+  const [sites, contact, ...rest] = usePageMeta(
     "/dashboard/sites",
+    "/contact",
     "/dashboard/profile",
     // "/dashboard/activity",
     "/dashboard/settings"
@@ -56,6 +57,20 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                   {title}
                 </Button>
               ))}
+              <Button
+                key={contact.urlPathname}
+                mt="auto"
+                justify="start"
+                component={InternalLink}
+                href={contact.urlPathname}
+                variant="transparent"
+                className={utils["nav-button"]}
+                radius="sm"
+                size="sm"
+                px="sm"
+              >
+                Get help
+              </Button>
             </Stack>
           </Box>
           <Box className={`${utils["left-border"]} ${styles["main-area"]}`}>

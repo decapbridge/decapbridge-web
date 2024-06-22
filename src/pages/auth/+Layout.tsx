@@ -1,1 +1,1 @@
-export { default } from "/src/components/layouts/DefaultCenteredLayout";
+export { default } from "/src/components/layouts/SimpleCenteredLayout";

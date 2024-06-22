@@ -34,7 +34,7 @@ const Head: React.FC = () => {
 
   return (
     <>
-      <link rel="icon" href="/icons/favicon.png" />
+      <link rel="icon" href="/icons/favicon.svg" />
       <meta name="description" content={description} />
 
       <meta
@@ -70,26 +70,7 @@ const Head: React.FC = () => {
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content={themeColor} />
 
-      <link rel="apple-touch-startup-image" href="/icons/icon-192x192.png" />
-      <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/icons/icon-180x180.png"
-      />
-      <link
-        rel="apple-touch-icon"
-        sizes="192x192"
-        href="/icons/icon-192x192.png"
-      />
-      <link
-        rel="apple-touch-icon"
-        sizes="512x512"
-        href="/icons/icon-512x512.png"
-      />
-
       <meta name="msapplication-navbutton-color" content={themeColor} />
-      <meta name="msapplication-TileImage" content="/icons/icon-512x512.png" />
       <meta name="msapplication-TileColor" content={themeColor} />
 
       <ColorSchemeScript />

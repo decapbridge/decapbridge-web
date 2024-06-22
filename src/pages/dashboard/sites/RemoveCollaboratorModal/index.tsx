@@ -1,22 +1,23 @@
 import { ReactNode } from "react";
-import { deleteItem } from "@directus/sdk";
+import { deleteItem, readItems } from "@directus/sdk";
 import { Stack, Group, Button, Text, Modal, Code } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import directus, { Site } from "/src/utils/directus";
+import directus, { CustomSchema, Site } from "/src/utils/directus";
 import { IconTrash } from "@tabler/icons-react";
 import { z } from "zod";
-import navigate from "/src/utils/navigate";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
 
-interface DeleteSiteModalProps {
+interface RemoveCollaboratorProps {
   site: Site;
+  user: CustomSchema['directus_users'][number];
   children: (open: () => void) => ReactNode
 }
 
-const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
+const RemoveCollaboratorModal: React.FC<RemoveCollaboratorProps> = ({
   site,
+  user,
   children
 }) => {
   const [opened, { open, close }] = useDisclosure()
@@ -26,12 +27,19 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
     schema: z.object({}),
     initialValues: {},
     action: async () => {
-      await directus.request(deleteItem("sites", site.id!));
+      const [collaboratorToDelete] = await directus.request(readItems('sites_directus_users', {
+        filter: {
+          sites_id: site.id,
+          directus_users_id: user.id
+        }
+      }));
+      if (collaboratorToDelete) {
+        await directus.request(deleteItem('sites_directus_users', collaboratorToDelete.id))
+      }
       notifications.show({
         color: "green",
-        message: "Site deleted.",
+        message: "Collaborator removed.",
       });
-      await navigate("/dashboard/sites");
       await queryClient.invalidateQueries({ queryKey: ["sites"] });
     },
   });
@@ -39,11 +47,11 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
   return (
     <>
       {children(open)}
-      <Modal title={`Delete site?`} opened={opened} onClose={close}>
+      <Modal title={`Remove collaborator?`} opened={opened} onClose={close}>
         <FormWrapper form={form} radius={0}>
           <Stack gap="xs">
             <Text>
-              You&apos;re about to delete the <Code>{site.repo}</Code> site. All collaborators will lose access to this site.
+              You&apos;re about to remove <Code>{user.first_name} {user.last_name} ({user.email})</Code> from the <Code>{site.repo}</Code> site.
               <br />
               Are you sure?
             </Text>
@@ -63,7 +71,7 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
                   />
                 }
               >
-                Delete site
+                Remove collaborator
               </Button>
             </Group>
           </Stack>
@@ -73,4 +81,4 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
   );
 };
 
-export default DeleteSiteModal;
+export default RemoveCollaboratorModal;

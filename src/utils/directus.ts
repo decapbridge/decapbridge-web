@@ -33,18 +33,27 @@ const authenticationStorage: AuthenticationStorage = {
   },
 };
 
+export interface Collaborator {
+  id: number;
+  sites_id: Site | string;
+  directus_users_id: CustomSchema['directus_users'][number] | string;
+};
+
 export interface Site {
   id: number;
   repo: string;
   access_token: string;
+  cms_url: string;
   date_created: string;
   date_updated: string;
-  user_created?: CustomSchema['directus_users'][number];
-  user_updated?: CustomSchema['directus_users'][number];
+  user_created?: CustomSchema['directus_users'][number] | string;
+  user_updated?: CustomSchema['directus_users'][number] | string;
+  collaborators: Collaborator[]
 }
 
 export interface CustomCollections {
   sites: Site[];
+  sites_directus_users: Collaborator[];
 }
 
 export type CustomSchema = CoreSchema &
@@ -53,7 +62,6 @@ export type CustomSchema = CoreSchema &
       collection: CustomSchemaEnum;
     })[];
     directus_users: (DirectusUser<CoreSchema & CustomCollections> & {
-      date_created: string;
     })[];
     directus_revisions: DirectusRevision<CoreSchema & CustomCollections>[];
   };

@@ -1,5 +1,4 @@
-import { ActionIcon, Button, ButtonProps } from "@mantine/core";
-import { IconHome } from "@tabler/icons-react";
+import { ActionIcon, Button, ButtonProps, Image } from "@mantine/core";
 import { PossibleLinks } from "/src/utils/types";
 import useGlobalData from "/src/hooks/useGlobalData";
 
@@ -17,7 +16,7 @@ const Logo: React.FC<LogoProps> = ({ href, withTitle, ...rest }) => {
   const { site: { site_name } } = useGlobalData()
 
   const logo = (
-    <IconHome stroke={1.5} size="1.375rem" aria-label={site_name} />
+    <Image src="/icons/favicon.svg" w="1.5rem" aria-label={site_name} />
   )
 
   const clickableProps: any = href ? {
