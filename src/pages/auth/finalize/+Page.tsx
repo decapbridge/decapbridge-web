@@ -74,9 +74,9 @@ const FinalizePage: React.FC = () => {
         return alert('You\'re not a collaborator in this site.')
       }
 
-      const { cms_url } = site
+      const { cms_url } = site;
 
-      alert('YEBNOIIII success! ' + cms_url)
+      window.location.href = cms_url;
     },
   });
 
