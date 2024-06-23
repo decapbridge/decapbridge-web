@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@directus/sdk": "^15.1.0",
+    "@mantine/carousel": "^7.10.2",
     "@mantine/code-highlight": "^7.10.2",
     "@mantine/core": "^7.10.2",
     "@mantine/form": "^7.10.2",
@@ -18,6 +19,8 @@
     "@mantine/spotlight": "^7.10.2",
     "@tabler/icons-react": "^3.6.0",
     "@tanstack/react-query": "^5.35.1",
+    "embla-carousel-auto-height": "^8.1.5",
+    "embla-carousel-react": "^7.1.0",
     "gray-matter": "^4.0.3",
     "jotai": "^2.8.3",
     "react": "^18.3.1",
