@@ -23,8 +23,8 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     };
   }
 
-  const sourceName = "Static Site Starter";
-  const sourceUrl = "https://site-starter.pages.dev";
+  const sourceName = "DecapBridge";
+  const sourceUrl = "https://decapbridge.com";
   const emailTo = "dev@alexlotte.ca";
   const subject = `${sourceName} contact form message from ${contact.name}`;
   const emailFrom = `${contact.name} <${contact.email}>`;

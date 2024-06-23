@@ -1,13 +1,12 @@
 ---
 meta:
   title: Privacy policy
-  description: Privacy policy desc
 tags:
   - legal
 ---
 ## Introduction
 
-Site Starter respects your privacy and is committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+DecapBridge respects your privacy and is committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
 
 ## Data Collection
 
