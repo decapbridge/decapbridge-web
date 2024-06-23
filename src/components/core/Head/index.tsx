@@ -5,7 +5,7 @@ import getTitle from "/src/renderer/getTitle";
 import { theme } from "/src/utils/theme";
 
 const getThumbnailUrl = (props: { title: string; description: string }) => {
-  const base = "https://cdn.thumbsmith.com/v1/u/loteoo/site-starter";
+  const base = "https://cdn.thumbsmith.com/v1/u/loteoo/decapbridge";
   const url = `${base}?${new URLSearchParams(props).toString()}`;
   return url;
 };
