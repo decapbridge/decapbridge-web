@@ -73,6 +73,8 @@ const Head: React.FC = () => {
       <meta name="msapplication-navbutton-color" content={themeColor} />
       <meta name="msapplication-TileColor" content={themeColor} />
 
+      <script defer src="https://umami.millisecond.studio/script.js" data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e" />
+
       <ColorSchemeScript />
     </>
   );
