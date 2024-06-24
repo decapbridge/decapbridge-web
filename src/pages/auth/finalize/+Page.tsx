@@ -10,19 +10,14 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
-import { useData } from "vike-react/useData";
 import { z } from "zod";
 
 import InternalLink from "/src/components/core/InternalLink";
-import useAuthActions from "/src/hooks/useAuthActions";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import { usePageContext } from "vike-react/usePageContext";
 import directus from "/src/utils/directus";
 import { passwordReset, readItem, readMe, updateUser } from "@directus/sdk";
 import onlyDiff from "/src/utils/onlyDiff";
-import useMaybeUser from "/src/hooks/useMaybeUser";
-import { useEffect } from "react";
-import navigate from "/src/utils/navigate";
 
 
 const errorPage = (msg: string) => (
