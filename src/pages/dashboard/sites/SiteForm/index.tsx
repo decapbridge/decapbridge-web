@@ -64,8 +64,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         <TextInput
           label="Github repository"
           placeholder="user-or-org/repository-name"
+          description="Please provide this in the following format: org/repo"
           name="repo"
           {...form.getInputProps("repo")}
+          required
         />
         <Stack gap={2}>
           <PasswordInput
@@ -81,6 +83,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             {...form.getInputProps("access_token")}
             leftSection={<IconKey size={16} />}
             autoComplete="new-password"
+            required
           />
           <Text size="xs" c="dimmed">
             You can create it, track it's usage and revoke it on <Anchor href="https://github.com/settings/tokens" target="_blank"
