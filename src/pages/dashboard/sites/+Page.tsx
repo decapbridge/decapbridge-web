@@ -45,7 +45,7 @@ const SitesPage: React.FC = () => {
       ) : (
         <>
           {data ? (
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
+            <SimpleGrid cols={{ base: 1, md: 2 }}>
               {data?.map((site) => (
                 <SiteCard key={site.id} site={site as Site} />
               ))}

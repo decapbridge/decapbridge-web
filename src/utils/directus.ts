@@ -40,7 +40,7 @@ export interface Collaborator {
 };
 
 export interface Site {
-  id: number;
+  id: string;
   repo: string;
   access_token: string;
   cms_url: string;

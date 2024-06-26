@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
+import { IconArrowRight, IconSend, IconSend2 } from "@tabler/icons-react";
 
 interface InviteUserFormProps {
   site: Site
@@ -44,6 +45,12 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
       <Stack>
         <Title order={4}>Invite collaborators by email</Title>
         <Divider />
+        <TextInput
+          label="Email"
+          name="email"
+          {...form.getInputProps("email")}
+          required
+        />
         <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
           <TextInput
             name="first_name"
@@ -56,15 +63,11 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
             {...form.getInputProps("last_name")}
           />
         </SimpleGrid>
-        <TextInput
-          label="Email"
-          name="email"
-          {...form.getInputProps("email")}
-          required
-        />
         <Group>
-          <Button {...form.submitButtonProps} accessKey="i">
-            Invite user
+          <Button {...form.submitButtonProps} accessKey="i" rightSection={(
+            <IconSend size="1.5em" stroke={1.5} />
+          )}>
+            Send invitation email
           </Button>
         </Group>
         {form.errors.action && <Group>{form.errors.action}</Group>}

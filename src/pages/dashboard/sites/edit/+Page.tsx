@@ -1,41 +1,24 @@
-import { Button, Center, Divider, Group, Loader, Paper, Stack, Text, Title } from "@mantine/core";
+import { Button, Center, Group, Loader, Stack, Tabs } from "@mantine/core";
 import { readItem } from "@directus/sdk";
 import { usePageContext } from "vike-react/usePageContext";
 
 import SiteForm from "/src/pages/dashboard/sites/SiteForm";
 import useDirectusRequest from "/src/hooks/useDirectusRequest";
 import { CustomSchema, Site } from "/src/utils/directus";
-import { CodeHighlight } from "@mantine/code-highlight";
-import { getDirectusUrl, getGitGatewayUrl } from "/src/utils/constants";
 import { useEffect } from "react";
 import navigate from "/src/utils/navigate";
-import { IconArrowLeft, IconExternalLink } from "@tabler/icons-react";
+import { IconArrowLeft, IconBrandGithub, IconCode, IconExternalLink, IconSettings, IconTrash, IconUsers } from "@tabler/icons-react";
 import InternalLink from "/src/components/core/InternalLink";
 import InviteUserForm from "../InviteUserForm";
 import CollaboratorsTable from "./CollaboratorsTable";
-
-const getBackendConfig = (site: Site) => `
-# Use DecapBridge auth
-backend:
-  name: git-gateway
-  repo: ${site.repo}
-  branch: main
-  identity_url: ${getDirectusUrl()}/sites/${site.id}
-  gateway_url: ${getGitGatewayUrl()}
-
-  # Quickly see who did what (optional)
-  commit_messages:
-    create: Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    update: Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    delete: Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    uploadMedia: Upload “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    deleteMedia: Delete “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
-    openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
-`
+import fastClick from "/src/utils/fastClick";
+import InstallConfig from "./InstallConfig";
+import { PossibleLinks } from "/src/utils/types";
+import DeleteSiteModal from "../DeleteSiteModal";
 
 const EditSitePage: React.FC = () => {
   const {
-    urlParsed: { search },
+    urlParsed: { pathname, search },
   } = usePageContext();
   const siteId = search.siteId;
   const { data } = useDirectusRequest(readItem("sites", siteId, {
@@ -46,6 +29,16 @@ const EditSitePage: React.FC = () => {
       navigate("/dashboard/sites")
     }
   }, [search.siteId])
+
+
+  const tab = search.tab ?? "settings";
+  const setTab = (tab: string | null) => {
+    navigate(pathname as PossibleLinks, {
+      queryParams: { tab: tab ?? "settings", siteId },
+      keepScrollPosition: true,
+    });
+  };
+
   return (
     <Stack>
       <Group justify="space-between">
@@ -58,45 +51,108 @@ const EditSitePage: React.FC = () => {
         >
           Back to all sites
         </Button>
-        {data?.cms_url && (
-          <Button
-            component="a"
-            href={data?.cms_url}
-            target="_blank"
-            variant="light"
-            rightSection={(
-              <IconExternalLink size="1.25em" stroke={1.5} />
-            )}
-          >
-            Go to CMS
-          </Button>
+        {data && (
+          <Group>
+            <Button
+              component="a"
+              href={`https://github.com/${data.repo}`}
+              variant="light"
+              rightSection={(
+                <IconBrandGithub size="1.375em" stroke={1.5} />
+              )}
+            >
+              Go to repository
+            </Button>
+            <Button
+              component="a"
+              href={data.cms_url}
+              variant="light"
+              rightSection={(
+                <IconExternalLink size="1.375em" stroke={1.5} />
+              )}
+            >
+              Go to CMS
+            </Button>
+          </Group>
         )}
       </Group>
       {data ? (
-        <Stack gap="xl">
-          <SiteForm initialValues={data as Site} />
-          <Paper withBorder radius="lg" p="xl" shadow="md">
-            <Stack>
-              <Title order={4}>Setup Decap CMS</Title>
-              <Divider />
-              <Text>Use this following "backend config" in Decap CMS:</Text>
-              <CodeHighlight
-                style={{ borderRadius: '0.5rem' }}
-                c="var(--text-color)"
-                language="yaml"
-                code={getBackendConfig(data as Site)}
+        <Tabs
+          variant="pills"
+          value={tab}
+          onChange={setTab}
+        >
+          <Tabs.List mb="sm" fw={500}>
+            <Tabs.Tab
+              onMouseDown={fastClick}
+              value="settings"
+              leftSection={(
+                <IconSettings size="1.5em" stroke={1.5} />
+              )}
+              py={0}
+              h="2.25rem"
+              pl="sm"
+            >
+              Settings
+            </Tabs.Tab>
+            <Tabs.Tab
+              onMouseDown={fastClick}
+              value="manage"
+              leftSection={(
+                <IconUsers size="1.5em" stroke={1.5} />
+              )}
+              py={0}
+              h="2.25rem"
+              pl="sm"
+            >
+              Manage collaborators
+            </Tabs.Tab>
+            <Tabs.Tab
+              onMouseDown={fastClick}
+              value="install"
+              leftSection={(
+                <IconCode size="1.5em" stroke={1.5} />
+              )}
+              py={0}
+              h="2.25rem"
+              pl="sm"
+            >
+              config.yml
+            </Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="settings">
+            <Stack gap="xl">
+              <SiteForm initialValues={data as Site} />
+              <Group justify="flex-end">
+                <DeleteSiteModal site={data as Site}>
+                  {(open) => (
+                    <Button
+                      onClick={open}
+                      color="red"
+                      size="sm"
+                      rightSection={<IconTrash stroke={1.5} size="1.25rem" />}
+                      variant="light"
+                    >
+                      Delete
+                    </Button>
+                  )}
+                </DeleteSiteModal>
+              </Group>
+            </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value="manage">
+            <Stack gap="xl">
+              <InviteUserForm site={data as Site} />
+              <CollaboratorsTable
+                site={data as Site}
+                collaborators={data.collaborators!.map(c => c.directus_users_id as CustomSchema['directus_users'][number])}
               />
             </Stack>
-          </Paper>
-
-          <InviteUserForm site={data as Site} />
-
-          <CollaboratorsTable
-            site={data as Site}
-            collaborators={data.collaborators!.map(c => c.directus_users_id as CustomSchema['directus_users'][number])}
-          />
-
-        </Stack>
+          </Tabs.Panel>
+          <Tabs.Panel value="install">
+            <InstallConfig site={data as Site} />
+          </Tabs.Panel>
+        </Tabs>
       ) : (
         <Center>
           <Loader />

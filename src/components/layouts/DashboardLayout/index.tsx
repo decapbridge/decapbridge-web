@@ -8,6 +8,7 @@ import HeadingSection from "/src/components/misc/HeadingSection";
 
 import utils from "/src/utils/utils.module.css";
 import styles from "./dashboard.module.css";
+import { IconCircleKey, IconGlobe } from "@tabler/icons-react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -35,9 +36,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 href={sites.urlPathname}
                 variant="transparent"
                 className={utils["nav-button"]}
-                radius="md"
                 size="md"
-                px="md"
+              // leftSection={(
+              //   <IconCircleKey size="1.5em" stroke={1.5} />
+              // )}
               >
                 {sites.title}
               </Button>
@@ -50,9 +52,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                   href={urlPathname}
                   variant="transparent"
                   className={utils["nav-button"]}
-                  radius="sm"
                   size="sm"
-                  px="sm"
                 >
                   {title}
                 </Button>
@@ -65,9 +65,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 href={contact.urlPathname}
                 variant="transparent"
                 className={utils["nav-button"]}
-                radius="sm"
                 size="sm"
-                px="sm"
               >
                 Get help
               </Button>

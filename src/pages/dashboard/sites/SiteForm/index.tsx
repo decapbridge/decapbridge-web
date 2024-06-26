@@ -16,7 +16,7 @@ interface SiteFormProps {
 }
 
 const schema = z.object({
-  repo: z.string().min(3).max(255),
+  repo: z.string().regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+$/).min(3).max(255),
   access_token: z.string().min(3).max(255),
   cms_url: z.string().url().min(3).max(255),
 });
@@ -34,6 +34,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     },
     schema,
     action: async (values) => {
+      let createdId: null | string = null
       if (initialValues?.id) {
         await directus.request(
           updateItem(
@@ -43,14 +44,15 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           )
         );
       } else {
-        await directus.request(createItem("sites", values));
+        const createResult = await directus.request(createItem("sites", values));
+        createdId = createResult.id
       }
       notifications.show({
         color: "green",
         message: `Site ${initialValues ? "updated" : "created"}!`,
       });
-      if (!initialValues?.id) {
-        await navigate(`/dashboard/sites`);
+      if (createdId) {
+        await navigate(`/dashboard/sites/edit`, { queryParams: { tab: 'install', siteId: createdId } });
       }
       await queryClient.invalidateQueries({ queryKey: ["sites"] });
     },
@@ -64,10 +66,11 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         <TextInput
           label="Github repository"
           placeholder="user-or-org/repository-name"
-          description="Please provide this in the following format: org/repo"
+          description="Please provide the repo in the following format: org/repo"
           name="repo"
           {...form.getInputProps("repo")}
           required
+          autoComplete="off"
         />
         <Stack gap={2}>
           <PasswordInput
@@ -84,10 +87,11 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             leftSection={<IconKey size={16} />}
             autoComplete="new-password"
             required
+
           />
           <Text size="xs" c="dimmed">
             You can create it, track it's usage and revoke it on <Anchor href="https://github.com/settings/tokens" target="_blank"
-              rel="noopener noreferrer">Github here</Anchor>.
+              rel="noopener noreferrer">Github here</Anchor>. Fine-grained tokens recommended.
           </Text>
         </Stack>
         <TextInput
@@ -101,20 +105,6 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           <Button {...form.submitButtonProps} accessKey="s">
             {initialValues ? 'Save changes' : 'Create site'}
           </Button>
-          {initialValues && (
-            <DeleteSiteModal site={initialValues as Site}>
-              {(open) => (
-                <Button
-                  onClick={open}
-                  color="red"
-                  size="sm"
-                  rightSection={<IconTrash stroke={1.5} size="1.25rem" />}
-                >
-                  Delete
-                </Button>
-              )}
-            </DeleteSiteModal>
-          )}
         </Group>
         {form.errors.action && <Group>{form.errors.action}</Group>}
       </Stack>

@@ -8,7 +8,7 @@ import InternalLink from '/src/components/core/InternalLink';
 export function HeroText() {
   const home = useData<Data>();
   return (
-    <Container className={classes.wrapper} size="sm">
+    <Container className={classes.wrapper} size="md">
       <div className={classes.inner}>
         <Markdown className={classes['hero-text']} markdown={home.hero_title} />
         <div className={classes.controls}>

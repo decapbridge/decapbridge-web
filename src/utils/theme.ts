@@ -2,8 +2,10 @@ import { createTheme, Image, Button, ActionIcon, Modal, Container } from "@manti
 import styles from "./utils.module.css";
 
 export const theme = createTheme({
-  defaultRadius: 'xl',
   primaryColor: 'pink',
+  fontFamily: '"IBM Plex Sans", sans-serif',
+  headings: { fontFamily: '"Montserrat", sans-serif' },
+  defaultRadius: 'xl',
   components: {
     Image: Image.extend({
       defaultProps: {

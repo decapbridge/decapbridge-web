@@ -100,9 +100,13 @@ const Head: React.FC = () => {
       <meta name="msapplication-TileColor" content={themeColor} />
       <meta name="msapplication-TileImage" content="/icons/icon-512x512.png" />
 
-      <script defer src="https://umami.millisecond.studio/script.js" data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e" />
 
       <ColorSchemeScript />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+      <script defer src="https://umami.millisecond.studio/script.js" data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e" />
     </>
   );
 };

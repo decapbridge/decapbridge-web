@@ -19,7 +19,6 @@ interface DefaultLayoutProps {
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const { opened } = useMobileMenuOpened()
-  const transition = usePageTransitionState();
   return (
     <AppShell
       header={{ height: 52 }}
@@ -34,8 +33,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <Header />
       <AppShell.Main
         id={mainContentId}
-        className={`${styles["main-content"]} ${utils["page-transition"]}`}
-        data-transition-state={transition}
+        className={styles["main-content"]}
       >
         {children}
       </AppShell.Main>

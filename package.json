@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "dev:web": "vite dev --open --host",
     "dev": "concurrently -n vite,decap \"vite dev --open --host\" \"decap-server\"",
     "build": "vite build",
     "preview": "sirv dist/client --dev",

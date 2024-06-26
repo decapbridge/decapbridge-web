@@ -4,6 +4,7 @@ import {
   Text,
   Stack,
   Group,
+  SimpleGrid,
 } from "@mantine/core";
 import { updateUser } from "@directus/sdk";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,6 +20,7 @@ import onlyDiff from "/src/utils/onlyDiff";
 import type { Data } from "./+data";
 
 const schema = z.object({
+  email: z.string().email().min(3).max(255),
   first_name: z.string().min(3).max(255),
   last_name: z.string().min(3).max(255),
 });
@@ -32,6 +34,7 @@ const MyProfilePage: React.FC = () => {
     allowMultipleSubmissions: true,
     schema,
     initialValues: {
+      email: user.email ?? "",
       first_name: user.first_name ?? "",
       last_name: user.last_name ?? "",
     },
@@ -49,19 +52,11 @@ const MyProfilePage: React.FC = () => {
   });
   return (
     <Stack>
-      {user.date_created && (
-        <Text>
-          Created : <TimeAgo span fw="bold" timestamp={user.date_created} />
-        </Text>
-      )}
       {user.last_access && (
         <Text>
           Last access: <TimeAgo span fw="bold" timestamp={user.last_access} />
         </Text>
       )}
-      <Text>
-        {user.first_name} {user.last_name}
-      </Text>
       <FormWrapper
         form={form}
         withBorder
@@ -72,17 +67,26 @@ const MyProfilePage: React.FC = () => {
       >
         <Stack gap="xs">
           <TextInput
-            name="first_name"
-            label={content.first_name.label}
-            placeholder={content.first_name.placeholder}
-            {...form.getInputProps("first_name")}
+            name="email"
+            label="Email"
+            {...form.getInputProps("email")}
+            readOnly
+            disabled
           />
-          <TextInput
-            name="last_name"
-            label={content.last_name.label}
-            placeholder={content.last_name.placeholder}
-            {...form.getInputProps("last_name")}
-          />
+          <SimpleGrid cols={2}>
+            <TextInput
+              name="first_name"
+              label={content.first_name.label}
+              placeholder={content.first_name.placeholder}
+              {...form.getInputProps("first_name")}
+            />
+            <TextInput
+              name="last_name"
+              label={content.last_name.label}
+              placeholder={content.last_name.placeholder}
+              {...form.getInputProps("last_name")}
+            />
+          </SimpleGrid>
           <Group>
             <Button
               {...form.submitButtonProps}
