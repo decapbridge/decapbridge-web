@@ -14,8 +14,8 @@ local_backend: true
 backend:
   name: git-gateway
 
-site_url: http://localhost:3000
-logo_url: http://localhost:3000/icons/favicon.svg
+site_url: https://decapbridge.com
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 
 locale: en
 
@@ -80,7 +80,6 @@ first_name_input: &first-name-input
     - { label: "Label", name: "label", widget: "string" }
     - { label: "Placeholder", name: "placeholder", widget: "string" }
 
-
 last_name_input: &last-name-input
   label: "Last name input"
   name: "last_name"
@@ -90,7 +89,6 @@ last_name_input: &last-name-input
     - { label: "Placeholder", name: "placeholder", widget: "string" }
 
 collections:
-
   # ============================
   # Global site settings
   # ============================
@@ -99,7 +97,6 @@ collections:
     editor:
       preview: false
     files:
-
       # Site settings
       # ==============================
       - name: meta
@@ -109,7 +106,11 @@ collections:
           - { label: "Site URL", name: "site_url", widget: "string" }
           - { label: "Site name", name: "site_name", widget: "string" }
           - { label: "Site title", name: "site_title", widget: "string" }
-          - { label: "Site description", name: "site_description", widget: "text" }
+          - {
+              label: "Site description",
+              name: "site_description",
+              widget: "text",
+            }
 
       # Misc UI elements
       # ==============================
@@ -119,20 +120,36 @@ collections:
         fields:
           - { label: "Search label", name: "search_label", widget: "string" }
           - { label: "Empty label", name: "empty_label", widget: "string" }
-          - { label: "Footer pages column", name: "footer_pages_column", widget: "string" }
-          - { label: "Footer text pages column", name: "footer_text_pages_column", widget: "string" }
+          - {
+              label: "Footer pages column",
+              name: "footer_pages_column",
+              widget: "string",
+            }
+          - {
+              label: "Footer text pages column",
+              name: "footer_text_pages_column",
+              widget: "string",
+            }
           - label: "Social Links"
             name: "social_links"
             widget: "list"
-            summary: '{{fields.name}}'
+            summary: "{{fields.name}}"
             fields:
               - { label: "Url", name: "url", widget: "string" }
               - { label: "Name", name: "name", widget: "string" }
               - { label: "Icon", name: "icon", widget: "string" }
           - { label: "Log out", name: "logout", widget: "string" }
-          - { label: "Logged out message", name: "logged_out_success", widget: "string" }
+          - {
+              label: "Logged out message",
+              name: "logged_out_success",
+              widget: "string",
+            }
           - { label: "Token expired", name: "token_expired", widget: "string" }
-          - { label: "Token expired message", name: "token_expired_message", widget: "string" }
+          - {
+              label: "Token expired message",
+              name: "token_expired_message",
+              widget: "string",
+            }
 
   # ============================
   # Main pages
@@ -142,8 +159,6 @@ collections:
     editor:
       preview: false
     files:
-
-
       # Home page
       # ===================
       - name: index
@@ -151,8 +166,12 @@ collections:
         file: content/pages/index.json
         fields:
           - *meta-block
-          - { label: "Hero title", name: "hero_title", widget: "markdown", minimal: true }
-
+          - {
+              label: "Hero title",
+              name: "hero_title",
+              widget: "markdown",
+              minimal: true,
+            }
 
       # Contact page
       # ===================
@@ -165,9 +184,12 @@ collections:
           - { label: "Email label", name: "email_label", widget: "string" }
           - { label: "Message label", name: "message_label", widget: "string" }
           - { label: "Submit button", name: "submit_button", widget: "string" }
-          - { label: "Success message", name: "success_message", widget: "string" }
+          - {
+              label: "Success message",
+              name: "success_message",
+              widget: "string",
+            }
           - { label: "Error message", name: "error_message", widget: "string" }
-
 
   # ============================
   # Auth pages
@@ -179,7 +201,6 @@ collections:
     i18n:
       structure: single_file
     files:
-
       # Log in page
       # ===================
       - name: auth/login
@@ -189,10 +210,18 @@ collections:
           - *meta-block
           - { label: "Header", name: "header", widget: "string" }
           - { label: "Sub-header", name: "sub_header", widget: "string" }
-          - { label: "Create account", name: "create_account", widget: "string" }
+          - {
+              label: "Create account",
+              name: "create_account",
+              widget: "string",
+            }
           - *email-input
           - *password-input
-          - { label: "Forgot password", name: "forgot_password", widget: "string" }
+          - {
+              label: "Forgot password",
+              name: "forgot_password",
+              widget: "string",
+            }
           - { label: "Login button", name: "login_button", widget: "string" }
 
       # Sign up page
@@ -224,7 +253,11 @@ collections:
           - { label: "Login link", name: "login_link", widget: "string" }
           - { label: "Submit button", name: "submit_button", widget: "string" }
           - { label: "Success title", name: "success_title", widget: "string" }
-          - { label: "Success description", name: "success_description", widget: "string" }
+          - {
+              label: "Success description",
+              name: "success_description",
+              widget: "string",
+            }
           - { label: "Home link", name: "home_link", widget: "string" }
 
       # Reset password page
@@ -238,10 +271,21 @@ collections:
           - { label: "Sub-header", name: "sub_header", widget: "string" }
           - *password-input
           - { label: "Submit button", name: "submit_button", widget: "string" }
-          - { label: "Success message", name: "success_message", widget: "string" }
-          - { label: "Token missing error", name: "token_missing", widget: "string" }
-          - { label: "Request password", name: "request_password", widget: "string" }
-
+          - {
+              label: "Success message",
+              name: "success_message",
+              widget: "string",
+            }
+          - {
+              label: "Token missing error",
+              name: "token_missing",
+              widget: "string",
+            }
+          - {
+              label: "Request password",
+              name: "request_password",
+              widget: "string",
+            }
 
   # ============================
   # Dashboard pages
@@ -253,7 +297,6 @@ collections:
     i18n:
       structure: single_file
     files:
-
       # Profile page
       # ===================
       - name: dashboard/profile
@@ -264,7 +307,6 @@ collections:
           - *first-name-input
           - *last-name-input
           - { label: "Save", name: "save", widget: "string" }
-
 
       # Activity page
       # ===================
@@ -281,27 +323,90 @@ collections:
         file: content/pages/dashboard/settings.json
         fields:
           - *meta-block
-          - { label: "Color scheme heading", name: "color_scheme_heading", widget: "string" }
-          - { label: "Dark mode toggle", name: "dark_mode_toggle", widget: "string" }
-          - { label: "Reset password heading", name: "reset_password_heading", widget: "string" }
-          - { label: "Reset password sub heading", name: "reset_password_sub_heading", widget: "string" }
-          - { label: "Reset password button", name: "reset_password_button", widget: "string" }
-          - { label: "Reset password success title", name: "reset_password_success_title", widget: "string" }
-          - { label: "Reset password success message", name: "reset_password_success_message", widget: "string" }
-          - { label: "Delete account heading", name: "delete_account_heading", widget: "string" }
-          - { label: "Delete account sub heading", name: "delete_account_sub_heading", widget: "string" }
-          - { label: "Delete account button", name: "delete_account_button", widget: "string" }
-          - { label: "Confirm account deletion heading", name: "confirm_account_deletion_heading", widget: "string" }
-          - { label: "Confirm account deletion instruction", name: "confirm_account_deletion_instruction", widget: "string" }
-          - { label: "Confirm account deletion warning", name: "confirm_account_deletion_warning", widget: "string" }
-          - { label: "Confirm account deletion button", name: "confirm_account_deletion_button", widget: "string" }
-          - { label: "Account deletion success title", name: "delete_account_success_title", widget: "string" }
-          - { label: "Account deletion success message", name: "delete_account_success_message", widget: "string" }
+          - {
+              label: "Color scheme heading",
+              name: "color_scheme_heading",
+              widget: "string",
+            }
+          - {
+              label: "Dark mode toggle",
+              name: "dark_mode_toggle",
+              widget: "string",
+            }
+          - {
+              label: "Reset password heading",
+              name: "reset_password_heading",
+              widget: "string",
+            }
+          - {
+              label: "Reset password sub heading",
+              name: "reset_password_sub_heading",
+              widget: "string",
+            }
+          - {
+              label: "Reset password button",
+              name: "reset_password_button",
+              widget: "string",
+            }
+          - {
+              label: "Reset password success title",
+              name: "reset_password_success_title",
+              widget: "string",
+            }
+          - {
+              label: "Reset password success message",
+              name: "reset_password_success_message",
+              widget: "string",
+            }
+          - {
+              label: "Delete account heading",
+              name: "delete_account_heading",
+              widget: "string",
+            }
+          - {
+              label: "Delete account sub heading",
+              name: "delete_account_sub_heading",
+              widget: "string",
+            }
+          - {
+              label: "Delete account button",
+              name: "delete_account_button",
+              widget: "string",
+            }
+          - {
+              label: "Confirm account deletion heading",
+              name: "confirm_account_deletion_heading",
+              widget: "string",
+            }
+          - {
+              label: "Confirm account deletion instruction",
+              name: "confirm_account_deletion_instruction",
+              widget: "string",
+            }
+          - {
+              label: "Confirm account deletion warning",
+              name: "confirm_account_deletion_warning",
+              widget: "string",
+            }
+          - {
+              label: "Confirm account deletion button",
+              name: "confirm_account_deletion_button",
+              widget: "string",
+            }
+          - {
+              label: "Account deletion success title",
+              name: "delete_account_success_title",
+              widget: "string",
+            }
+          - {
+              label: "Account deletion success message",
+              name: "delete_account_success_message",
+              widget: "string",
+            }
 
-# ============================
-# Content collections
-# ============================
-
+  # ============================
+  # Content collections
+  # ============================
 
   # Text Pages
   # ============================

@@ -9,6 +9,7 @@ import {
   Text,
   Stack,
   Box,
+  Divider,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useData } from "vike-react/useData";
@@ -17,12 +18,15 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 import directus from "/src/utils/directus";
 import { Data } from "./+data";
+import { IconBrandDiscordFilled, IconMailFilled } from "@tabler/icons-react";
 
 const schema = z.object({
   name: z.string().min(3).max(255),
   email: z.string().email().max(255),
   message: z.string().min(3).max(1023),
 });
+
+const mailTo = "hello@decapbridge.com";
 
 const ContactPage: React.FC = () => {
   const contact = useData<Data>();
@@ -100,6 +104,33 @@ const ContactPage: React.FC = () => {
             {contact.submit_button}
           </Button>
         </Group>
+        <Divider mx="xl" />
+        <Stack align="center">
+          <Text size="sm" c="dimmed">
+            Alternatively:
+          </Text>
+          <Group>
+            <Button
+              size="xs"
+              component="a"
+              href="https://discord.gg/y5Bc9bdC"
+              target="_blank"
+              rightSection={<IconBrandDiscordFilled size="1.5em" />}
+              variant="light"
+            >
+              Chat with us on Discord
+            </Button>
+            <Button
+              size="xs"
+              component="a"
+              href={`mailto:${mailTo}`}
+              rightSection={<IconMailFilled size="1.5em" />}
+              variant="light"
+            >
+              {mailTo}
+            </Button>
+          </Group>
+        </Stack>
       </Stack>
     </FormWrapper>
   );

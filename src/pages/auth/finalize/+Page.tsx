@@ -19,7 +19,6 @@ import directus from "/src/utils/directus";
 import { passwordReset, readItem, readMe, updateUser } from "@directus/sdk";
 import onlyDiff from "/src/utils/onlyDiff";
 
-
 const errorPage = (msg: string) => (
   <Stack ta="center">
     <Title order={2}>{msg}</Title>
@@ -27,7 +26,7 @@ const errorPage = (msg: string) => (
       Back to home page
     </Anchor>
   </Stack>
-)
+);
 
 const schema = z.object({
   first_name: z.string().optional(),
@@ -37,7 +36,6 @@ const schema = z.object({
 });
 
 const FinalizePage: React.FC = () => {
-
   const { urlParsed } = usePageContext();
   const { token, email, first_name, last_name, site_id } = urlParsed.search;
 
@@ -51,22 +49,27 @@ const FinalizePage: React.FC = () => {
     },
     action: async ({ first_name, last_name, email, password }) => {
       if (!token) {
-        return alert('Missing token in URL')
+        return alert("Missing token in URL");
       }
       await directus.request(passwordReset(token, password));
       await directus.login(email, password, { mode: "json" });
       const me = await directus.request(readMe());
       if (!me) {
-        return alert('Error wiht login')
+        return alert("Error wiht login");
       }
-      await directus.request(updateUser(me.id, onlyDiff(me, {
-        first_name,
-        last_name,
-        email
-      })));
-      const site = await directus.request(readItem('sites', site_id))
+      await directus.request(
+        updateUser(
+          me.id,
+          onlyDiff(me, {
+            first_name,
+            last_name,
+            email,
+          })
+        )
+      );
+      const site = await directus.request(readItem("sites", site_id));
       if (!site) {
-        return alert('You\'re not a collaborator in this site.')
+        return alert("You're not a collaborator in this site.");
       }
 
       const { cms_url } = site;
@@ -76,14 +79,14 @@ const FinalizePage: React.FC = () => {
   });
 
   if (!token) {
-    return errorPage('Token missing from URL');
+    return errorPage("Token missing from URL");
   }
 
   if (!site_id) {
-    return errorPage('Missing site_id in URL');
+    return errorPage("Missing site_id in URL");
   }
 
-  const passwordProps = form.getInputProps("password")
+  const passwordProps = form.getInputProps("password");
   return (
     <Stack w={480} gap={0}>
       <Title ta="center">Confirm account details</Title>
@@ -120,6 +123,7 @@ const FinalizePage: React.FC = () => {
             leftSection={<IconAt size={16} />}
             required
             {...form.getInputProps("email")}
+            autoComplete="off"
           />
           <PasswordInput
             name="password"
@@ -127,13 +131,12 @@ const FinalizePage: React.FC = () => {
             leftSection={<IconLock size={16} />}
             required
             {...passwordProps}
-            value={passwordProps.value ?? ''}
+            value={passwordProps.value ?? ""}
             autoFocus={Boolean(first_name)}
+            autoComplete="new-password"
           />
           {form.errors.action && (
-            <Group justify="center">
-              {form.errors.action}
-            </Group>
+            <Group justify="center">{form.errors.action}</Group>
           )}
           <Button
             {...form.submitButtonProps}

@@ -1,4 +1,12 @@
-import { Button, Divider, Group, SimpleGrid, Stack, TextInput, Title } from "@mantine/core";
+import {
+  Button,
+  Divider,
+  Group,
+  SimpleGrid,
+  Stack,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
 import { customEndpoint, inviteUser } from "@directus/sdk";
 import { z } from "zod";
@@ -8,7 +16,7 @@ import directus, { Site } from "/src/utils/directus";
 import { IconArrowRight, IconSend, IconSend2 } from "@tabler/icons-react";
 
 interface InviteUserFormProps {
-  site: Site
+  site: Site;
 }
 
 const schema = z.object({
@@ -29,12 +37,14 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
     },
     schema,
     action: async (values) => {
-      await directus.request(customEndpoint({
-        method: 'POST',
-        path: `/sites/${site.id}/invite`,
-        body: JSON.stringify(values)
-      }))
-      queryClient.invalidateQueries({ queryKey: ['sites'] });
+      await directus.request(
+        customEndpoint({
+          method: "POST",
+          path: `/sites/${site.id}/invite`,
+          body: JSON.stringify(values),
+        })
+      );
+      queryClient.invalidateQueries({ queryKey: ["sites"] });
       // TODO: show errors in alert or succes message
       form.reset();
     },
@@ -49,6 +59,7 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
           label="Email"
           name="email"
           {...form.getInputProps("email")}
+          autoComplete="off"
           required
         />
         <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
@@ -64,9 +75,11 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
           />
         </SimpleGrid>
         <Group>
-          <Button {...form.submitButtonProps} accessKey="i" rightSection={(
-            <IconSend size="1.5em" stroke={1.5} />
-          )}>
+          <Button
+            {...form.submitButtonProps}
+            accessKey="i"
+            rightSection={<IconSend size="1.5em" stroke={1.5} />}
+          >
             Send invitation email
           </Button>
         </Group>

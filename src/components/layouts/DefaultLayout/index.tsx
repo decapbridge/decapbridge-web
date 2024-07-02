@@ -11,7 +11,6 @@ import MountTransition from "/src/components/ui/MountTransition";
 import useMobileMenuOpened from "/src/hooks/useMobileMenuOpened";
 import { mainContentId } from "/src/utils/constants";
 
-import utils from "/src/utils/utils.module.css";
 import styles from "./layout.module.css";
 
 interface DefaultLayoutProps {

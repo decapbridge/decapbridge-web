@@ -19,33 +19,32 @@ import utils from "/src/utils/utils.module.css";
 
 const Header: React.FC = () => {
   const pages = usePageMeta("/contact");
-  const { opened, close, toggle } = useMobileMenuOpened()
+  const { opened, close, toggle } = useMobileMenuOpened();
 
   return (
     <AppShell.Header>
       <Container h="100%" fluid>
         <Group h="100%">
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="sm"
-            size="sm"
-          />
-          <Group style={{ flex: 1 }} gap="xl" align="center" pos="relative">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <Group style={{ flex: 1 }} align="center" pos="relative">
             <Group gap={4} onClick={opened ? close : undefined}>
-              <Logo
-                href="/"
-                withTitle
-              />
-              <Badge variant="dot" style={{ alignSelf: 'flex-start' }}>Beta</Badge>
+              <Logo href="/" hiddenFrom="xs" />
+              <Logo href="/" withTitle visibleFrom="xs" />
+              <Badge
+                visibleFrom="xs"
+                variant="dot"
+                style={{ alignSelf: "flex-start" }}
+              >
+                Beta
+              </Badge>
             </Group>
             <Group
               visibleFrom="sm"
               gap="xs"
-            // pos="absolute"
-            // inset={0}
-            // justify="center"
-            // style={{ pointerEvents: 'none' }}
+              // pos="absolute"
+              // inset={0}
+              // justify="center"
+              // style={{ pointerEvents: 'none' }}
             >
               {pages.map(({ urlPathname, title }) => (
                 <Button
@@ -54,7 +53,7 @@ const Header: React.FC = () => {
                   href={urlPathname}
                   variant="transparent"
                   className={utils["nav-button"]}
-                  style={{ pointerEvents: 'all' }}
+                  style={{ pointerEvents: "all" }}
                   size="xs"
                   px="xs"
                   fz="sm"
