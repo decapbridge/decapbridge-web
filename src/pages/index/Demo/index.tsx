@@ -2,13 +2,15 @@ import { useRef } from "react";
 import { Paper, Image, Container, Title, Stack } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import AutoHeight from "embla-carousel-auto-height";
-import useColorSchemeToggle from "/src/hooks/useColorSchemeToggle";
+import Autoplay from "embla-carousel-autoplay";
 
-const images = [...Array(3).keys()];
+import styles from "./demo.module.css";
+
+const images = [...Array(6).keys()].map((num) => `/demo/demo-${num + 1}.png`);
 
 const Demo: React.FC = () => {
-  const { colorScheme } = useColorSchemeToggle();
   const autoheight = useRef(AutoHeight());
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
   return (
     <Container size="md">
       <Stack>
@@ -16,15 +18,17 @@ const Demo: React.FC = () => {
           Demo screenshots:
         </Title>
         <Paper withBorder shadow="xl" style={{ overflow: "hidden" }}>
-          {/* <Image src={`/demo/screen-grab.png`} alt="DecapBridge demo" m="auto" /> */}
-          <Carousel withIndicators plugins={[autoheight.current as any]}>
-            {images.map((id) => (
-              <Carousel.Slide key={id} display="flex">
-                <Image
-                  src={`/demo/demo-${id + 1}.png`}
-                  alt="DecapBridge demo"
-                  m="auto"
-                />
+          <Carousel
+            withIndicators
+            plugins={[autoheight.current, autoplay.current]}
+            classNames={{
+              indicator: styles.indicator,
+            }}
+            loop
+          >
+            {images.map((url) => (
+              <Carousel.Slide key={url} display="flex">
+                <Image src={url} alt="DecapBridge demo" m="auto" />
               </Carousel.Slide>
             ))}
           </Carousel>
