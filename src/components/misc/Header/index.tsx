@@ -16,10 +16,20 @@ import usePageMeta from "/src/hooks/usePageMeta";
 import useMobileMenuOpened from "/src/hooks/useMobileMenuOpened";
 
 import utils from "/src/utils/utils.module.css";
+import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const Header: React.FC = () => {
-  const pages = usePageMeta("/contact");
+  const publicPages = usePageMeta("/contact");
+  const authedPages = usePageMeta(
+    "/dashboard/sites",
+    "/dashboard/profile",
+    "/dashboard/settings",
+    "/contact"
+  );
   const { opened, close, toggle } = useMobileMenuOpened();
+  const { user } = useMaybeUser();
+
+  const pages = user ? authedPages : publicPages;
 
   return (
     <AppShell.Header>
@@ -34,6 +44,7 @@ const Header: React.FC = () => {
                 visibleFrom="xs"
                 variant="dot"
                 style={{ alignSelf: "flex-start" }}
+                size="xs"
               >
                 Beta
               </Badge>

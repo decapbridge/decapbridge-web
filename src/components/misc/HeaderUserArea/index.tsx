@@ -21,42 +21,23 @@ const HeaderUserArea: React.FC = () => {
 
   // Logged in
   if (user) {
-    if (urlPathname.startsWith("/dashboard")) {
-      return (
-        <Group>
-          <UserDropdown
-            trigger={
-              <ActionIcon
-                variant="transparent"
-                component={InternalLink}
-                href="/dashboard/sites"
-                p={0}
-                size="lg"
-              >
-                <UserAvatar user={user} />
-              </ActionIcon>
-            }
-          />
-        </Group>
-      );
-    } else {
-      return (
-        <Group>
-          <UserDropdown
-            trigger={
-              <Button
-                component={InternalLink}
-                href="/dashboard/sites"
-                style={{ textDecoration: "none", height: 30 }}
-                rightSection={<IconChevronDown size={16} stroke={2} />}
-              >
-                Dashboard
-              </Button>
-            }
-          />
-        </Group>
-      );
-    }
+    return (
+      <Group>
+        <UserDropdown
+          trigger={
+            <ActionIcon
+              variant="transparent"
+              component={InternalLink}
+              href="/dashboard/sites"
+              p={0}
+              size="lg"
+            >
+              <UserAvatar user={user} />
+            </ActionIcon>
+          }
+        />
+      </Group>
+    );
   }
 
   // Logged out

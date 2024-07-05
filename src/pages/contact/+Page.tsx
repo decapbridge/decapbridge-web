@@ -65,7 +65,15 @@ const ContactPage: React.FC = () => {
   });
 
   return (
-    <FormWrapper w="100%" form={form} withBorder radius="lg" p="lg" my="md">
+    <FormWrapper
+      w="100%"
+      form={form}
+      withBorder
+      radius="lg"
+      p="lg"
+      my="md"
+      shadow="lg"
+    >
       <Stack>
         <Box>
           <Title ta="center" order={2}>

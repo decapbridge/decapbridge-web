@@ -90,6 +90,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         <Stack gap={2}>
           <PasswordInput
             label="Github access token"
+            placeholder="github_pat_**********************"
             description={
               <>
                 Provide an access token that will let users use the git-gateway.
