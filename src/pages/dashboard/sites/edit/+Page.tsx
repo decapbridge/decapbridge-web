@@ -31,8 +31,12 @@ import fastClick from "/src/utils/fastClick";
 import InstallConfig from "./InstallConfig";
 import { PossibleLinks } from "/src/utils/types";
 import DeleteSiteModal from "../DeleteSiteModal";
+import useCurrentUser from "/src/hooks/useCurrentUser";
+
+const defaultTab = "manage";
 
 const EditSitePage: React.FC = () => {
+  const user = useCurrentUser();
   const {
     urlParsed: { pathname, search },
   } = usePageContext();
@@ -52,10 +56,17 @@ const EditSitePage: React.FC = () => {
     }
   }, [search.siteId]);
 
-  const tab = search.tab ?? "settings";
+  const ownerId = (data?.user_created as any)?.id;
+  useEffect(() => {
+    if (ownerId && ownerId !== user.id) {
+      navigate("/dashboard/sites");
+    }
+  }, [ownerId, user.id]);
+
+  const tab = search.tab ?? defaultTab;
   const setTab = (tab: string | null) => {
     navigate(pathname as PossibleLinks, {
-      queryParams: { tab: tab ?? "settings", siteId },
+      queryParams: { tab: tab ?? defaultTab, siteId },
       keepScrollPosition: true,
     });
   };
@@ -99,16 +110,6 @@ const EditSitePage: React.FC = () => {
             <Tabs.List mb="sm" fw={500}>
               <Tabs.Tab
                 onMouseDown={fastClick}
-                value="settings"
-                leftSection={<IconSettings size="1.5em" stroke={1.5} />}
-                py={0}
-                h="2.25rem"
-                pl="sm"
-              >
-                Settings
-              </Tabs.Tab>
-              <Tabs.Tab
-                onMouseDown={fastClick}
                 value="manage"
                 leftSection={<IconUsers size="1.5em" stroke={1.5} />}
                 py={0}
@@ -127,7 +128,26 @@ const EditSitePage: React.FC = () => {
               >
                 config.yml
               </Tabs.Tab>
+              <Tabs.Tab
+                onMouseDown={fastClick}
+                value="settings"
+                leftSection={<IconSettings size="1.5em" stroke={1.5} />}
+                py={0}
+                h="2.25rem"
+                pl="sm"
+              >
+                Settings
+              </Tabs.Tab>
             </Tabs.List>
+            <Tabs.Panel value="manage">
+              <Stack gap="xl">
+                <InviteUserForm site={data as Site} />
+                <CollaboratorsTable site={data as Site} />
+              </Stack>
+            </Tabs.Panel>
+            <Tabs.Panel value="install">
+              <InstallConfig site={data as Site} />
+            </Tabs.Panel>
             <Tabs.Panel value="settings">
               <Stack gap="xl">
                 <SiteForm initialValues={data as Site} />
@@ -147,15 +167,6 @@ const EditSitePage: React.FC = () => {
                   </DeleteSiteModal>
                 </Group>
               </Stack>
-            </Tabs.Panel>
-            <Tabs.Panel value="manage">
-              <Stack gap="xl">
-                <InviteUserForm site={data as Site} />
-                <CollaboratorsTable site={data as Site} />
-              </Stack>
-            </Tabs.Panel>
-            <Tabs.Panel value="install">
-              <InstallConfig site={data as Site} />
             </Tabs.Panel>
           </Tabs>
         ) : (
