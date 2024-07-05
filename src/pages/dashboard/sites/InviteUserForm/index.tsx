@@ -1,91 +1,54 @@
-import {
-  Button,
-  Divider,
-  Group,
-  SimpleGrid,
-  Stack,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Divider, Paper, Title } from "@mantine/core";
+import { IconSend } from "@tabler/icons-react";
+import { customEndpoint } from "@directus/sdk";
 import { useQueryClient } from "@tanstack/react-query";
-import { customEndpoint, inviteUser } from "@directus/sdk";
-import { z } from "zod";
-
-import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
-import { IconArrowRight, IconSend, IconSend2 } from "@tabler/icons-react";
+import UserForm from "/src/components/misc/UserForm";
+import { notifications } from "@mantine/notifications";
 
 interface InviteUserFormProps {
   site: Site;
 }
 
-const schema = z.object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  email: z.string().email().min(3).max(255),
-});
-
 const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
   const queryClient = useQueryClient();
-  const form = useAsyncForm({
-    allowMultipleSubmissions: true,
-    loadingOverlay: true,
-    initialValues: {
-      email: "",
-      first_name: "",
-      last_name: "",
-    },
-    schema,
-    action: async (values) => {
-      await directus.request(
-        customEndpoint({
-          method: "POST",
-          path: `/sites/${site.id}/invite`,
-          body: JSON.stringify(values),
-        })
-      );
-      queryClient.invalidateQueries({ queryKey: ["sites"] });
-      // TODO: show errors in alert or succes message
-      form.reset();
-    },
-  });
 
   return (
-    <FormWrapper form={form} withBorder radius="lg" p="xl" shadow="md">
-      <Stack>
-        <Title order={4}>Invite collaborators by email</Title>
-        <Divider />
-        <TextInput
-          label="Email"
-          name="email"
-          {...form.getInputProps("email")}
-          autoComplete="off"
-          required
-        />
-        <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
-          <TextInput
-            name="first_name"
-            label="First name"
-            {...form.getInputProps("first_name")}
-          />
-          <TextInput
-            name="last_name"
-            label="Last name"
-            {...form.getInputProps("last_name")}
-          />
-        </SimpleGrid>
-        <Group>
+    <Paper withBorder shadow="md" p="xl" radius="lg">
+      <Title order={4}>Invite collaborators by email</Title>
+      <Divider my="md" />
+      <UserForm
+        type="invite"
+        action={async (values) => {
+          try {
+            await directus.request(
+              customEndpoint({
+                method: "POST",
+                path: `/sites/${site.id}/invite`,
+                body: JSON.stringify(values),
+              })
+            );
+          } catch (error) {
+            if ((error as any).errors) {
+              notifications.show({
+                message: (error as any).errors.error_description,
+              });
+            }
+          }
+          await queryClient.invalidateQueries({ queryKey: ["sites"] });
+        }}
+        renderButton={(props) => (
           <Button
-            {...form.submitButtonProps}
-            accessKey="i"
-            rightSection={<IconSend size="1.5em" stroke={1.5} />}
+            {...props}
+            accessKey="s"
+            mt="xs"
+            rightSection={<IconSend stroke={1.5} size="1.5em" />}
           >
             Send invitation email
           </Button>
-        </Group>
-        {form.errors.action && <Group>{form.errors.action}</Group>}
-      </Stack>
-    </FormWrapper>
+        )}
+      />
+    </Paper>
   );
 };
 

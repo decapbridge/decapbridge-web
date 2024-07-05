@@ -1,8 +1,9 @@
-import { Avatar, Button, Group, Loader } from "@mantine/core";
+import { ActionIcon, Avatar, Button, Group, Loader } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import InternalLink from "/src/components/core/InternalLink";
 import { usePageContext } from "vike-react/usePageContext";
 import UserDropdown from "./UserDropdown";
+import UserAvatar from "/src/components/misc/UserAvatar";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const HeaderUserArea: React.FC = () => {
@@ -24,7 +25,17 @@ const HeaderUserArea: React.FC = () => {
       return (
         <Group>
           <UserDropdown
-            trigger={<Avatar component={InternalLink} href="/dashboard/sites" />}
+            trigger={
+              <ActionIcon
+                variant="transparent"
+                component={InternalLink}
+                href="/dashboard/sites"
+                p={0}
+                size="lg"
+              >
+                <UserAvatar user={user} />
+              </ActionIcon>
+            }
           />
         </Group>
       );

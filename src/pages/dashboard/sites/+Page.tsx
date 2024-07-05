@@ -1,4 +1,5 @@
 import {
+  Container,
   Button,
   Card,
   Group,
@@ -17,47 +18,59 @@ import useDirectusRequest from "/src/hooks/useDirectusRequest";
 import { Site } from "/src/utils/directus";
 
 const SitesPage: React.FC = () => {
-  const { data } = useDirectusRequest(readItems("sites"));
+  const { data } = useDirectusRequest(
+    readItems("sites", {
+      fields: [
+        "*",
+        { collaborators: ["*", { directus_users_id: ["*"] }] },
+        { user_created: ["*"] },
+      ],
+    })
+  );
   return (
-    <Stack>
-      <Group justify="space-between">
-        <Title order={3}>Your sites ({data?.length ?? 0})</Title>
-        <Button
-          component={InternalLink}
-          href="/dashboard/sites/new" rightSection={<IconPlus size="1.25rem" stroke={1.5} />}>
-          Add site
-        </Button>
-      </Group>
-      {data?.length === 0 ? (
-        <Center p="xl" m="xl">
-          <Card
+    <Container size="md" my="xl">
+      <Stack>
+        <Group justify="space-between">
+          <Title order={3}>Your sites ({data?.length ?? 0})</Title>
+          <Button
             component={InternalLink}
             href="/dashboard/sites/new"
-            withBorder
-            p="xl"
+            rightSection={<IconPlus size="1.25rem" stroke={1.5} />}
           >
-            <Stack align="center" px="xl" py="lg">
-              <IconPlus size="4rem" stroke={1} />
-              <Text c="dimmed">Create your first site</Text>
-            </Stack>
-          </Card>
-        </Center>
-      ) : (
-        <>
-          {data ? (
-            <SimpleGrid cols={{ base: 1, md: 2 }}>
-              {data?.map((site) => (
-                <SiteCard key={site.id} site={site as Site} />
-              ))}
-            </SimpleGrid>
-          ) : (
-            <Center>
-              <Loader />
-            </Center>
-          )}
-        </>
-      )}
-    </Stack>
+            Add site
+          </Button>
+        </Group>
+        {data?.length === 0 ? (
+          <Center p="xl" m="xl">
+            <Card
+              component={InternalLink}
+              href="/dashboard/sites/new"
+              withBorder
+              p="xl"
+            >
+              <Stack align="center" px="xl" py="lg">
+                <IconPlus size="4rem" stroke={1} />
+                <Text c="dimmed">Add your first site</Text>
+              </Stack>
+            </Card>
+          </Center>
+        ) : (
+          <>
+            {data ? (
+              <SimpleGrid cols={{ base: 1, md: 2 }}>
+                {data?.map((site) => (
+                  <SiteCard key={site.id} site={site as Site} />
+                ))}
+              </SimpleGrid>
+            ) : (
+              <Center>
+                <Loader />
+              </Center>
+            )}
+          </>
+        )}
+      </Stack>
+    </Container>
   );
 };
 

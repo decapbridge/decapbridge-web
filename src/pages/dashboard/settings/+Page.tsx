@@ -6,7 +6,7 @@ import DeleteAccountSettingBox from "./DeleteAccountSettingBox";
 
 const SettingsPage: React.FC = () => {
   return (
-    <Container size="sm" py="xs" my="xl">
+    <Container size="sm" my="xl">
       <ColorSchemeSettingBox />
       <PasswordResetSettingBox />
       <DeleteAccountSettingBox />

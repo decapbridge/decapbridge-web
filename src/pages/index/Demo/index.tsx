@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { Paper, Image, Container, Title, Stack } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-import AutoHeight from "embla-carousel-auto-height";
 import Autoplay from "embla-carousel-autoplay";
 
 import styles from "./demo.module.css";
@@ -9,7 +8,6 @@ import styles from "./demo.module.css";
 const images = [...Array(6).keys()].map((num) => `/demo/demo-${num + 1}.png`);
 
 const Demo: React.FC = () => {
-  const autoheight = useRef(AutoHeight());
   const autoplay = useRef(Autoplay({ delay: 5000 }));
   return (
     <Container size="md">
@@ -20,7 +18,7 @@ const Demo: React.FC = () => {
         <Paper withBorder shadow="xl" style={{ overflow: "hidden" }}>
           <Carousel
             withIndicators
-            plugins={[autoheight.current, autoplay.current]}
+            plugins={[autoplay.current]}
             classNames={{
               indicator: styles.indicator,
             }}

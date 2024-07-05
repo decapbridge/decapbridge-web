@@ -39,7 +39,7 @@ const useAuthActions = () => {
   const signup = useCallback(
     async (params: SignupParams) => {
       await directus.request(createUser(params));
-      await login(params.email, params.password, "/dashboard/sites/new");
+      await login(params.email, params.password, "/dashboard/sites");
     },
     [login]
   );

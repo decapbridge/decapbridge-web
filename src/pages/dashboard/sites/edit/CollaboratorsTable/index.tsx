@@ -1,15 +1,26 @@
-import { Table, ScrollArea, Group, Avatar, Text, Button, Divider, Paper, Stack, Title } from '@mantine/core';
-import { CustomSchema, Site } from '/src/utils/directus';
-import TimeAgo from '/src/components/ui/TimeAgo';
-import { IconX } from '@tabler/icons-react';
-import RemoveCollaboratorModal from '../../RemoveCollaboratorModal';
+import {
+  Table,
+  ScrollArea,
+  Group,
+  Avatar,
+  Text,
+  Button,
+  Divider,
+  Paper,
+  Stack,
+  Title,
+} from "@mantine/core";
+import { CustomSchema, Site } from "/src/utils/directus";
+import TimeAgo from "/src/components/ui/TimeAgo";
+import { IconX } from "@tabler/icons-react";
+import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
+import UserAvatar from "/src/components/misc/UserAvatar";
 
 interface CollaboratorsTableProps {
   site: Site;
-  collaborators: CustomSchema['directus_users'];
 }
 
-const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site, collaborators }) => {
+const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
   // const [selection, setSelection] = useState(['1']);
 
   // const toggleRow = (id: string) =>
@@ -19,20 +30,24 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site, collabora
   // const toggleAll = () =>
   //   setSelection((current) => (current.length === collaborators.length ? [] : collaborators.map((user) => user.id)));
 
+  const allUsers = [
+    site.user_created,
+    ...site.collaborators.map((c) => c.directus_users_id),
+  ].filter(Boolean) as CustomSchema["directus_users"];
 
-  const rows = collaborators.map((user) => {
+  const rows = allUsers.map((user) => {
     // const selected = selection.includes(user.id);
     return (
       <Table.Tr
         key={user.id}
-      // className={cx({ [classes.rowSelected]: selected })}
+        // className={cx({ [classes.rowSelected]: selected })}
       >
         {/* <Table.Td>
           <Checkbox checked={selection.includes(user.id)} onChange={() => toggleRow(user.id)} />
         </Table.Td> */}
         <Table.Td>
           <Group gap="sm">
-            <Avatar size={26} radius={26} />
+            <UserAvatar size={26} radius={26} user={user} />
             <Text size="sm" fw={500}>
               {user.first_name} {user.last_name}
             </Text>
@@ -40,12 +55,23 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site, collabora
         </Table.Td>
         <Table.Td>{user.email}</Table.Td>
         <Table.Td>
-          {user.last_access ? <TimeAgo timestamp={user.last_access} /> : ''}
+          {user.last_access ? <TimeAgo timestamp={user.last_access} /> : ""}
         </Table.Td>
         <Table.Td>
-          <RemoveCollaboratorModal site={site} user={user}>
-            {(open) => <Button size="xs" variant="light" leftSection={<IconX size="1.25em" />} onClick={open}>Remove access</Button>}
-          </RemoveCollaboratorModal>
+          {(site.user_created as any)?.id !== user.id && (
+            <RemoveCollaboratorModal site={site} user={user}>
+              {(open) => (
+                <Button
+                  size="xs"
+                  variant="light"
+                  leftSection={<IconX size="1.25em" />}
+                  onClick={open}
+                >
+                  Remove access
+                </Button>
+              )}
+            </RemoveCollaboratorModal>
+          )}
         </Table.Td>
       </Table.Tr>
     );
@@ -79,6 +105,6 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site, collabora
       </Stack>
     </Paper>
   );
-}
+};
 
-export default CollaboratorsTable
+export default CollaboratorsTable;

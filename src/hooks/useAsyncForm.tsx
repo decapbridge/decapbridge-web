@@ -155,9 +155,7 @@ const applyErrorsToForm = (error: any, form: UseFormReturnType<any>) => {
         ) : (
           <List c="var(--mantine-color-error)" size="sm">
             {actionErrors.map((err) => (
-              <List.Item key={err}>
-                {err}
-              </List.Item>
+              <List.Item key={err}>{err}</List.Item>
             ))}
           </List>
         ),

@@ -37,9 +37,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 variant="transparent"
                 className={utils["nav-button"]}
                 size="md"
-              // leftSection={(
-              //   <IconCircleKey size="1.5em" stroke={1.5} />
-              // )}
+                // leftSection={(
+                //   <IconCircleKey size="1.5em" stroke={1.5} />
+                // )}
               >
                 {sites.title}
               </Button>
@@ -78,9 +78,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 description={data.meta.description}
               />
             )}
-            <Container size="md" py="xs" my="xl">
-              {children}
-            </Container>
+            {children}
           </Box>
         </Box>
       </AuthenticatedLayout>

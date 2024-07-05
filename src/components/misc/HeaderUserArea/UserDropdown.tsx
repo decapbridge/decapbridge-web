@@ -28,7 +28,7 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
   }
 
   return (
-    <Menu withArrow trigger="hover" width={250}>
+    <Menu withArrow trigger="hover" width={250} radius="lg">
       <Menu.Target>{trigger}</Menu.Target>
       <Menu.Dropdown>
         <Menu.Item

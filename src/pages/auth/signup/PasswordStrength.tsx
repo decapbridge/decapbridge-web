@@ -50,7 +50,9 @@ function getStrength(password: string) {
   return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 0);
 }
 
-const PasswordStrength: React.FC<PasswordInputProps & { value: string }> = (props) => {
+const PasswordStrength: React.FC<PasswordInputProps & { value: string }> = (
+  props
+) => {
   const value = props.value;
   const strength = getStrength(value);
   const checks = requirements.map((requirement, index) => (
@@ -69,8 +71,8 @@ const PasswordStrength: React.FC<PasswordInputProps & { value: string }> = (prop
           value.length > 0 && index === 0
             ? 100
             : strength >= ((index + 1) / 4) * 100
-              ? 100
-              : 0
+            ? 100
+            : 0
         }
         color={strength > 80 ? "teal" : strength > 50 ? "yellow" : "red"}
         key={index}
@@ -81,16 +83,20 @@ const PasswordStrength: React.FC<PasswordInputProps & { value: string }> = (prop
   return (
     <Stack gap="sm">
       <PasswordInput {...props} />
-      <Group gap={5} grow>
-        {bars}
-      </Group>
-      <Stack gap={0}>
-        <PasswordRequirement
-          label="Has at least 6 characters"
-          meets={value.length > 5}
-        />
-        {checks}
-      </Stack>
+      {props.value && (
+        <Stack gap="sm">
+          <Group gap={5} grow>
+            {bars}
+          </Group>
+          <Stack gap={0}>
+            <PasswordRequirement
+              label="Has at least 8 characters"
+              meets={value.length >= 8}
+            />
+            {checks}
+          </Stack>
+        </Stack>
+      )}
     </Stack>
   );
 };

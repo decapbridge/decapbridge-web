@@ -27,7 +27,7 @@ export default function FooterSimple() {
         <Logo withTitle />
         <Group className={classes.links}>{items}</Group>
         <Text size="sm" c="dimmed">
-          Powered by{" "}
+          Crafted by{" "}
           <Anchor href="https://millisecond.studio/">millisecond.studio</Anchor>
         </Text>
       </Container>
