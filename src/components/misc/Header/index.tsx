@@ -19,6 +19,7 @@ import utils from "/src/utils/utils.module.css";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const Header: React.FC = () => {
+  const { user } = useMaybeUser();
   const publicPages = usePageMeta("/contact");
   const authedPages = usePageMeta(
     "/dashboard/sites",
@@ -26,11 +27,8 @@ const Header: React.FC = () => {
     "/dashboard/settings",
     "/contact"
   );
-  const { opened, close, toggle } = useMobileMenuOpened();
-  const { user } = useMaybeUser();
-
   const pages = user ? authedPages : publicPages;
-
+  const { opened, close, toggle } = useMobileMenuOpened();
   return (
     <AppShell.Header>
       <Container h="100%" fluid>

@@ -28,6 +28,9 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
                 body: JSON.stringify(values),
               })
             );
+            notifications.show({
+              message: "Invite email sent!",
+            });
           } catch (error) {
             if ((error as any).errors) {
               notifications.show({

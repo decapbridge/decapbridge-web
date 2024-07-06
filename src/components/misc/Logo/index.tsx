@@ -12,44 +12,40 @@ interface LogoProps extends ButtonProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ href, withTitle, ...rest }) => {
-
-  const { site: { site_name } } = useGlobalData()
+  const {
+    site: { site_name },
+  } = useGlobalData();
 
   const logo = (
     <Image src="/icons/favicon.svg" w="1.5rem" aria-label={site_name} />
-  )
+  );
 
-  const clickableProps: any = href ? {
-    component: InternalLink,
-    href
-  } : {}
+  const clickableProps: any = href
+    ? {
+        component: InternalLink,
+        href,
+      }
+    : {};
 
   const sharedProps = {
     variant: "transparent",
     className: utils["nav-button"],
-    ...rest
-  }
+    ...rest,
+  };
 
   if (withTitle) {
     return (
-      <Button
-        {...sharedProps}
-        {...clickableProps}
-        leftSection={logo}
-      >
+      <Button {...sharedProps} {...clickableProps} leftSection={logo} pr="sm">
         {site_name}
       </Button>
-    )
+    );
   }
 
   return (
-    <ActionIcon
-      {...sharedProps}
-      {...clickableProps}
-    >
+    <ActionIcon {...sharedProps} {...clickableProps}>
       {logo}
     </ActionIcon>
-  )
-}
+  );
+};
 
 export default Logo;
