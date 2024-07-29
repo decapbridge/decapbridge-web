@@ -121,7 +121,7 @@ const ContactPage: React.FC = () => {
             <Button
               size="xs"
               component="a"
-              href="https://discord.gg/y5Bc9bdC"
+              href="https://discord.gg/Q97rYTGVk3"
               target="_blank"
               rightSection={<IconBrandDiscordFilled size="1.5em" />}
               variant="light"
