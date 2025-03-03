@@ -21,13 +21,13 @@ const withDefaultProps =
     Component: C,
     defaultProps: P
   ) =>
-    // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    ({ node, ...mdProps }: any) => {
-      if (mdProps?.href && mdProps.href.startsWith('http')) {
-        mdProps.target = '_blank'
-      }
-      return <Component {...defaultProps} {...mdProps} />;
-    };
+  // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  ({ node, ...mdProps }: any) => {
+    if (mdProps?.href && mdProps.href.startsWith("http")) {
+      mdProps.target = "_blank";
+    }
+    return <Component {...defaultProps} {...mdProps} />;
+  };
 
 const TitleWithId: React.FC = (props: TitleProps) => {
   const slug = useMemo(() => {

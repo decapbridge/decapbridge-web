@@ -5,7 +5,7 @@ import {
   SimpleGrid,
   ButtonProps,
 } from "@mantine/core";
-import { IconAt, IconLock } from "@tabler/icons-react";
+import { TbAt, TbLock } from "react-icons/tb";
 import { z } from "zod";
 
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
@@ -103,9 +103,9 @@ const UserForm: React.FC<UserFormProps> = ({
                   {...props}
                   rightSection={
                     avatarProps.value ? (
-                      <IconEdit stroke={1.5} size="1.5em" />
+                      <TbEdit  size="1.5em" />
                     ) : (
-                      <IconUpload stroke={1.5} size="1.5em" />
+                      <TbUpload  size="1.5em" />
                     )
                   }
                 >
@@ -119,7 +119,7 @@ const UserForm: React.FC<UserFormProps> = ({
                 size="xs"
                 color="red"
                 onClick={clearFile}
-                rightSection={<IconX stroke={1.5} size="1.5em" />}
+                rightSection={<TbX  size="1.5em" />}
               >
                 Remove
               </Button>
@@ -145,7 +145,7 @@ const UserForm: React.FC<UserFormProps> = ({
           name="email"
           label="Email"
           placeholder="email@example.com"
-          leftSection={<IconAt size={16} />}
+          leftSection={<TbAt size={16} />}
           required
           {...form.getInputProps("email")}
           disabled={type === "update" || type === "finalize"}
@@ -155,7 +155,7 @@ const UserForm: React.FC<UserFormProps> = ({
             name="password"
             label="Password"
             placeholder="Your password"
-            leftSection={<IconLock size={16} />}
+            leftSection={<TbLock size={16} />}
             required
             {...passwordProps}
             value={passwordProps.value ?? ""}

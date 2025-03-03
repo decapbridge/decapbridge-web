@@ -8,7 +8,7 @@ import {
   Kbd,
   useMantineTheme,
 } from "@mantine/core";
-import { IconSun, IconMoonStars } from "@tabler/icons-react";
+import { TbSun, TbMoonStars } from "react-icons/tb";
 import { useOs } from "@mantine/hooks";
 import { useData } from "vike-react/useData";
 
@@ -31,16 +31,8 @@ const ColorSchemeSettingBox: React.FC = () => {
           size="lg"
           checked={colorScheme === "dark"}
           color={colorScheme === "dark" ? "gray" : "dark"}
-          onLabel={
-            <IconSun size={16} stroke={2.5} color={theme.colors.yellow[4]} />
-          }
-          offLabel={
-            <IconMoonStars
-              size={16}
-              stroke={2.5}
-              color={theme.colors.blue[6]}
-            />
-          }
+          onLabel={<TbSun size={16} color={theme.colors.yellow[4]} />}
+          offLabel={<TbMoonStars size={16} color={theme.colors.blue[6]} />}
           onChange={toggleColorScheme}
         />
         <Box mt={-4}>

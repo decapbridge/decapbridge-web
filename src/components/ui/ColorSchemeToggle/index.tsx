@@ -1,5 +1,5 @@
 import { ActionIcon } from "@mantine/core";
-import { IconSun, IconMoon } from "@tabler/icons-react";
+import { TbSun, TbMoon } from "react-icons/tb";
 import { useHotkeys } from "@mantine/hooks";
 import cx from "clsx";
 
@@ -18,8 +18,8 @@ const ColorSchemeToggle: React.FC = () => {
       h={30}
       aria-label="Toggle color scheme"
     >
-      <IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
-      <IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
+      <TbSun className={cx(classes.icon, classes.light)} />
+      <TbMoon className={cx(classes.icon, classes.dark)} />
     </ActionIcon>
   );
 };

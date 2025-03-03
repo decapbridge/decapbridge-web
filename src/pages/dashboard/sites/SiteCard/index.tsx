@@ -2,7 +2,7 @@ import { Avatar, Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { Site } from "/src/utils/directus";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
-import { IconExternalLink } from "@tabler/icons-react";
+import { TbExternalLink } from "react-icons/tb";
 import UserAvatar from "/src/components/misc/UserAvatar";
 
 interface SiteCardProps {
@@ -52,7 +52,7 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             href={site.cms_url}
             target="_blank"
             variant="light"
-            rightSection={<IconExternalLink size="1.25em" stroke={1.5} />}
+            rightSection={<TbExternalLink size="1.25em" />}
           >
             Go to CMS
           </Button>

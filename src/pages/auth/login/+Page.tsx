@@ -8,7 +8,7 @@ import {
   Stack,
   Anchor,
 } from "@mantine/core";
-import { IconAt, IconLock } from "@tabler/icons-react";
+import { TbAt, TbLock } from "react-icons/tb";
 import { useData } from "vike-react/useData";
 import { z } from "zod";
 
@@ -61,7 +61,7 @@ const LoginPage: React.FC = () => {
             name="email"
             label={content.email.label}
             placeholder={content.email.placeholder}
-            leftSection={<IconAt size={16} />}
+            leftSection={<TbAt size={16} />}
             required
             {...form.getInputProps("email")}
             autoFocus
@@ -72,7 +72,7 @@ const LoginPage: React.FC = () => {
               name="password"
               label={content.password.label}
               placeholder={content.password.placeholder}
-              leftSection={<IconLock size={16} />}
+              leftSection={<TbLock size={16} />}
               required
               {...form.getInputProps("password")}
             />

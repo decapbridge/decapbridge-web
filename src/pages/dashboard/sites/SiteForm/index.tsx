@@ -18,7 +18,7 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
-import { IconKey, IconTrash } from "@tabler/icons-react";
+import { TbKey, TbTrash } from "react-icons/tb";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -103,7 +103,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             }
             name="access_token"
             {...form.getInputProps("access_token")}
-            leftSection={<IconKey size={16} />}
+            leftSection={<TbKey size={16} />}
             autoComplete="new-password"
             required
           />

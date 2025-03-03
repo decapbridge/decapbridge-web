@@ -11,6 +11,5 @@ export default {
   prefetchStaticAssets: "viewport",
   passToClient: ["routeParams", "is404", "global"],
   Wrapper: App,
-  // @ts-expect-error bad vike types TODO: vike PR?
   Head,
 } satisfies Config;

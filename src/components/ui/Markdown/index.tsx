@@ -7,10 +7,18 @@ import styles from "./markdown-overrides.module.css";
 
 interface MarkdownProps extends Options {
   markdown: string;
+  className?: string;
 }
 
-const Markdown: React.FC<MarkdownProps> = ({ markdown, ...options }) => (
-  <Stack className={styles["markdown-container"]} id="markdown-content">
+const Markdown: React.FC<MarkdownProps> = ({
+  markdown,
+  className,
+  ...options
+}) => (
+  <Stack
+    id="markdown-content"
+    className={`${styles["markdown-container"]} ${className}`}
+  >
     <ReactMarkdown
       {...options}
       components={{ ...components, ...options.components }}

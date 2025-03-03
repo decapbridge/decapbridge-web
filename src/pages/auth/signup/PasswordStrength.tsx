@@ -8,7 +8,7 @@ import {
   PasswordInputProps,
   Stack,
 } from "@mantine/core";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { TbCheck, TbX } from "react-icons/tb";
 
 function PasswordRequirement({
   meets,
@@ -20,11 +20,7 @@ function PasswordRequirement({
   return (
     <Text component="div" c={meets ? "teal" : "red"} size="xs">
       <Center inline>
-        {meets ? (
-          <IconCheck size="0.9rem" stroke={1.5} />
-        ) : (
-          <IconX size="0.9rem" stroke={1.5} />
-        )}
+        {meets ? <TbCheck size="0.9rem" /> : <TbX size="0.9rem" />}
         <Box ml={7}>{label}</Box>
       </Center>
     </Text>

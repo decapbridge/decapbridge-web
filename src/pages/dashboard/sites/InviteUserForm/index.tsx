@@ -1,5 +1,5 @@
 import { Button, Divider, Paper, Title } from "@mantine/core";
-import { IconSend } from "@tabler/icons-react";
+import { TbSend } from "react-icons/tb";
 import { customEndpoint } from "@directus/sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import directus, { Site } from "/src/utils/directus";
@@ -45,7 +45,7 @@ const InviteUserForm: React.FC<InviteUserFormProps> = ({ site }) => {
             {...props}
             accessKey="s"
             mt="xs"
-            rightSection={<IconSend stroke={1.5} size="1.5em" />}
+            rightSection={<TbSend size="1.5em" />}
           >
             Send invitation email
           </Button>

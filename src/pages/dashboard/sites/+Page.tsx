@@ -10,7 +10,7 @@ import {
   Stack,
   Loader,
 } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import { TbPlus } from "react-icons/tb";
 import { readItems } from "@directus/sdk";
 import InternalLink from "/src/components/core/InternalLink";
 import SiteCard from "/src/pages/dashboard/sites/SiteCard";
@@ -35,7 +35,7 @@ const SitesPage: React.FC = () => {
           <Button
             component={InternalLink}
             href="/dashboard/sites/new"
-            rightSection={<IconPlus size="1.25rem" stroke={1.5} />}
+            rightSection={<TbPlus size="1.25rem" />}
           >
             Add site
           </Button>
@@ -49,7 +49,7 @@ const SitesPage: React.FC = () => {
               p="xl"
             >
               <Stack align="center" px="xl" py="lg">
-                <IconPlus size="4rem" stroke={1} />
+                <TbPlus size="4rem" />
                 <Text c="dimmed">Add your first site</Text>
               </Stack>
             </Card>

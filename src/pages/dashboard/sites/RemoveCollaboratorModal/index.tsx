@@ -4,37 +4,41 @@ import { Stack, Group, Button, Text, Modal, Code } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { CustomSchema, Site } from "/src/utils/directus";
-import { IconTrash } from "@tabler/icons-react";
+import { TbTrash } from "react-icons/tb";
 import { z } from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDisclosure } from "@mantine/hooks";
 
 interface RemoveCollaboratorProps {
   site: Site;
-  user: CustomSchema['directus_users'][number];
-  children: (open: () => void) => ReactNode
+  user: CustomSchema["directus_users"][number];
+  children: (open: () => void) => ReactNode;
 }
 
 const RemoveCollaboratorModal: React.FC<RemoveCollaboratorProps> = ({
   site,
   user,
-  children
+  children,
 }) => {
-  const [opened, { open, close }] = useDisclosure()
+  const [opened, { open, close }] = useDisclosure();
   const queryClient = useQueryClient();
 
   const form = useAsyncForm({
     schema: z.object({}),
     initialValues: {},
     action: async () => {
-      const [collaboratorToDelete] = await directus.request(readItems('sites_directus_users', {
-        filter: {
-          sites_id: site.id,
-          directus_users_id: user.id
-        }
-      }));
+      const [collaboratorToDelete] = await directus.request(
+        readItems("sites_directus_users", {
+          filter: {
+            sites_id: site.id,
+            directus_users_id: user.id,
+          },
+        })
+      );
       if (collaboratorToDelete) {
-        await directus.request(deleteItem('sites_directus_users', collaboratorToDelete.id))
+        await directus.request(
+          deleteItem("sites_directus_users", collaboratorToDelete.id)
+        );
       }
       notifications.show({
         color: "green",
@@ -51,7 +55,11 @@ const RemoveCollaboratorModal: React.FC<RemoveCollaboratorProps> = ({
         <FormWrapper form={form} radius={0}>
           <Stack gap="xs">
             <Text>
-              You&apos;re about to remove <Code>{user.first_name} {user.last_name} ({user.email})</Code> from the <Code>{site.repo}</Code> site.
+              You&apos;re about to remove{" "}
+              <Code>
+                {user.first_name} {user.last_name} ({user.email})
+              </Code>{" "}
+              from the <Code>{site.repo}</Code> site.
               <br />
               Are you sure?
             </Text>
@@ -64,9 +72,8 @@ const RemoveCollaboratorModal: React.FC<RemoveCollaboratorProps> = ({
                 color="red"
                 size="xs"
                 rightSection={
-                  <IconTrash
+                  <TbTrash
                     size="1rem"
-                    stroke={1.5}
                     style={{ margin: "0 -0.125rem 0 -0.25rem" }}
                   />
                 }

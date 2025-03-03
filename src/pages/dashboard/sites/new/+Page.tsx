@@ -1,5 +1,5 @@
 import { Container, Button, Group, Stack } from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { TbArrowLeft } from "react-icons/tb";
 import SiteForm from "/src/pages/dashboard/sites/SiteForm";
 import InternalLink from "/src/components/core/InternalLink";
 
@@ -13,7 +13,7 @@ const NewSitePage: React.FC = () => {
             href="/dashboard/sites"
             variant="subtle"
             size="compact-md"
-            leftSection={<IconArrowLeft size="1.25rem" />}
+            leftSection={<TbArrowLeft size="1.25rem" />}
           >
             Back to all sites
           </Button>

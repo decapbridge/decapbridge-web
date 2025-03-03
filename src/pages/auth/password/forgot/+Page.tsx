@@ -10,7 +10,7 @@ import {
   Stack,
   Anchor,
 } from "@mantine/core";
-import { IconAlertCircle, IconArrowLeft, IconAt } from "@tabler/icons-react";
+import { TbAlertCircle, TbArrowLeft, TbAt } from "react-icons/tb";
 import { passwordRequest } from "@directus/sdk";
 import { useData } from "vike-react/useData";
 import { z } from "zod";
@@ -33,19 +33,16 @@ const ForgotPassword: React.FC = () => {
       email: "",
     },
     action: async ({ email }) => {
-      await directus.request(
-        passwordRequest(
-          email!,
-          getPasswordResetUrl()
-        )
-      );
+      await directus.request(passwordRequest(email!, getPasswordResetUrl()));
     },
   });
   return (
     <Stack w={480} gap={0}>
       {form.state !== "submitted" ? (
         <>
-          <Title fz="h2" ta="center">{content.header}</Title>
+          <Title fz="h2" ta="center">
+            {content.header}
+          </Title>
           <Text c="dimmed" size="sm" ta="center">
             {content.sub_header}
           </Text>
@@ -61,7 +58,7 @@ const ForgotPassword: React.FC = () => {
               name="email"
               label={content.email.label}
               placeholder={content.email.placeholder}
-              leftSection={<IconAt size={16} />}
+              leftSection={<TbAt size={16} />}
               required
               {...form.getInputProps("email")}
               autoFocus
@@ -69,7 +66,7 @@ const ForgotPassword: React.FC = () => {
             <Group justify="space-between" mt="lg">
               <Anchor component={InternalLink} href="/auth/login" size="sm">
                 <Center>
-                  <IconArrowLeft size={12} stroke={1.5} />
+                  <TbArrowLeft size={12} />
                   <Box ml={5}>{content.login_link}</Box>
                 </Center>
               </Anchor>
@@ -83,7 +80,7 @@ const ForgotPassword: React.FC = () => {
         <Center style={{ minHeight: "2rem" }}>
           <Stack ta="center">
             <Alert
-              icon={<IconAlertCircle size={16} />}
+              icon={<TbAlertCircle size={16} />}
               title={content.success_title}
               c="pink"
             >
@@ -91,7 +88,7 @@ const ForgotPassword: React.FC = () => {
             </Alert>
             <Anchor component={InternalLink} href="/" c="dimmed" size="sm">
               <Center>
-                <IconArrowLeft size={12} stroke={1.5} />
+                <TbArrowLeft size={12} />
                 <Box ml={5}>{content.home_link}</Box>
               </Center>
             </Anchor>

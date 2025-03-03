@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { IconSearch } from "@tabler/icons-react";
+import { TbSearch } from "react-icons/tb";
 import {
   Spotlight,
   SpotlightProps,
@@ -34,7 +34,7 @@ const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
       classNames={styles}
       actions={actions}
       searchProps={{
-        leftSection: <IconSearch size={18} />,
+        leftSection: <TbSearch size={18} />,
         placeholder: search_label,
       }}
       nothingFound={empty_label}

@@ -1,5 +1,5 @@
 import { ActionIcon, Avatar, Button, Group, Loader } from "@mantine/core";
-import { IconChevronDown } from "@tabler/icons-react";
+import { TbChevronDown } from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import { usePageContext } from "vike-react/usePageContext";
 import UserDropdown from "./UserDropdown";

@@ -4,7 +4,7 @@ import { Stack, Group, Button, Text, Modal, Code } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
-import { IconTrash } from "@tabler/icons-react";
+import { TbTrash } from "react-icons/tb";
 import { z } from "zod";
 import navigate from "/src/utils/navigate";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,14 +12,14 @@ import { useDisclosure } from "@mantine/hooks";
 
 interface DeleteSiteModalProps {
   site: Site;
-  children: (open: () => void) => ReactNode
+  children: (open: () => void) => ReactNode;
 }
 
 const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
   site,
-  children
+  children,
 }) => {
-  const [opened, { open, close }] = useDisclosure()
+  const [opened, { open, close }] = useDisclosure();
   const queryClient = useQueryClient();
 
   const form = useAsyncForm({
@@ -43,7 +43,8 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
         <FormWrapper form={form} radius={0}>
           <Stack gap="xs">
             <Text>
-              You&apos;re about to delete the <Code>{site.repo}</Code> site. All collaborators will lose access to this site.
+              You&apos;re about to delete the <Code>{site.repo}</Code> site. All
+              collaborators will lose access to this site.
               <br />
               Are you sure?
             </Text>
@@ -56,9 +57,8 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
                 color="red"
                 size="xs"
                 rightSection={
-                  <IconTrash
+                  <TbTrash
                     size="1rem"
-                    stroke={1.5}
                     style={{ margin: "0 -0.125rem 0 -0.25rem" }}
                   />
                 }

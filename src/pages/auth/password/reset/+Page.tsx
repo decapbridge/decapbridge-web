@@ -7,7 +7,7 @@ import {
   Anchor,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconLock } from "@tabler/icons-react";
+import { TbLock } from "react-icons/tb";
 import { usePageContext } from "vike-react/usePageContext";
 import { passwordReset } from "@directus/sdk";
 import { useData } from "vike-react/useData";
@@ -65,7 +65,7 @@ const ResetPassword: React.FC = () => {
               name="password"
               label={content.password.label}
               placeholder={content.password.placeholder}
-              leftSection={<IconLock size={16} />}
+              leftSection={<TbLock size={16} />}
               required
               {...form.getInputProps("password")}
               autoFocus

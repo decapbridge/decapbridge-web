@@ -18,7 +18,7 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 import directus from "/src/utils/directus";
 import { Data } from "./+data";
-import { IconBrandDiscordFilled, IconMailFilled } from "@tabler/icons-react";
+import { TbBrandDiscordFilled, TbMailFilled } from "react-icons/tb";
 
 const schema = z.object({
   name: z.string().min(3).max(255),
@@ -123,7 +123,7 @@ const ContactPage: React.FC = () => {
               component="a"
               href="https://discord.gg/Q97rYTGVk3"
               target="_blank"
-              rightSection={<IconBrandDiscordFilled size="1.5em" />}
+              rightSection={<TbBrandDiscordFilled size="1.5em" />}
               variant="light"
             >
               Chat with us on Discord
@@ -132,7 +132,7 @@ const ContactPage: React.FC = () => {
               size="xs"
               component="a"
               href={`mailto:${mailTo}`}
-              rightSection={<IconMailFilled size="1.5em" />}
+              rightSection={<TbMailFilled size="1.5em" />}
               variant="light"
             >
               {mailTo}

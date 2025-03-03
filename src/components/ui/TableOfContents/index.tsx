@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IconListSearch } from "@tabler/icons-react";
+import { TbListSearch } from "react-icons/tb";
 import { Box, Group, rem, ScrollArea, Text } from "@mantine/core";
 import { TocItem } from "/src/utils/mdToToc";
 
@@ -70,10 +70,7 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
   return (
     <Box component="nav" className={classes.wrapper}>
       <Group mb="md">
-        <IconListSearch
-          style={{ width: rem(20), height: rem(20) }}
-          stroke={1.5}
-        />
+        <TbListSearch style={{ width: rem(20), height: rem(20) }} />
         <Text>Table of contents</Text>
       </Group>
       <ScrollArea.Autosize

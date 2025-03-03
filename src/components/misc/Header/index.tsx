@@ -34,18 +34,10 @@ const Header: React.FC = () => {
       <Container h="100%" fluid>
         <Group h="100%">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Group style={{ flex: 1 }} align="center" pos="relative">
+          <Group style={{ flex: 1 }} align="center" pos="relative" gap="1rem">
             <Group gap={4} onClick={opened ? close : undefined}>
               <Logo href="/" hiddenFrom="xs" />
               <Logo href="/" withTitle visibleFrom="xs" />
-              <Badge
-                visibleFrom="xs"
-                variant="dot"
-                style={{ alignSelf: "flex-start" }}
-                size="xs"
-              >
-                Beta
-              </Badge>
             </Group>
             <Group
               visibleFrom="sm"

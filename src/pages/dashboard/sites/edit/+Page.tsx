@@ -16,14 +16,14 @@ import { CustomSchema, Site } from "/src/utils/directus";
 import { useEffect } from "react";
 import navigate from "/src/utils/navigate";
 import {
-  IconArrowLeft,
-  IconBrandGithub,
-  IconCode,
-  IconExternalLink,
-  IconSettings,
-  IconTrash,
-  IconUsers,
-} from "@tabler/icons-react";
+  TbArrowLeft,
+  TbBrandGithub,
+  TbCode,
+  TbExternalLink,
+  TbSettings,
+  TbTrash,
+  TbUsers,
+} from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import InviteUserForm from "../InviteUserForm";
 import CollaboratorsTable from "./CollaboratorsTable";
@@ -80,7 +80,7 @@ const EditSitePage: React.FC = () => {
             href="/dashboard/sites"
             variant="subtle"
             size="compact-md"
-            leftSection={<IconArrowLeft size="1.25rem" />}
+            leftSection={<TbArrowLeft size="1.25rem" />}
           >
             Back to all sites
           </Button>
@@ -90,7 +90,7 @@ const EditSitePage: React.FC = () => {
                 component="a"
                 href={`https://github.com/${data.repo}`}
                 variant="light"
-                rightSection={<IconBrandGithub size="1.375em" stroke={1.5} />}
+                rightSection={<TbBrandGithub size="1.375em" />}
               >
                 Go to repository
               </Button>
@@ -98,7 +98,7 @@ const EditSitePage: React.FC = () => {
                 component="a"
                 href={data.cms_url}
                 variant="light"
-                rightSection={<IconExternalLink size="1.375em" stroke={1.5} />}
+                rightSection={<TbExternalLink size="1.375em" />}
               >
                 Go to CMS
               </Button>
@@ -111,7 +111,7 @@ const EditSitePage: React.FC = () => {
               <Tabs.Tab
                 onMouseDown={fastClick}
                 value="manage"
-                leftSection={<IconUsers size="1.5em" stroke={1.5} />}
+                leftSection={<TbUsers size="1.5em" />}
                 py={0}
                 h="2.25rem"
                 pl="sm"
@@ -121,7 +121,7 @@ const EditSitePage: React.FC = () => {
               <Tabs.Tab
                 onMouseDown={fastClick}
                 value="install"
-                leftSection={<IconCode size="1.5em" stroke={1.5} />}
+                leftSection={<TbCode size="1.5em" />}
                 py={0}
                 h="2.25rem"
                 pl="sm"
@@ -131,7 +131,7 @@ const EditSitePage: React.FC = () => {
               <Tabs.Tab
                 onMouseDown={fastClick}
                 value="settings"
-                leftSection={<IconSettings size="1.5em" stroke={1.5} />}
+                leftSection={<TbSettings size="1.5em" />}
                 py={0}
                 h="2.25rem"
                 pl="sm"
@@ -158,7 +158,7 @@ const EditSitePage: React.FC = () => {
                         onClick={open}
                         color="red"
                         size="sm"
-                        rightSection={<IconTrash stroke={1.5} size="1.25rem" />}
+                        rightSection={<TbTrash size="1.25rem" />}
                         variant="light"
                       >
                         Delete

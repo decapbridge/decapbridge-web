@@ -1,11 +1,5 @@
-import {
-  Title,
-  Text,
-  Stack,
-  Group,
-  Button,
-} from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { Title, Text, Stack, Group, Button } from "@mantine/core";
+import { TbArrowLeft } from "react-icons/tb";
 import { usePageContext } from "vike-react/usePageContext";
 import InternalLink from "/src/components/core/InternalLink";
 
@@ -26,7 +20,7 @@ const ErrorPage: React.FC = () => {
           href="/"
           variant="subtle"
           p="xs"
-          leftSection={<IconArrowLeft size="1.25rem" />}
+          leftSection={<TbArrowLeft size="1.25rem" />}
         >
           Go back to home page
         </Button>

@@ -11,7 +11,7 @@ import {
 import { deleteUser } from "@directus/sdk";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { TbAlertCircle } from "react-icons/tb";
 import { useData } from "vike-react/useData";
 import { z } from "zod";
 
@@ -82,9 +82,8 @@ const DeleteAccountSettingBox: React.FC = () => {
               color="red"
               size="xs"
               rightSection={
-                <IconAlertCircle
+                <TbAlertCircle
                   size="1.25rem"
-                  stroke={1.5}
                   style={{ margin: "0 -0.125rem 0 -0.25rem" }}
                 />
               }

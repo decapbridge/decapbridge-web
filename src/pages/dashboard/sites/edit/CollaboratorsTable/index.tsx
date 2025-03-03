@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { CustomSchema, Site } from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
-import { IconX } from "@tabler/icons-react";
+import { TbX } from "react-icons/tb";
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
 
@@ -64,7 +64,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                 <Button
                   size="xs"
                   variant="light"
-                  leftSection={<IconX size="1.25em" />}
+                  leftSection={<TbX size="1.25em" />}
                   onClick={open}
                 >
                   Remove access

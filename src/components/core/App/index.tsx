@@ -9,6 +9,7 @@ import { Center, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { usePageContext } from "vike-react/usePageContext";
+import type { Config } from "vike/types";
 import { Provider } from "jotai";
 import SpotlightSearch from "/src/components/core/SpotlightSearch";
 import ColorSchemeOverlay from "/src/components/core/ColorSchemeSwitchOverlay";
@@ -17,14 +18,10 @@ import queryClient from "/src/utils/queryClient";
 import { theme } from "/src/utils/theme";
 import store from "/src/utils/store";
 
-interface AppProps {
-  children: React.ReactNode;
-}
-
-const App: React.FC<AppProps> = ({ children }) => {
+const App: Config["Wrapper"] = ({ children }) => {
   const { abortStatusCode } = usePageContext();
 
-  let pageContent: JSX.Element | undefined;
+  let pageContent: React.ReactElement | undefined;
 
   if (abortStatusCode) {
     pageContent = (
