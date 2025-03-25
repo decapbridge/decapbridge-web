@@ -1,3 +1,4 @@
+ 
 import {
   Container,
   Button,
@@ -12,7 +13,7 @@ import { usePageContext } from "vike-react/usePageContext";
 
 import SiteForm from "/src/pages/dashboard/sites/SiteForm";
 import useDirectusRequest from "/src/hooks/useDirectusRequest";
-import { CustomSchema, Site } from "/src/utils/directus";
+import { Site } from "/src/utils/directus";
 import { useEffect } from "react";
 import navigate from "/src/utils/navigate";
 import {
@@ -92,7 +93,7 @@ const EditSitePage: React.FC = () => {
                 variant="light"
                 rightSection={<TbBrandGithub size="1.375em" />}
               >
-                Go to repository
+                {data?.repo}
               </Button>
               <Button
                 component="a"

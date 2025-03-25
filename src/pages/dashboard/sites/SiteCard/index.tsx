@@ -1,4 +1,13 @@
-import { Avatar, Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Group,
+  Stack,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { Site } from "/src/utils/directus";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
@@ -16,7 +25,9 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
     site.user_created,
     ...site.collaborators.map((c) => c.directus_users_id),
   ].filter(Boolean);
+
   const isAdmin = (site?.user_created as any)?.id === user.id;
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack>
@@ -27,13 +38,15 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             ))}
           </Avatar.Group>
           {isAdmin ? (
-            <Badge size="sm" variant="outline">
-              You are the admin
-            </Badge>
+            <Badge size="sm">You are the admin</Badge>
           ) : (
-            <Badge size="sm" variant="outline">
-              Collaborator
-            </Badge>
+            <Tooltip
+              label={`${(site.user_created as any)?.email} is the owner.`}
+            >
+              <Badge size="sm" variant="outline">
+                Collaborator
+              </Badge>
+            </Tooltip>
           )}
         </Group>
         <Text fw="bold">{site.repo}</Text>

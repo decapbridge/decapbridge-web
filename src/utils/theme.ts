@@ -1,4 +1,4 @@
-import { createTheme, Image, Button, ActionIcon, Modal, Container } from "@mantine/core";
+import { createTheme, Image, Button, ActionIcon, Modal } from "@mantine/core";
 import styles from "./utils.module.css";
 
 export const theme = createTheme({

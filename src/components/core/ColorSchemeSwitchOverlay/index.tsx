@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import { Box } from "@mantine/core";
 import useColorSchemeToggle from "/src/hooks/useColorSchemeToggle";

@@ -1,7 +1,7 @@
 import { Transition, TransitionProps } from "@mantine/core";
 import { useMounted } from "@mantine/hooks";
 
-interface MountTransitionProps extends Omit<TransitionProps, "mounted"> {}
+type MountTransitionProps = Omit<TransitionProps, "mounted">;
 
 const MountTransition: React.FC<MountTransitionProps> = ({
   children,

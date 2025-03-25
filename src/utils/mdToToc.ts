@@ -9,14 +9,19 @@ export interface TocItem {
 const headerRegex = /(?<flag>#{1,6})\s+(?<content>.+)/g;
 
 const mdToToc = (markdown: string): TocItem[] => {
-  return Array.from(markdown.matchAll(headerRegex)).map(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ groups: { flag, content } }: any) => ({
-      level: flag.length + 1,
-      content: content,
-      id: slugify(content),
-    })
-  );
+  return Array.from(markdown.matchAll(headerRegex))
+    .map(m => m.groups)
+    .filter((g): g is NonNullable<typeof g> => g !== undefined)
+    .map(
+      (groups) => {
+        const { flag, content } = groups
+        return {
+          level: flag.length + 1,
+          content: content,
+          id: slugify(content),
+        }
+      }
+    );
 };
 
 export default mdToToc;

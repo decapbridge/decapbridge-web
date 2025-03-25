@@ -18,7 +18,7 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
-import { TbKey, TbTrash } from "react-icons/tb";
+import { TbKey } from "react-icons/tb";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;

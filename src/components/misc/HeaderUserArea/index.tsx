@@ -1,13 +1,10 @@
-import { ActionIcon, Avatar, Button, Group, Loader } from "@mantine/core";
-import { TbChevronDown } from "react-icons/tb";
+import { ActionIcon, Button, Group, Loader } from "@mantine/core";
 import InternalLink from "/src/components/core/InternalLink";
-import { usePageContext } from "vike-react/usePageContext";
 import UserDropdown from "./UserDropdown";
 import UserAvatar from "/src/components/misc/UserAvatar";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const HeaderUserArea: React.FC = () => {
-  const { urlPathname } = usePageContext();
   const { user } = useMaybeUser();
 
   // Loading

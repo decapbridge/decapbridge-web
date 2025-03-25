@@ -26,7 +26,6 @@ const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
         description: meta.description,
         onClick: () => navigate(meta.urlPathname),
       }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

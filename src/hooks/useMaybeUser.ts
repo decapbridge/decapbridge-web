@@ -14,7 +14,7 @@ const useMaybeUser = () => {
         return null;
       }
       return await directus.request(readMe());
-    } catch (error) {
+    } catch {
       directus.setToken(null);
       notifications.show({
         title: misc.token_expired,

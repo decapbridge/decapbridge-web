@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AppShell, Box } from "@mantine/core";
+import { AppShell } from "@mantine/core";
 import { usePageContext } from "vike-react/usePageContext";
 
 import Header from "/src/components/misc/Header";

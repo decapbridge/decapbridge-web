@@ -33,7 +33,7 @@ const ForgotPassword: React.FC = () => {
       email: "",
     },
     action: async ({ email }) => {
-      await directus.request(passwordRequest(email!, getPasswordResetUrl()));
+      await directus.request(passwordRequest(email, getPasswordResetUrl()));
     },
   });
   return (

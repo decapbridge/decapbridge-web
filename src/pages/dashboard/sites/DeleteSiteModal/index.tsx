@@ -26,7 +26,7 @@ const DeleteSiteModal: React.FC<DeleteSiteModalProps> = ({
     schema: z.object({}),
     initialValues: {},
     action: async () => {
-      await directus.request(deleteItem("sites", site.id!));
+      await directus.request(deleteItem("sites", site.id));
       notifications.show({
         color: "green",
         message: "Site deleted.",

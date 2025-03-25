@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { useMemo } from "react";
 import {
   Title,
@@ -21,9 +20,9 @@ const withDefaultProps =
     Component: C,
     defaultProps: P
   ) =>
-  // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ node, ...mdProps }: any) => {
-    if (mdProps?.href && mdProps.href.startsWith("http")) {
+    if (mdProps?.href?.startsWith("http")) {
       mdProps.target = "_blank";
     }
     return <Component {...defaultProps} {...mdProps} />;

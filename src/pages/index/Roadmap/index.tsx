@@ -2,11 +2,6 @@ import { Container, Stack, Title, Accordion } from "@mantine/core";
 
 const items: { title: string; description: string }[] = [
   {
-    title: "Custom avatars",
-    description:
-      "Users will be able to set custom avatars for their profile which will be visible in DecapCMS itself and in the user dashboard as well.",
-  },
-  {
     title: "Branded login pages and emails",
     description:
       "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",

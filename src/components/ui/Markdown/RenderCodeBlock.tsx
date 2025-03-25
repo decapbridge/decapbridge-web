@@ -3,7 +3,7 @@ import { CodeHighlight } from "@mantine/code-highlight";
 import { Components } from "react-markdown";
 
 const RenderCodeBlock: Components["pre"] = ({ node, children }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const maybeChild = node?.children[0] as any;
   if (maybeChild?.tagName === "code") {
     const text = maybeChild?.children[0]?.value;

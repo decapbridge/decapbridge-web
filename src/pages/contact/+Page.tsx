@@ -58,7 +58,7 @@ const ContactPage: React.FC = () => {
           color: "green",
           message: contact.success_message,
         });
-      } catch (error) {
+      } catch {
         throw new Error(contact.error_message);
       }
     },

@@ -1,12 +1,4 @@
-import {
-  AppShell,
-  Burger,
-  Group,
-  Container,
-  Button,
-  Box,
-  Badge,
-} from "@mantine/core";
+import { AppShell, Burger, Group, Container, Button } from "@mantine/core";
 import InternalLink from "/src/components/core/InternalLink";
 import HeaderUserArea from "/src/components/misc/HeaderUserArea";
 import ColorSchemeToggle from "/src/components/ui/ColorSchemeToggle";

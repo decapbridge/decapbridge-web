@@ -9,11 +9,9 @@ import {
 } from "@mantine/core";
 import { passwordReset, readItem, readMe, updateUser } from "@directus/sdk";
 import { usePageContext } from "vike-react/usePageContext";
-import { z } from "zod";
 
 import InternalLink from "/src/components/core/InternalLink";
 import UserForm from "/src/components/misc/UserForm";
-import useAsyncForm from "/src/hooks/useAsyncForm";
 import directus from "/src/utils/directus";
 import onlyDiff from "/src/utils/onlyDiff";
 
@@ -56,7 +54,8 @@ const FinalizePage: React.FC = () => {
           }}
           action={async (values) => {
             if (!token) {
-              return alert("Missing token in URL");
+              alert("Missing token in URL");
+              return;
             }
             await directus.request(passwordReset(token, values.password!));
             await directus.login(values.email, values.password!, {
@@ -64,7 +63,8 @@ const FinalizePage: React.FC = () => {
             });
             const me = await directus.request(readMe());
             if (!me) {
-              return alert("Error wiht login");
+              alert("Error with login");
+              return;
             }
             await directus.request(
               updateUser(
@@ -77,7 +77,8 @@ const FinalizePage: React.FC = () => {
             );
             const site = await directus.request(readItem("sites", site_id));
             if (!site) {
-              return alert("You're not a collaborator in this site.");
+              alert("You're not a collaborator in this site.");
+              return;
             }
 
             const { cms_url } = site;

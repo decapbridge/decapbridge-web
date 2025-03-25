@@ -47,7 +47,7 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
   useEffect(() => {
     handleScroll();
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => { window.removeEventListener("scroll", handleScroll); };
   }, []);
 
   if (toc.length === 0) {

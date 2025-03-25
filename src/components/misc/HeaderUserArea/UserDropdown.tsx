@@ -1,12 +1,6 @@
 import { ReactElement } from "react";
 import { Menu, Text } from "@mantine/core";
-import {
-  TbChevronRight,
-  TbActivity,
-  TbSettings,
-  TbLogout,
-  TbUser,
-} from "react-icons/tb";
+import { TbChevronRight, TbSettings, TbLogout, TbUser } from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import useAuthActions from "/src/hooks/useAuthActions";

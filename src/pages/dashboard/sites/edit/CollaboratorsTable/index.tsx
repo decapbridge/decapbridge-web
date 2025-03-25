@@ -2,7 +2,6 @@ import {
   Table,
   ScrollArea,
   Group,
-  Avatar,
   Text,
   Button,
   Divider,

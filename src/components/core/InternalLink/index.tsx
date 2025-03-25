@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { forwardRef, useCallback } from "react";
 import { usePageContext } from "vike-react/usePageContext";
 import type { PossibleLinks } from "/src/utils/types";
@@ -43,10 +42,13 @@ const InternalLink: React.FC<InternalLinkProps> = forwardRef<
     [href, isActive]
   );
 
-  const fastClickProps: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> = {}
-  if (href.startsWith('/')) {
-    fastClickProps.onClick = handleClick
-    fastClickProps.onMouseDown = handleMouseDown
+  const fastClickProps: React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  > = {};
+  if (href.startsWith("/")) {
+    fastClickProps.onClick = handleClick;
+    fastClickProps.onMouseDown = handleMouseDown;
   }
 
   return (

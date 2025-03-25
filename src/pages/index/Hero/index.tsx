@@ -1,4 +1,4 @@
-import { Button, Container, Badge } from "@mantine/core";
+import { Button, Container } from "@mantine/core";
 import classes from "./HeroText.module.css";
 import { useData } from "vike-react/useData";
 import { Data } from "../+data";

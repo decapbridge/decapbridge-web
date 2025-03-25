@@ -2,11 +2,12 @@ import { useRef } from "react";
 import { Paper, Image, Container, Title, Stack } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import AutoHeight from "embla-carousel-auto-height";
 
 import styles from "./demo.module.css";
 
-const images = [...Array(6).keys()].map((num) => `/demo/demo-${num + 1}.png`);
+const images = [...Array(6).keys()].map(
+  (num) => `/demo/demo-${String(num + 1)}.png`
+);
 
 const Demo: React.FC = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
