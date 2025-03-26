@@ -71,7 +71,7 @@ const UserForm: React.FC<UserFormProps> = ({
   const passwordProps = form.getInputProps("password");
 
   const avatarUrl = useMemo(() => {
-    if (form.values.avatar instanceof File) {
+    if (typeof window !== "undefined" && form.values.avatar instanceof File) {
       return URL.createObjectURL(form.values.avatar);
     }
     if (form.values.avatar) {
