@@ -26,7 +26,8 @@ const errorPage = (msg: string) => (
 
 const FinalizePage: React.FC = () => {
   const { urlParsed } = usePageContext();
-  const { token, email, first_name, last_name, site_id } = urlParsed.search;
+  const { token, email, first_name, last_name, avatar, site_id } =
+    urlParsed.search;
   if (!token) {
     return errorPage("Token missing from URL");
   }
@@ -50,6 +51,7 @@ const FinalizePage: React.FC = () => {
             email,
             first_name,
             last_name,
+            avatar,
             password: "",
           }}
           action={async (values) => {
@@ -72,9 +74,11 @@ const FinalizePage: React.FC = () => {
                 onlyDiff(me, {
                   first_name: values.first_name,
                   last_name: values.last_name,
+                  avatar: values.avatar,
                 })
               )
             );
+
             const site = await directus.request(readItem("sites", site_id));
             if (!site) {
               alert("You're not a collaborator in this site.");

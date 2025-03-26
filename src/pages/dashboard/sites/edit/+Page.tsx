@@ -1,4 +1,3 @@
- 
 import {
   Container,
   Button,
@@ -108,7 +107,7 @@ const EditSitePage: React.FC = () => {
         </Group>
         {data ? (
           <Tabs variant="pills" value={tab} onChange={setTab}>
-            <Tabs.List mb="sm" fw={500}>
+            <Tabs.List mb="md" fw={500}>
               <Tabs.Tab
                 onMouseDown={fastClick}
                 value="manage"
@@ -142,8 +141,8 @@ const EditSitePage: React.FC = () => {
             </Tabs.List>
             <Tabs.Panel value="manage">
               <Stack gap="xl">
-                <InviteUserForm site={data as Site} />
                 <CollaboratorsTable site={data as Site} />
+                <InviteUserForm site={data as Site} />
               </Stack>
             </Tabs.Panel>
             <Tabs.Panel value="install">

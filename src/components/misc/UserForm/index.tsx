@@ -4,18 +4,24 @@ import {
   Group,
   SimpleGrid,
   ButtonProps,
+  Avatar,
+  Button,
+  FileButton,
 } from "@mantine/core";
-import { TbAt, TbLock } from "react-icons/tb";
+import { TbAt, TbEdit, TbLock, TbUpload, TbX } from "react-icons/tb";
 import { z } from "zod";
 
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 
-import { CustomSchema } from "/src/utils/directus";
+import directus, { CustomSchema } from "/src/utils/directus";
 
 import PasswordStrength from "/src/pages/auth/signup/PasswordStrength";
+import { uploadFiles } from "@directus/sdk";
+import { useRef, useMemo } from "react";
+import getAvatarUrl from "/src/utils/getAvatarUrl";
 
 const schema = z.object({
-  // avatar: z.string().url().or(z.any()).nullable(),
+  avatar: z.string().url().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.string().email().max(255),
@@ -35,27 +41,25 @@ const UserForm: React.FC<UserFormProps> = ({
   action,
   renderButton,
 }) => {
-  // const resetRef = useRef<() => void>(null);
-  // const maybeUploadAvatar = async () => {
-  //   if (values.avatar instanceof File) {
-  //     const form = new FormData();
-  //     form.append("file", values.avatar);
-  //     const avatarFile = await directus.request(uploadFiles(form));
-  //     values.avatar = avatarFile.id;
-  //   }
-  // };
+  const resetRef = useRef<() => void>(null);
 
   const form = useAsyncForm({
     allowMultipleSubmissions: type === "update",
     schema,
     initialValues: {
-      // avatar: (initialValues?.avatar ?? null) as any,
+      avatar: (initialValues?.avatar ?? null) as any,
       first_name: initialValues?.first_name ?? "",
       last_name: initialValues?.last_name ?? "",
       email: initialValues?.email ?? "",
       password: initialValues?.password ?? undefined,
     },
     action: async (values) => {
+      if (type !== "signup" && values.avatar instanceof File) {
+        const form = new FormData();
+        form.append("file", values.avatar);
+        const avatarFile = await directus.request(uploadFiles(form));
+        values.avatar = avatarFile.id;
+      }
       await action(values);
       if (type === "invite") {
         form.reset();
@@ -63,27 +67,27 @@ const UserForm: React.FC<UserFormProps> = ({
     },
   });
 
-  // const avatarProps = form.getInputProps("avatar");
+  const avatarProps = form.getInputProps("avatar");
   const passwordProps = form.getInputProps("password");
 
-  // const avatarUrl = useMemo(() => {
-  //   if (form.values.avatar instanceof File) {
-  //     return URL.createObjectURL(form.values.avatar);
-  //   }
-  //   if (form.values.avatar) {
-  //     return getAvatarUrl(form.values.avatar);
-  //   }
-  // }, [form.values.avatar]);
+  const avatarUrl = useMemo(() => {
+    if (form.values.avatar instanceof File) {
+      return URL.createObjectURL(form.values.avatar);
+    }
+    if (form.values.avatar) {
+      return getAvatarUrl(form.values.avatar);
+    }
+  }, [form.values.avatar]);
 
-  // const clearFile = () => {
-  //   avatarProps.onChange(null);
-  //   resetRef.current?.();
-  // };
+  const clearFile = () => {
+    avatarProps.onChange(null);
+    resetRef.current?.();
+  };
 
   return (
     <FormWrapper form={form} radius={0} shadow="none">
       <Stack>
-        {/* <Stack align="center" gap="xs">
+        <Stack align="center" gap="xs" py="sm">
           <Avatar
             size="xl"
             src={avatarUrl}
@@ -98,18 +102,18 @@ const UserForm: React.FC<UserFormProps> = ({
             >
               {(props) => (
                 <Button
-                  variant="light"
+                  variant={avatarProps.value ? "light" : "subtle"}
                   size="xs"
                   {...props}
                   rightSection={
                     avatarProps.value ? (
-                      <TbEdit  size="1.5em" />
+                      <TbEdit size="1.5em" />
                     ) : (
-                      <TbUpload  size="1.5em" />
+                      <TbUpload size="1.5em" />
                     )
                   }
                 >
-                  {avatarProps.value ? "Change" : "Upload profile picture"}
+                  {avatarProps.value ? "Change" : "Upload picture"}
                 </Button>
               )}
             </FileButton>
@@ -119,13 +123,13 @@ const UserForm: React.FC<UserFormProps> = ({
                 size="xs"
                 color="red"
                 onClick={clearFile}
-                rightSection={<TbX  size="1.5em" />}
+                rightSection={<TbX size="1.5em" />}
               >
                 Remove
               </Button>
             )}
           </Group>
-        </Stack> */}
+        </Stack>
         <SimpleGrid spacing="md" cols={{ base: 1, sm: 2 }}>
           <TextInput
             name="first_name"

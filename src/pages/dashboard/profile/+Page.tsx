@@ -20,7 +20,7 @@ const MyProfilePage: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <Container size="sm" my="xl">
+    <Container size="xs" my="xl">
       <Stack>
         <Paper withBorder shadow="md" p="xl" radius="lg">
           <Title order={3}>Edit profile</Title>
