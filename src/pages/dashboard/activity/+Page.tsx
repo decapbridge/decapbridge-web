@@ -12,7 +12,7 @@ const formatCollection = (collection: string) => {
 
 const ActivityPage: React.FC = () => {
   const { page, setPage, limit, totalPages } =
-    useCollectionPagination("directus_revisions");
+    useCollectionPagination("directus_activity");
   const { data } = useDirectusRequest(
     readActivities({
       sort: ["-timestamp"],

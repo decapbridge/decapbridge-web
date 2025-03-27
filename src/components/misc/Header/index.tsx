@@ -13,12 +13,7 @@ import useMaybeUser from "/src/hooks/useMaybeUser";
 const Header: React.FC = () => {
   const { user } = useMaybeUser();
   const publicPages = usePageMeta("/contact");
-  const authedPages = usePageMeta(
-    "/dashboard/sites",
-    "/dashboard/profile",
-    "/dashboard/settings",
-    "/contact"
-  );
+  const authedPages = usePageMeta("/dashboard/sites", "/contact");
   const pages = user ? authedPages : publicPages;
   const { opened, close, toggle } = useMobileMenuOpened();
   return (

@@ -14,7 +14,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createItem, updateItem } from "@directus/sdk";
 import { z } from "zod";
 
-import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
+import useAsyncForm, {
+  FormWrapper,
+  githubAccessTokenError,
+  githubRepoError,
+} from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
@@ -47,6 +51,33 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     },
     schema,
     action: async (values) => {
+      // Validate the access token and repository
+      const tokenValidationResponse = await fetch(
+        "https://api.github.com/user",
+        {
+          headers: {
+            Authorization: `Bearer ${values.access_token}`,
+          },
+        }
+      );
+
+      if (!tokenValidationResponse.ok) {
+        throw { errors: [new Error(githubAccessTokenError)] };
+      }
+
+      const repoValidationResponse = await fetch(
+        `https://api.github.com/repos/${values.repo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${values.access_token}`,
+          },
+        }
+      );
+
+      if (!repoValidationResponse.ok) {
+        throw { errors: [new Error(githubRepoError)] };
+      }
+
       let createdId: null | string = null;
       if (initialValues?.id) {
         await directus.request(

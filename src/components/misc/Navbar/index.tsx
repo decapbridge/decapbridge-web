@@ -16,6 +16,7 @@ const Navbar: React.FC = () => {
   const authedPages = usePageMeta(
     "/dashboard/sites",
     "/dashboard/profile",
+    "/dashboard/activity",
     "/dashboard/settings",
     "/contact"
   );

@@ -12,11 +12,6 @@ const items: { title: string; description: string }[] = [
       "Integrate Login with Github and Github Apps, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you.",
   },
   {
-    title: "Activity logging",
-    description:
-      "Show some basic logging, such as when users got invited, when they accepted the invite, when they logged in, etc.",
-  },
-  {
     title: "Branded login pages and emails",
     description:
       "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
