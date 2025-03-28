@@ -57,7 +57,7 @@ const HeaderUserArea: React.FC = () => {
         px="xs"
         fz="sm"
       >
-        Sign up
+        Get started
       </Button>
     </Group>
   );

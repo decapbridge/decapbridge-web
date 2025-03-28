@@ -1,73 +1,41 @@
-.wrapper {
-  position: relative;
-  padding-top: 6rem;
-  padding-bottom: 4rem;
-  @media (max-width: $mantine-breakpoint-sm) {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
-
 .inner {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-}
-
-.hero-text {
-  & h1 {
-    font-weight: 800;
-    font-size: 3rem;
-    letter-spacing: -1px;
-    line-height: 1;
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-    margin-bottom: var(--mantine-spacing-xs);
-    @media (max-width: $mantine-breakpoint-xs) {
-      font-size: rem(28px);
-      text-align: left;
-    }
-  }
-
-  & em {
-    font-style: normal;
-    color: var(--mantine-color-pink-6);
-  }
-
-  & p {
-    max-width: 44rem;
-    margin: 0 auto;
-    font-size: var(--mantine-font-size-lg);
-    color: var(--mantine-color-dimmed);
-    @media (max-width: $mantine-breakpoint-xs) {
-      text-align: left;
-      font-size: var(--mantine-font-size-md);
-    }
-  }
-}
-
-.controls {
-  margin-top: var(--mantine-spacing-lg);
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-
-  @media (max-width: $mantine-breakpoint-xs) {
+  justify-content: space-between;
+  gap: 4rem;
+  padding-top: calc(var(--mantine-spacing-xl) * 4);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+  @media (max-width: $mantine-breakpoint-md) {
     flex-direction: column;
   }
 }
 
+.content {
+  @media (max-width: $mantine-breakpoint-md) {
+    max-width: 100%;
+    margin-right: 0;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-size: 4rem;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
 .control {
-  &:not(:first-of-type) {
-    margin-left: var(--mantine-spacing-md);
-  }
-
   @media (max-width: $mantine-breakpoint-xs) {
-    height: rem(42px);
-    font-size: var(--mantine-font-size-md);
-
-    &:not(:first-of-type) {
-      margin-top: var(--mantine-spacing-md);
-      margin-left: 0;
-    }
+    flex: 1;
   }
+}
+
+.highlight {
+  position: relative;
+  background-color: var(--mantine-color-pink-light);
+  border-radius: var(--mantine-radius-sm);
+  padding: 4px 12px;
+}
+
+.indicator {
+  background-color: var(--mantine-color-dimmed);
 }
