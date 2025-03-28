@@ -13,7 +13,6 @@ import {
 import classes from "./HeroText.module.css";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import AutoHeight from "embla-carousel-auto-height";
 import { useRef } from "react";
 import InternalLink from "/src/components/core/InternalLink";
 import useMaybeUser from "/src/hooks/useMaybeUser";
@@ -24,7 +23,6 @@ const images = [...Array(6).keys()].map(
 
 export function HeroBullets() {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
-  const autoheight = useRef(AutoHeight());
   const { user } = useMaybeUser();
   return (
     <Container size="xl" px="xl">
@@ -95,7 +93,7 @@ export function HeroBullets() {
         >
           <Carousel
             withIndicators
-            plugins={[autoplay.current, autoheight.current]}
+            plugins={[autoplay.current]}
             classNames={{
               indicator: classes.indicator,
             }}
