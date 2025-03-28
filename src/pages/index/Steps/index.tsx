@@ -84,7 +84,7 @@ export function Steps() {
               component={InternalLink}
               href={user ? "/dashboard/sites" : "/auth/signup"}
             >
-              {user ? "Go to dashboard" : "Get started"}
+              {user ? "Go to dashboard" : "Try now, it's free!"}
             </Button>
           </Group>
         </Stack>

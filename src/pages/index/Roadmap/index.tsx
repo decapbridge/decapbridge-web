@@ -21,6 +21,11 @@ const items: { title: string; description: string }[] = [
     description:
       "Support for more git providers is planned. Ideally we'd like to match Netlify: github, gitlab, azure, gitea and bitbucket",
   },
+  {
+    title: "Enterprise version",
+    description:
+      'While DecapBridge will remain free, we plan to offer an optional "white-label" version for large enterprises to support the development.',
+  },
 ];
 
 const Roadmap: React.FC = () => {

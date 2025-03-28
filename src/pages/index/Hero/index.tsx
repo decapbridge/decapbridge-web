@@ -74,7 +74,7 @@ export function HeroBullets() {
               component={InternalLink}
               href={user ? "/dashboard/sites" : "/auth/signup"}
             >
-              {user ? "Go to dashboard" : "Get started now for free"}
+              {user ? "Go to dashboard" : "Get started"}
             </Button>
             {/* <Button
               variant="default"
