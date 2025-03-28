@@ -48,21 +48,21 @@ export function HeroBullets() {
             size="sm"
             icon={
               <ThemeIcon size={20} radius="xl">
-                <TbCheck size={12} stroke="1.5" />
+                <TbCheck size="0.875rem" stroke="white" />
               </ThemeIcon>
             }
           >
             <List.Item>
-              <b>Simple email-based invites</b> - Quickly shoot out email
-              invites to let collaborators edit your DecapCMS sites
+              <b>Quick email-based invites</b> - Quickly shoot out email invites
+              to let collaborators edit your DecapCMS sites.
             </List.Item>
             <List.Item>
               <b>Simple user management</b> - Invite or kick out collaborators
-              from your site with an intuitive interface
+              from your site with an intuitive interface.
             </List.Item>
             <List.Item>
-              <b>Smooth onboarding experience</b> - Standard auth experience
-              with "forgot" and "reset" password functionality
+              <b>Smooth onboarding experience</b> - Familiar authentication
+              experience with password reset and recovery.
             </List.Item>
           </List>
 

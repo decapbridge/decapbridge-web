@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
     },
   });
   return (
-    <Stack w={420} gap={0}>
+    <Stack m="auto" maw={420} gap={0}>
       <Title ta="center">{content.header}</Title>
       <Group mt={4} gap={6} justify="center" align="center">
         <Text c="dimmed" size="sm">

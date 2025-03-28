@@ -47,6 +47,7 @@ const HeaderUserArea: React.FC = () => {
         size="xs"
         px="xs"
         fz="sm"
+        visibleFrom="xs"
       >
         Log in
       </Button>

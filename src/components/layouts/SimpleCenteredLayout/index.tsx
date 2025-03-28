@@ -33,7 +33,12 @@ const DefaultCenteredLayout: React.FC<DefaultCenteredLayoutProps> = ({
           {(css) => (
             <Box
               id={mainContentId}
-              style={{ opacity: 0, ...css, display: "initial" }}
+              style={{
+                opacity: 0,
+                ...css,
+                display: "initial",
+                width: "100%",
+              }}
             >
               {children}
             </Box>

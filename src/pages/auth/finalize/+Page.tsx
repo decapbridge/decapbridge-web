@@ -35,7 +35,7 @@ const FinalizePage: React.FC = () => {
     return errorPage("Missing site_id in URL");
   }
   return (
-    <Stack w={480}>
+    <Stack m="auto" maw={480}>
       <Stack gap={0}>
         <Title ta="center">Confirm account details</Title>
         <Group gap={6} justify="center" align="center">

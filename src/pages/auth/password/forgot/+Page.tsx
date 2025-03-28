@@ -37,7 +37,7 @@ const ForgotPassword: React.FC = () => {
     },
   });
   return (
-    <Stack w={480} gap={0}>
+    <Stack m="auto" maw={480} gap={0}>
       {form.state !== "submitted" ? (
         <>
           <Title fz="h2" ta="center">

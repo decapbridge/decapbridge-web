@@ -46,7 +46,7 @@ const ResetPassword: React.FC = () => {
     },
   });
   return (
-    <Stack w={460} gap={0}>
+    <Stack m="auto" maw={460} gap={0}>
       {token ? (
         <>
           <Title ta="center">{content.header}</Title>

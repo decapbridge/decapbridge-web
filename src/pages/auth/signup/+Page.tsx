@@ -24,7 +24,7 @@ const SignupPage: React.FC = () => {
   const queryClient = useQueryClient();
 
   return (
-    <Stack w={480}>
+    <Stack m="auto" maw={480} m="auto">
       <Stack gap={0}>
         <Title ta="center">{content.header}</Title>
         <Group gap={6} justify="center" align="center">
