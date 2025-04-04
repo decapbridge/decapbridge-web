@@ -74,7 +74,7 @@ const FinalizePage: React.FC = () => {
                 onlyDiff(me, {
                   first_name: values.first_name,
                   last_name: values.last_name,
-                  avatar: values.avatar,
+                  ...(values.avatar ? { avatar: values.avatar } : {}),
                 })
               )
             );
