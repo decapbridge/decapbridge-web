@@ -22,7 +22,7 @@ import useAsyncForm, {
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
-import { TbKey } from "react-icons/tb";
+import { TbKey, TbX } from "react-icons/tb";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -35,6 +35,12 @@ const schema = z.object({
     .min(3)
     .max(255),
   access_token: z.string().min(3).max(255),
+  // TODO: bring some of this back? or delete this comment
+  // access_token: z
+  //   .string()
+  //   .regex(/^(github_pat|ghp)_[a-zA-Z0-9]+$/)
+  //   .min(3)
+  //   .max(255),
   cms_url: z.string().url().min(3).max(255),
 });
 
@@ -102,6 +108,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     },
   });
 
+  const canEditAccessToken = Boolean(
+    !initialValues?.access_token || form.isDirty("access_token")
+  );
+
   return (
     <FormWrapper form={form} withBorder radius="lg" p="xl" shadow="md">
       <Stack>
@@ -120,6 +130,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         />
         <Stack gap={2}>
           <PasswordInput
+            key={String(canEditAccessToken)}
             label="Github access token"
             placeholder="github_pat_**********************"
             description={
@@ -137,6 +148,15 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             leftSection={<TbKey size={16} />}
             autoComplete="new-password"
             required
+            disabled={!canEditAccessToken}
+            rightSection={
+              !canEditAccessToken ? (
+                <TbX
+                  style={{ cursor: "pointer", color: "black" }}
+                  onClick={() => form.setFieldValue("access_token", "")}
+                />
+              ) : undefined
+            }
           />
           <Text size="xs" c="dimmed">
             You can create it, track it's usage and revoke it on{" "}
