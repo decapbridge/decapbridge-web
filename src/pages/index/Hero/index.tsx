@@ -97,7 +97,7 @@ export function HeroBullets() {
             classNames={{
               indicator: classes.indicator,
             }}
-            loop
+            emblaOptions={{ loop: true }}
           >
             {images.map((url) => (
               <Carousel.Slide key={url} display="flex">

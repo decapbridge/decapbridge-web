@@ -4,11 +4,11 @@ import {
   TbBrandGithub,
   TbEdit,
   TbUserCircle,
-  TbProps,
 } from "react-icons/tb";
+import { IconBaseProps } from "react-icons/lib";
 import useGlobalData from "/src/hooks/useGlobalData";
 
-const icons: Record<string, React.FC<Omit<TbProps, "ref">>> = {
+const icons: Record<string, React.FC<Omit<IconBaseProps, "ref">>> = {
   TbExternalLink,
   TbBrandGithub,
   TbEdit,
