@@ -9,6 +9,7 @@ import useMobileMenuOpened from "/src/hooks/useMobileMenuOpened";
 
 import utils from "/src/utils/utils.module.css";
 import useMaybeUser from "/src/hooks/useMaybeUser";
+import GithubLink from "/src/components/ui/GithubLink";
 
 const Header: React.FC = () => {
   const { user } = useMaybeUser();
@@ -53,6 +54,7 @@ const Header: React.FC = () => {
             <Group gap="xs" ml="auto">
               <SearchInput mr={4} />
               <ColorSchemeToggle />
+              <GithubLink mr={4} />
               <HeaderUserArea />
             </Group>
           </Group>
