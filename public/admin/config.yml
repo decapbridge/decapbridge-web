@@ -5,7 +5,7 @@
 
 # backend:
 #   name: git-gateway
-#   repo: loteoo/decap-bridge-web
+#   repo: decapbridge/decapbridge-web
 #   branch: main
 #   identity_url: http://localhost:8055/sites/e7ca3efb-dca4-443d-a4b1-236ceab96dd6
 #   gateway_url: http://localhost:8081
