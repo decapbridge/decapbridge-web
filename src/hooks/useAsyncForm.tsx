@@ -107,14 +107,14 @@ const useAsyncForm = <V extends Record<string, unknown>>({
 
 import { UseFormReturnType } from "@mantine/form";
 
-export const githubAccessTokenError = 'Invalid "access_token"';
-export const githubRepoError = 'Invalid "repo"';
+export const accessTokenError = 'Invalid "access_token"';
+export const repoError = 'Invalid "repo"';
 
 const errorMap = {
   [`Value for field "email" in collection "directus_users" has to be unique.`]:
     "This email is already used.",
-  [githubAccessTokenError]: "Invalid GitHub access token.",
-  [githubRepoError]:
+  [accessTokenError]: "Invalid access token.",
+  [repoError]:
     "Access token does not have permission to access this repository.",
 };
 

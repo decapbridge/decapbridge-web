@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "dev:web": "vite dev --open --host",
-    "dev": "concurrently -n vite,decap \"vite dev --open --host\" \"decap-server\"",
+    "dev": "concurrently -n vite,decap \"npm run dev:web\" \"decap-server\"",
     "build": "vite build",
     "preview": "sirv dist/client --dev",
     "tsc": "tsc",

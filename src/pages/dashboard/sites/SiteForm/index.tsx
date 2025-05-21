@@ -8,6 +8,8 @@ import {
   Anchor,
   Title,
   Divider,
+  Radio,
+  Code,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,31 +18,27 @@ import { z } from "zod";
 
 import useAsyncForm, {
   FormWrapper,
-  githubAccessTokenError,
-  githubRepoError,
+  accessTokenError,
+  repoError,
 } from "/src/hooks/useAsyncForm";
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
-import { TbKey, TbX } from "react-icons/tb";
+import { TbBrandGithub, TbKey, TbX } from "react-icons/tb";
+import capitalize from "/src/utils/capitalize";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
 }
 
 const schema = z.object({
+  git_provider: z.enum(["github", "gitlab"]),
   repo: z
     .string()
     .regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+$/)
     .min(3)
     .max(255),
   access_token: z.string().min(3).max(255),
-  // TODO: bring some of this back? or delete this comment
-  // access_token: z
-  //   .string()
-  //   .regex(/^(github_pat|ghp)_[a-zA-Z0-9]+$/)
-  //   .min(3)
-  //   .max(255),
   cms_url: z.string().url().min(3).max(255),
 });
 
@@ -51,37 +49,67 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     allowMultipleSubmissions: Boolean(initialValues),
     loadingOverlay: true,
     initialValues: {
+      git_provider: initialValues?.git_provider ?? "github",
       repo: initialValues?.repo ?? "",
       access_token: initialValues?.access_token ?? "",
       cms_url: initialValues?.cms_url ?? "",
     },
     schema,
     action: async (values) => {
-      // Validate the access token and repository
-      const tokenValidationResponse = await fetch(
-        "https://api.github.com/user",
-        {
-          headers: {
-            Authorization: `Bearer ${values.access_token}`,
-          },
+      if (!values.access_token.startsWith("encrypted_")) {
+        if (values.git_provider === "github") {
+          // Validate the access token
+          const tokenValidationResponse = await fetch(
+            "https://api.github.com/user",
+            {
+              headers: {
+                Authorization: `Bearer ${values.access_token}`,
+              },
+            }
+          );
+          if (!tokenValidationResponse.ok) {
+            throw { errors: [new Error(accessTokenError)] };
+          }
+          // Validate the repository
+          const repoValidationResponse = await fetch(
+            `https://api.github.com/repos/${values.repo}`,
+            {
+              headers: {
+                Authorization: `Bearer ${values.access_token}`,
+              },
+            }
+          );
+          if (!repoValidationResponse.ok) {
+            throw { errors: [new Error(repoError)] };
+          }
+        } else if (values.git_provider === "gitlab") {
+          // Validate the access token
+          const tokenValidationResponse = await fetch(
+            "https://gitlab.com/api/v4/user",
+            {
+              headers: {
+                Authorization: `Bearer ${values.access_token}`,
+              },
+            }
+          );
+          if (!tokenValidationResponse.ok) {
+            throw { errors: [new Error(accessTokenError)] };
+          }
+          // Validate the repository
+          const repoValidationResponse = await fetch(
+            `https://gitlab.com/api/v4/projects/${encodeURIComponent(
+              values.repo
+            )}`,
+            {
+              headers: {
+                Authorization: `Bearer ${values.access_token}`,
+              },
+            }
+          );
+          if (!repoValidationResponse.ok) {
+            throw { errors: [new Error(repoError)] };
+          }
         }
-      );
-
-      if (!tokenValidationResponse.ok) {
-        throw { errors: [new Error(githubAccessTokenError)] };
-      }
-
-      const repoValidationResponse = await fetch(
-        `https://api.github.com/repos/${values.repo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${values.access_token}`,
-          },
-        }
-      );
-
-      if (!repoValidationResponse.ok) {
-        throw { errors: [new Error(githubRepoError)] };
       }
 
       let createdId: null | string = null;
@@ -112,6 +140,14 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     !initialValues?.access_token || form.isDirty("access_token")
   );
 
+  const gitProvider = capitalize(form.values.git_provider);
+
+  const tokenLink = form.isValid("repo")
+    ? form.values.git_provider === "github"
+      ? "https://github.com/settings/tokens"
+      : `https://gitlab.com/${form.values.repo}/-/settings/access_tokens`
+    : null;
+
   return (
     <FormWrapper form={form} withBorder radius="lg" p="xl" shadow="md">
       <Stack>
@@ -119,8 +155,18 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           {initialValues ? "Edit site settings" : "Add site"}
         </Title>
         <Divider />
+        <Radio.Group
+          label="Git provider"
+          description="Select your git provider for this site."
+          {...form.getInputProps("git_provider")}
+        >
+          <Group pt="xs">
+            <Radio label="Github" value="github" />
+            <Radio label="Gitlab" value="gitlab" />
+          </Group>
+        </Radio.Group>
         <TextInput
-          label="Github repository"
+          label={`${gitProvider} repository`}
           placeholder="user-or-org/repository-name"
           description="Please provide the repo in the following format: org/repo"
           name="repo"
@@ -131,16 +177,26 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         <Stack gap={2}>
           <PasswordInput
             key={String(canEditAccessToken)}
-            label="Github access token"
-            placeholder="github_pat_**********************"
+            label={`${gitProvider} access token`}
+            placeholder={`${
+              form.values.git_provider === "github" ? "github_pat_" : "glpat-"
+            }************`}
             description={
               <>
                 Provide an access token that will let users use the git-gateway.
                 <br />
-                It needs read-write access this repository's <em>
-                  Contents
-                </em>{" "}
-                and <em>Pull requests</em>.
+                {form.values.git_provider === "github" ? (
+                  <>
+                    It needs read-write access this repository's{" "}
+                    <Code>Contents</Code> and <Code>Pull requests</Code> scopes.
+                  </>
+                ) : (
+                  <>
+                    It needs access to the following scores: <Code>api</Code>,{" "}
+                    <Code>read_api</Code>, <Code>read_repository</Code> and{" "}
+                    <Code>write_repository</Code>.
+                  </>
+                )}
               </>
             }
             name="access_token"
@@ -158,17 +214,19 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               ) : undefined
             }
           />
-          <Text size="xs" c="dimmed">
-            You can create it, track it's usage and revoke it on{" "}
-            <Anchor
-              href="https://github.com/settings/tokens"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github here
-            </Anchor>
-            . Fine-grained tokens recommended.
-          </Text>
+          {tokenLink && (
+            <Text size="xs" c="dimmed">
+              You can create it, track it's usage and revoke it here:{" "}
+              <Anchor
+                href={tokenLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {tokenLink}
+              </Anchor>
+              .
+            </Text>
+          )}
         </Stack>
         <TextInput
           label="Decap CMS URL"

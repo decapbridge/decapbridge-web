@@ -41,6 +41,7 @@ export interface Collaborator {
 
 export interface Site {
   id: string;
+  git_provider: 'github' | 'gitlab';
   repo: string;
   access_token: string;
   cms_url: string;

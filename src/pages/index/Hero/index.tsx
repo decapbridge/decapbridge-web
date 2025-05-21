@@ -33,10 +33,10 @@ export function HeroBullets() {
             <span className={classes.highlight}>Decap CMS</span>
           </Title>
           <Text c="dimmed" mt="md" maw="36rem">
-            You're using Decap CMS with GitHub, but don't want to have to ask
-            users to create GitHub accounts? You also don't want to use Netlify
-            or set up your own authentication service? This is just what you
-            need.
+            You're using Decap CMS with GitHub or Gitlab, but don't want to have
+            to ask your users to create accounts with your git provider? You
+            also don't want to set up your own authentication service? This is
+            just what you need.
           </Text>
 
           <List

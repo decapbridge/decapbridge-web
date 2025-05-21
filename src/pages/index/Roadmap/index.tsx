@@ -2,14 +2,13 @@ import { Container, Stack, Title, Accordion } from "@mantine/core";
 
 const items: { title: string; description: string }[] = [
   {
-    title: "Self hostable version",
+    title: "Improved self hosting",
     description:
       "Ability to self host a simplified version of DecapBridge, if that's more your thing.",
   },
   {
-    title: "Deeper Github integration",
-    description:
-      "Integrate Login with Github and Github Apps, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you.",
+    title: "Integrate auth providers",
+    description: "Integrate Login with Github, Google, Facebook, etc.",
   },
   {
     title: "Branded login pages and emails",
@@ -17,14 +16,19 @@ const items: { title: string; description: string }[] = [
       "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
   },
   {
-    title: "More git providers",
+    title: "Deeper Github integration",
     description:
-      "Support for more git providers is planned. Ideally we'd like to match Netlify: github, gitlab, azure, gitea and bitbucket",
+      "Integrate Login with Github and Github Apps, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you.",
   },
   {
     title: "Enterprise version",
     description:
       'While DecapBridge will remain free, we plan to offer an optional "white-label" version for large enterprises to support the development.',
+  },
+  {
+    title: "More git providers",
+    description:
+      "Support for more git providers, missing ones are: azure, gitea and bitbucket",
   },
 ];
 
@@ -39,7 +43,7 @@ const Roadmap: React.FC = () => {
           {items.map((i) => (
             <Accordion.Item px="xs" value={i.title} key={i.title}>
               <Accordion.Control>{i.title}</Accordion.Control>
-              <Accordion.Panel py="xs">{i.description}</Accordion.Panel>
+              <Accordion.Panel>{i.description}</Accordion.Panel>
             </Accordion.Item>
           ))}
         </Accordion>

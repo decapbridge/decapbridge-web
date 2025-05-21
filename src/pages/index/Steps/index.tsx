@@ -18,7 +18,7 @@ const data = [
   {
     title: "Add your DecapCMS site",
     description:
-      'Create a "Site" in DecapBridge for your DecapCMS website, then link the github repository to the site.',
+      'Create a "Site" in DecapBridge for your DecapCMS website, then link the git repository to the site.',
   },
   {
     title: (

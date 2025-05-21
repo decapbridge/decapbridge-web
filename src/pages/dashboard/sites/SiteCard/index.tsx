@@ -11,7 +11,7 @@ import {
 import { Site } from "/src/utils/directus";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
-import { TbExternalLink } from "react-icons/tb";
+import { TbBrandGithub, TbBrandGitlab, TbExternalLink } from "react-icons/tb";
 import UserAvatar from "/src/components/misc/UserAvatar";
 
 interface SiteCardProps {
@@ -49,7 +49,18 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             </Tooltip>
           )}
         </Group>
-        <Text fw="bold">{site.repo}</Text>
+        <Group justify="space-between">
+          <Text fw="bold">{site.repo}</Text>
+          {site.git_provider === "github" ? (
+            <Tooltip label="Github site">
+              <TbBrandGithub size="1.5rem" />
+            </Tooltip>
+          ) : (
+            <Tooltip label="Gitlab site">
+              <TbBrandGitlab size="1.5rem" />
+            </Tooltip>
+          )}
+        </Group>
         {isAdmin ? (
           <Button
             component={InternalLink}
