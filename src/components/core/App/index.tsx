@@ -3,7 +3,6 @@ import "@mantine/code-highlight/styles.css";
 import "@mantine/spotlight/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
-import "./global.module.css";
 
 import React from "react";
 import { Center, MantineProvider } from "@mantine/core";

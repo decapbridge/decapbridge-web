@@ -24,7 +24,7 @@ import useAsyncForm, {
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
-import { TbBrandGithub, TbKey, TbX } from "react-icons/tb";
+import { TbKey, TbX } from "react-icons/tb";
 import capitalize from "/src/utils/capitalize";
 
 interface SiteFormProps {

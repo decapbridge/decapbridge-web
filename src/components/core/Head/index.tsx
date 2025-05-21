@@ -1,6 +1,7 @@
 import {
   ColorSchemeScript,
-  MantineThemeProvider,
+  MantineProvider,
+  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { usePageContext } from "vike-react/usePageContext";
@@ -36,6 +37,8 @@ const Head: React.FC = () => {
 
   const theme = useMantineTheme();
   const themeColor = theme.colors[theme.primaryColor][6];
+
+  const { colorScheme } = useMantineColorScheme();
 
   return (
     <>
@@ -118,15 +121,29 @@ const Head: React.FC = () => {
         src="https://umami.millisecond.studio/script.js"
         data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e"
       />
+
+      {colorScheme === "light" ? (
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        />
+      ) : (
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        />
+      )}
+
+      <style>{`.hljs { background: var(--ch-background); }`}</style>
     </>
   );
 };
 
 const HeadWrapper: Config["Head"] = () => {
   return (
-    <MantineThemeProvider theme={theme}>
+    <MantineProvider theme={theme}>
       <Head />
-    </MantineThemeProvider>
+    </MantineProvider>
   );
 };
 
