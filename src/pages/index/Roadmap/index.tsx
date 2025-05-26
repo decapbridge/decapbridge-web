@@ -2,18 +2,18 @@ import { Container, Stack, Title, Accordion } from "@mantine/core";
 
 const items: { title: string; description: string }[] = [
   {
-    title: "Improved self hosting",
-    description:
-      "Ability to self host a simplified version of DecapBridge, if that's more your thing.",
-  },
-  {
-    title: "Integrate auth providers",
+    title: "Third party auth providers",
     description: "Integrate Login with Github, Google, Facebook, etc.",
   },
   {
     title: "Branded login pages and emails",
     description:
       "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
+  },
+  {
+    title: "Improved self hosting",
+    description:
+      "Ability to self host a simplified version of DecapBridge, if that's more your thing.",
   },
   {
     title: "Deeper Github integration",
@@ -29,6 +29,11 @@ const items: { title: string; description: string }[] = [
     title: "More git providers",
     description:
       "Support for more git providers, missing ones are: azure, gitea and bitbucket",
+  },
+  {
+    title: "i18n translations",
+    description:
+      "Add multilingual translation to the web UI to improve world wide accessibility.",
   },
 ];
 

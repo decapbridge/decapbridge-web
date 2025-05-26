@@ -18,6 +18,7 @@ import navigate from "/src/utils/navigate";
 import {
   TbArrowLeft,
   TbBrandGithub,
+  TbBrandGitlab,
   TbCode,
   TbExternalLink,
   TbSettings,
@@ -88,9 +89,15 @@ const EditSitePage: React.FC = () => {
             <Group>
               <Button
                 component="a"
-                href={`https://github.com/${data.repo}`}
+                href={`https://${data.git_provider}.com/${data.repo}`}
                 variant="light"
-                rightSection={<TbBrandGithub size="1.375em" />}
+                rightSection={
+                  data.git_provider === "github" ? (
+                    <TbBrandGithub size="1.375em" />
+                  ) : (
+                    <TbBrandGitlab size="1.375em" />
+                  )
+                }
               >
                 {data?.repo}
               </Button>
