@@ -6,10 +6,11 @@ import {
   Text,
   List,
 } from "@mantine/core";
-import { useForm, zodResolver } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { ZodObject } from "zod";
+import { zod4Resolver } from "mantine-form-zod-resolver";
 
 interface FormWrapperProps extends PaperProps {
   children: React.ReactNode;
@@ -60,7 +61,7 @@ const useAsyncForm = <V extends Record<string, unknown>>({
 }: UseAsyncFormParams<V>) => {
   const form = useForm({
     ...args,
-    validate: zodResolver(schema),
+    validate: zod4Resolver(schema),
   });
 
   const [state, setState] = useState<FormState>("iddle");
@@ -143,7 +144,7 @@ const applyErrorsToForm = (error: any, form: UseFormReturnType<any>) => {
       );
       if (key) {
         form.setFieldError(key, errorMessage);
-      } else {
+      } else if (!actionErrors.includes(errorMessage)) {
         actionErrors.push(errorMessage);
       }
     }
