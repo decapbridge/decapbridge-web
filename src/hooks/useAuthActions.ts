@@ -26,7 +26,7 @@ const useAuthActions = () => {
 
   const login = useCallback(
     async (email: string, password: string, paramRedirect?: PossibleLinks) => {
-      await directus.login(email, password, { mode: "json" });
+      await directus.login({ email, password }, { mode: "json" });
       await queryClient.invalidateQueries({
         queryKey: ["user"],
         refetchType: "all",

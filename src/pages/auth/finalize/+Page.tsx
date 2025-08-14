@@ -60,9 +60,12 @@ const FinalizePage: React.FC = () => {
               return;
             }
             await directus.request(passwordReset(token, values.password!));
-            await directus.login(values.email, values.password!, {
-              mode: "json",
-            });
+            await directus.login(
+              { email: values.email, password: values.password! },
+              {
+                mode: "json",
+              }
+            );
             const me = await directus.request(readMe());
             if (!me) {
               alert("Error with login");

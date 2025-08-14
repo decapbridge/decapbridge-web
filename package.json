@@ -10,7 +10,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@directus/sdk": "^19.1.0",
+    "@directus/sdk": "^20.0.2",
     "@eslint/js": "^9.27.0",
     "@mantine/carousel": "^8.0.1",
     "@mantine/code-highlight": "^8.0.1",
@@ -36,7 +36,7 @@
     "zod": "^3.25.7"
   },
   "devDependencies": {
-    "@types/node": "^22.15.19",
+    "@types/node": "^22.17.1",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^4.4.1",
