@@ -42,13 +42,8 @@ const Head: React.FC = () => {
 
   return (
     <>
-      <link rel="icon" href="/icons/favicon.png" type="image/png" />
-      <link
-        rel="icon"
-        href="/icons/favicon.svg"
-        type="image/svg+xml"
-        sizes="any"
-      />
+      <link rel="icon" href="/favicon.png" type="image/png" />
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
       <meta name="description" content={description} />
       <meta
         name="viewport"

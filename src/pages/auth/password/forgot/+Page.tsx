@@ -22,7 +22,7 @@ import { getPasswordResetUrl } from "/src/utils/constants";
 import type { Data } from "./+data";
 
 const schema = z.object({
-  email: z.string().email().max(255),
+  email: z.email().max(255),
 });
 
 const ForgotPassword: React.FC = () => {

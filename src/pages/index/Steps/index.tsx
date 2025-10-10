@@ -16,9 +16,9 @@ import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const data = [
   {
-    title: "Add your DecapCMS site",
+    title: "Add your Decap CMS site",
     description:
-      'Create a "Site" in DecapBridge for your DecapCMS website, then link the git repository to the site.',
+      'Create a "Site" in DecapBridge for your Decap CMS website, then link the git repository to the site.',
   },
   {
     title: (
@@ -27,7 +27,7 @@ const data = [
       </>
     ),
     description:
-      "Copy or follow the provided DecapCMS config.yml file that will be generated for your site.",
+      "Copy or follow the provided Decap CMS config.yml file that will be generated for your site.",
   },
   {
     title: "Invite users & have fun!",

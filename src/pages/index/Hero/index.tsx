@@ -28,15 +28,16 @@ export function HeroBullets() {
     <Container size="xl" px="xl">
       <div className={classes.inner}>
         <div className={classes.content}>
-          <Title fz="2.5rem">
-            Standalone accounts for
-            <span className={classes.highlight}>Decap CMS</span>
+          <Title fz="2rem">
+            Ready-to-go authentication and user management for your
+            <span className={classes.highlight}>Decap CMS</span> powered
+            website.
           </Title>
           <Text c="dimmed" mt="md" maw="36rem">
             You're using Decap CMS with GitHub or Gitlab, but don't want to have
-            to ask your users to create accounts with your git provider? You
-            also don't want to set up your own authentication service? This is
-            just what you need.
+            to ask your editors and clients to create accounts with your git
+            provider? You also don't want to set up your own authentication
+            service? This is just what you need.
           </Text>
 
           <List
@@ -52,15 +53,20 @@ export function HeroBullets() {
           >
             <List.Item>
               <b>Quick email-based invites</b> - Quickly shoot out email invites
-              to let collaborators edit your DecapCMS sites.
+              to let collaborators edit your Decap CMS sites.
             </List.Item>
             <List.Item>
               <b>Simple user management</b> - Invite or kick out collaborators
               from your site with an intuitive interface.
             </List.Item>
             <List.Item>
-              <b>Smooth onboarding experience</b> - Familiar authentication
-              experience with password reset and recovery.
+              <b>Login with Google or Microsoft</b> - Let your users chose their
+              prefered login method. Password login supported as well. More SSO
+              options coming soon.
+            </List.Item>
+            <List.Item>
+              <b>Ready in a minute</b> - Get your editors to start contributing
+              in the CMS today.
             </List.Item>
           </List>
 

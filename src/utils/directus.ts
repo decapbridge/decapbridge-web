@@ -13,7 +13,7 @@ import { getDirectusUrl } from "./constants";
 
 const authKey = "auth";
 
-const authenticationStorage: AuthenticationStorage = {
+export const authenticationStorage: AuthenticationStorage = {
   get() {
     const authJson = localStorage.getItem(authKey);
     if (!authJson) {
@@ -45,6 +45,7 @@ export interface Site {
   repo: string;
   access_token: string;
   cms_url: string;
+  auth_type: 'classic' | 'pkce';
   date_created: string;
   date_updated: string;
   user_created?: CustomSchema['directus_users'][number] | string;

@@ -16,9 +16,7 @@ const Logo: React.FC<LogoProps> = ({ href, withTitle, ...rest }) => {
     site: { site_name },
   } = useGlobalData();
 
-  const logo = (
-    <Image src="/icons/favicon.svg" w="1.5rem" aria-label={site_name} />
-  );
+  const logo = <Image src="/favicon.svg" w="1.5rem" aria-label={site_name} />;
 
   const clickableProps: any = href
     ? {

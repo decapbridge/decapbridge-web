@@ -8,18 +8,66 @@ import {
   Paper,
   Stack,
   Title,
+  Tooltip,
+  TextInput,
 } from "@mantine/core";
-import { CustomSchema, Site } from "/src/utils/directus";
+import directus, { CustomSchema, Site } from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
-import { TbX } from "react-icons/tb";
+import {
+  TbAt,
+  TbBrandGoogleFilled,
+  TbBrandWindowsFilled,
+  TbPassword,
+  TbSend,
+  TbX,
+} from "react-icons/tb";
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
+import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
+import { customEndpoint } from "@directus/sdk";
+import z from "zod";
+import { notifications } from "@mantine/notifications";
+import queryClient from "/src/utils/queryClient";
+
+const schema = z.object({
+  email: z.email().max(255),
+});
 
 interface CollaboratorsTableProps {
   site: Site;
 }
 
 const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
+  const form = useAsyncForm({
+    allowMultipleSubmissions: true,
+    schema,
+    initialValues: {
+      email: "",
+    },
+    action: async (values) => {
+      try {
+        await directus.request(
+          customEndpoint({
+            method: "POST",
+            path: `/sites/${site.id}/invite`,
+            body: JSON.stringify(values),
+          })
+        );
+        notifications.show({
+          message: "Invite email sent!",
+        });
+      } catch (error) {
+        if ((error as any).errors) {
+          notifications.show({
+            message: (error as any).errors.error_description,
+          });
+        }
+      }
+      form.reset();
+      await queryClient.invalidateQueries({ queryKey: ["sites"] });
+    },
+  });
+
   // const [selection, setSelection] = useState(['1']);
 
   // const toggleRow = (id: string) =>
@@ -54,7 +102,26 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
         </Table.Td>
         <Table.Td>{user.email}</Table.Td>
         <Table.Td>
-          {user.last_access ? <TimeAgo timestamp={user.last_access} /> : ""}
+          <Group gap="xs">
+            {user.provider === "google" ? (
+              <Tooltip label="Google login">
+                <TbBrandGoogleFilled size="1rem" />
+              </Tooltip>
+            ) : user.provider === "microsoft" ? (
+              <Tooltip label="Microsoft login">
+                <TbBrandWindowsFilled size="1rem" />
+              </Tooltip>
+            ) : (
+              <Tooltip label="Password login">
+                <TbPassword size="1rem" />
+              </Tooltip>
+            )}
+            {user.last_access ? (
+              <TimeAgo fz="sm" timestamp={user.last_access} />
+            ) : (
+              ""
+            )}
+          </Group>
         </Table.Td>
         <Table.Td>
           {(site.user_created as any)?.id !== user.id && (
@@ -81,6 +148,28 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
       <Stack>
         <Title order={4}>Manage collaborators for this site</Title>
         <Divider />
+        <FormWrapper form={form} radius={0} shadow="none">
+          <Group align="flex-end">
+            <TextInput
+              style={{ flexGrow: 1 }}
+              labelProps={{ mb: 4, ml: 2 }}
+              name="email"
+              label="Invite new collaborator by email"
+              placeholder="someone@example.com"
+              leftSection={<TbAt size={16} />}
+              required
+              {...form.getInputProps("email")}
+            />
+            <Button
+              {...form.submitButtonProps}
+              accessKey="s"
+              mt="xs"
+              rightSection={<TbSend size="1.5em" />}
+            >
+              Send invitation email
+            </Button>
+          </Group>
+        </FormWrapper>
         <ScrollArea>
           <Table miw={800} verticalSpacing="sm">
             <Table.Thead>
@@ -98,7 +187,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                 <Table.Th>Action</Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Tbody data-with-row-border>{rows}</Table.Tbody>
           </Table>
         </ScrollArea>
       </Stack>

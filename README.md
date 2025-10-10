@@ -11,7 +11,7 @@ This is where:
 
 - Mantine UI (React / TypeScript)
 - Vike (Vite)
-- DecapCMS + DecapBridge - duh
+- Decap CMS + DecapBridge - duh
 
 ## Install
 

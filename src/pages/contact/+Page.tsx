@@ -22,7 +22,7 @@ import { TbBrandDiscordFilled, TbMailFilled } from "react-icons/tb";
 
 const schema = z.object({
   name: z.string().min(3).max(255),
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   message: z.string().min(3).max(1023),
 });
 
