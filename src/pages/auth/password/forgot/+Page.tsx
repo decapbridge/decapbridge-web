@@ -20,6 +20,7 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import InternalLink from "/src/components/core/InternalLink";
 import { getPasswordResetUrl } from "/src/utils/constants";
 import type { Data } from "./+data";
+import { usePageContext } from "vike-react/usePageContext";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -27,10 +28,11 @@ const schema = z.object({
 
 const ForgotPassword: React.FC = () => {
   const content = useData<Data>();
+  const { urlParsed } = usePageContext();
   const form = useAsyncForm({
     schema,
     initialValues: {
-      email: "",
+      email: urlParsed.search["email"] ?? "",
     },
     action: async ({ email }) => {
       await directus.request(passwordRequest(email, getPasswordResetUrl()));
