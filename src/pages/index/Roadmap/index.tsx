@@ -2,18 +2,9 @@ import { Container, Stack, Title, Accordion } from "@mantine/core";
 
 const items: { title: string; description: string }[] = [
   {
-    title: "Third party auth providers",
-    description: "Integrate Login with Github, Google, Facebook, etc.",
-  },
-  {
     title: "Branded login pages and emails",
     description:
       "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
-  },
-  {
-    title: "Improved self hosting",
-    description:
-      "Ability to self host a simplified version of DecapBridge, if that's more your thing.",
   },
   {
     title: "Deeper Github integration",
@@ -21,14 +12,24 @@ const items: { title: string; description: string }[] = [
       "Integrate Login with Github and Github Apps, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you.",
   },
   {
-    title: "Enterprise version",
+    title: "More SSO options",
     description:
-      'While DecapBridge will remain free, we plan to offer an optional "white-label" version for large enterprises to support the development.',
+      "Integrate Login with Apple, Okta, Auth0, Github, Gitlab and Discord.",
   },
   {
     title: "More git providers",
     description:
       "Support for more git providers, missing ones are: azure, gitea and bitbucket",
+  },
+  {
+    title: "Improved self hosting",
+    description:
+      "Ability to self host a simplified version of DecapBridge, if that's more your thing.",
+  },
+  {
+    title: "Enterprise version",
+    description:
+      'While DecapBridge will remain free, we plan to offer an optional "white-label" version for large enterprises to support the development.',
   },
   {
     title: "i18n translations",

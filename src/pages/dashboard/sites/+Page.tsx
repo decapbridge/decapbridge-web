@@ -36,6 +36,7 @@ const SitesPage: React.FC = () => {
             component={InternalLink}
             href="/dashboard/sites/new"
             rightSection={<TbPlus size="1.25rem" />}
+            variant="light"
           >
             Add site
           </Button>

@@ -10,6 +10,10 @@ import {
   Divider,
   Radio,
   Code,
+  SimpleGrid,
+  Image,
+  Card,
+  List,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
@@ -26,6 +30,7 @@ import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
 import { TbKey, TbX } from "react-icons/tb";
 import capitalize from "/src/utils/capitalize";
+import { Carousel } from "@mantine/carousel";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -39,7 +44,8 @@ const schema = z.object({
     .min(3)
     .max(255),
   access_token: z.string().min(3).max(255),
-  cms_url: z.string().url().min(3).max(255),
+  cms_url: z.url().max(255),
+  auth_type: z.enum(["classic", "pkce"]),
 });
 
 const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
@@ -53,6 +59,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
       repo: initialValues?.repo ?? "",
       access_token: initialValues?.access_token ?? "",
       cms_url: initialValues?.cms_url ?? "",
+      auth_type: initialValues?.auth_type ?? "pkce",
     },
     schema,
     action: async (values) => {
@@ -229,18 +236,87 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           )}
         </Stack>
         <TextInput
-          label="Decap CMS URL"
+          label="Your Decap CMS login URL"
           placeholder="https://your-site.com/admin/index.html"
           name="cms_url"
           {...form.getInputProps("cms_url")}
           required
         />
-        <Group justify="space-between">
-          <Button {...form.submitButtonProps} accessKey="s">
-            {initialValues ? "Save changes" : "Create site"}
-          </Button>
-        </Group>
-        {form.errors.action && <Group>{form.errors.action}</Group>}
+        <SimpleGrid cols={2}>
+          <Stack>
+            <Radio.Group
+              mt="xl"
+              label="Auth type"
+              description="Choose your prefered login interface for this Decap CMS instance."
+              {...form.getInputProps("auth_type")}
+            >
+              <Group pt="xs">
+                <Radio label="Classic" value="classic" />
+                <Radio label="PKCE" value="pkce" />
+              </Group>
+            </Radio.Group>
+            {form.values.auth_type === "classic" ? (
+              <Text size="sm">
+                Users will be presented with a email/password form directly on
+                your Decap CMS instance. Password logins only.
+              </Text>
+            ) : (
+              <Stack gap="xs">
+                <Text size="sm">
+                  Users will see a Login button, which will send back to
+                  DecapBridge for login options. Currently supported:
+                </Text>
+                <List size="sm">
+                  <List.Item>Login with Google</List.Item>
+                  <List.Item>Login with Microsoft</List.Item>
+                  <List.Item>Password login</List.Item>
+                </List>
+                <Text size="xs">Requires Decap CMS v3.8.3 or above.</Text>
+              </Stack>
+            )}
+            <Stack mt="auto">
+              <Group justify="space-between">
+                <Button {...form.submitButtonProps} accessKey="s">
+                  {initialValues ? "Save changes" : "Create site"}
+                </Button>
+              </Group>
+              {form.errors.action && <Group>{form.errors.action}</Group>}
+            </Stack>
+          </Stack>
+          <Stack gap="xs" p="md">
+            <Text ta="center" size="xs" c="dimmed">
+              Preview of the {form.values.auth_type} flow:
+            </Text>
+            <Card p={0} radius="md">
+              {form.values.auth_type === "classic" ? (
+                <Image
+                  radius={0}
+                  src={`/login-screenshots/classic.png`}
+                  alt={`classic login`}
+                />
+              ) : (
+                <Carousel withIndicators>
+                  <Carousel.Slide display="flex">
+                    <Image
+                      src={`/login-screenshots/pkce.png`}
+                      alt={`pkce login`}
+                      m="auto"
+                      flex={1}
+                    />
+                  </Carousel.Slide>
+                  <Carousel.Slide display="flex">
+                    <Image
+                      src={`/login-screenshots/pkce-2.png`}
+                      alt={`pkce login step 2`}
+                      m="auto"
+                      flex={1}
+                    />
+                  </Carousel.Slide>
+                </Carousel>
+              )}
+            </Card>
+          </Stack>
+        </SimpleGrid>
       </Stack>
     </FormWrapper>
   );

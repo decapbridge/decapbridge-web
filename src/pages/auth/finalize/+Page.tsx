@@ -6,14 +6,44 @@ import {
   Group,
   Paper,
   Button,
+  Avatar,
+  FileButton,
+  TextInput,
+  Divider,
 } from "@mantine/core";
-import { passwordReset, readItem, readMe, updateUser } from "@directus/sdk";
+import { passwordReset, readMe, updateUser, uploadFiles } from "@directus/sdk";
 import { usePageContext } from "vike-react/usePageContext";
 
 import InternalLink from "/src/components/core/InternalLink";
-import UserForm from "/src/components/misc/UserForm";
 import directus from "/src/utils/directus";
 import onlyDiff from "/src/utils/onlyDiff";
+import {
+  TbEdit,
+  TbUpload,
+  TbX,
+  TbLock,
+  TbBrandGoogleFilled,
+  TbBrandWindowsFilled,
+} from "react-icons/tb";
+import PasswordStrength from "../signup/PasswordStrength";
+import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
+import { useCallback, useMemo, useRef } from "react";
+import getAvatarUrl from "/src/utils/getAvatarUrl";
+import z from "zod";
+import { getDirectusUrl } from "/src/utils/constants";
+
+// If user is here, there 2 possible paths:
+// 1. set a password using the token, login, then go to cms
+// 2. do a SSO login, which is set to send to /auth/sso-callback with a redirect param, which goes to cms
+// In both cases, this is just to "setup" the account, then user will initiate PKCE from CMS for final login.
+
+const schema = z.object({
+  avatar: z.url().or(z.any()).nullable(),
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.email().max(255),
+  password: z.string().min(8).max(255).optional(),
+});
 
 const errorPage = (msg: string) => (
   <Stack ta="center">
@@ -26,78 +56,241 @@ const errorPage = (msg: string) => (
 
 const FinalizePage: React.FC = () => {
   const { urlParsed } = usePageContext();
-  const { token, email, first_name, last_name, avatar, site_id } =
-    urlParsed.search;
+
+  const resetRef = useRef<() => void>(null);
+
+  const {
+    token,
+    email,
+    first_name,
+    last_name,
+    avatar,
+    site_id,
+    site_name,
+    redirect_uri,
+    auth_type,
+  } = urlParsed.search;
+
   if (!token) {
     return errorPage("Token missing from URL");
   }
   if (!site_id) {
     return errorPage("Missing site_id in URL");
   }
+  if (!redirect_uri) {
+    return errorPage("Missing redirect_uri in URL");
+  }
+  if (!auth_type) {
+    return errorPage("Missing auth_type in URL");
+  }
+
+  const ssoRedirectUrl = `${getDirectusUrl()}/sso-exchange-token?redirect_uri=${redirect_uri}`;
+
+  const getSsoRedirectUrl = useCallback(
+    (provider: string) => {
+      return `${getDirectusUrl()}/auth/login/${provider}?redirect=${encodeURIComponent(
+        ssoRedirectUrl
+      )}`;
+    },
+    [ssoRedirectUrl]
+  );
+
+  const form = useAsyncForm({
+    schema,
+    initialValues: {
+      avatar: (avatar ?? null) as any,
+      first_name: first_name ?? "",
+      last_name: last_name ?? "",
+      email: email ?? "",
+      password: "",
+    },
+    action: async (values) => {
+      if (values.avatar instanceof File) {
+        const form = new FormData();
+        form.append("file", values.avatar);
+        const avatarFile = await directus.request(uploadFiles(form));
+        values.avatar = avatarFile.id;
+      }
+
+      if (!token) {
+        alert("Missing token in URL");
+        return;
+      }
+      await directus.request(passwordReset(token, values.password!));
+      await directus.login(
+        { email: values.email, password: values.password! },
+        {
+          mode: "json",
+        }
+      );
+      const me = await directus.request(readMe());
+      if (!me) {
+        alert("Error with login");
+        return;
+      }
+      await directus.request(
+        updateUser(
+          me.id,
+          onlyDiff(me, {
+            first_name: values.first_name,
+            last_name: values.last_name,
+            ...(values.avatar ? { avatar: values.avatar } : {}),
+          })
+        )
+      );
+
+      window.location.href = redirect_uri;
+    },
+  });
+
+  const avatarProps = form.getInputProps("avatar");
+  const passwordProps = form.getInputProps("password");
+
+  const avatarUrl = useMemo(() => {
+    if (typeof window !== "undefined" && form.values.avatar instanceof File) {
+      return URL.createObjectURL(form.values.avatar);
+    }
+    if (form.values.avatar) {
+      return getAvatarUrl(form.values.avatar);
+    }
+  }, [form.values.avatar]);
+
+  const clearFile = () => {
+    avatarProps.onChange(null);
+    resetRef.current?.();
+  };
+
   return (
-    <Stack m="auto" maw={480}>
+    <Stack m="auto" maw={520}>
       <Stack gap={0}>
-        <Title ta="center">Confirm account details</Title>
-        <Group gap={6} justify="center" align="center">
-          <Text c="dimmed" size="sm">
-            Just one last thing because you can start contributing.
-          </Text>
-        </Group>
+        <Title ta="center" order={3}>
+          Finalize your account before joining <code>{site_name}</code>
+        </Title>
       </Stack>
       <Paper withBorder shadow="md" p="xl" radius="lg">
-        <UserForm
-          type="finalize"
-          initialValues={{
-            email,
-            first_name,
-            last_name,
-            avatar,
-            password: "",
-          }}
-          action={async (values) => {
-            if (!token) {
-              alert("Missing token in URL");
-              return;
-            }
-            await directus.request(passwordReset(token, values.password!));
-            await directus.login(
-              { email: values.email, password: values.password! },
-              {
-                mode: "json",
-              }
-            );
-            const me = await directus.request(readMe());
-            if (!me) {
-              alert("Error with login");
-              return;
-            }
-            await directus.request(
-              updateUser(
-                me.id,
-                onlyDiff(me, {
-                  first_name: values.first_name,
-                  last_name: values.last_name,
-                  ...(values.avatar ? { avatar: values.avatar } : {}),
-                })
-              )
-            );
+        <FormWrapper form={form} radius={0} shadow="none">
+          <Stack gap="xl">
+            <Title order={4} ta="center">
+              {email}
+            </Title>
+            {auth_type === "pkce" && (
+              <Stack>
+                <Text ta="center" c="dimmed" size="sm">
+                  Welcome, choose your prefered login method:
+                </Text>
+                <Group justify="center">
+                  <Button
+                    leftSection={<TbBrandGoogleFilled size="1.25rem" />}
+                    radius="xl"
+                    variant="default"
+                    component="a"
+                    href={getSsoRedirectUrl("google")}
+                  >
+                    Login with Google
+                  </Button>
+                  <Button
+                    leftSection={<TbBrandWindowsFilled size="1.25rem" />}
+                    radius="xl"
+                    variant="default"
+                    component="a"
+                    href={getSsoRedirectUrl("microsoft")}
+                  >
+                    Login with Microsoft
+                  </Button>
+                </Group>
+                <Divider label="OR, use a password:" labelPosition="center" />
+              </Stack>
+            )}
+            <Stack>
+              <Group gap="md">
+                <Stack align="center" gap="xs" py="sm">
+                  <Avatar
+                    size="xl"
+                    src={avatarUrl}
+                    name={`${form.values.first_name} ${form.values.last_name}`}
+                    color={form.values.first_name ? "initials" : undefined}
+                  />
+                  <Group gap="xs">
+                    <FileButton
+                      resetRef={resetRef}
+                      onChange={avatarProps.onChange}
+                      accept="image/png,image/jpeg"
+                    >
+                      {(props) => (
+                        <Button
+                          variant={avatarProps.value ? "light" : "subtle"}
+                          size="xs"
+                          {...props}
+                          rightSection={
+                            avatarProps.value ? (
+                              <TbEdit size="1.5em" />
+                            ) : (
+                              <TbUpload size="1.5em" />
+                            )
+                          }
+                        >
+                          {avatarProps.value ? "Change" : "Upload picture"}
+                        </Button>
+                      )}
+                    </FileButton>
+                    {avatarProps.value && (
+                      <Button
+                        variant="light"
+                        size="xs"
+                        color="red"
+                        onClick={clearFile}
+                        rightSection={<TbX size="1.5em" />}
+                      >
+                        Remove
+                      </Button>
+                    )}
+                  </Group>
+                </Stack>
+                <Stack style={{ flexGrow: 1 }}>
+                  <TextInput
+                    name="first_name"
+                    label="First name"
+                    placeholder="My first name"
+                    {...form.getInputProps("first_name")}
+                    autoFocus={!form.values.first_name}
+                  />
+                  <TextInput
+                    name="last_name"
+                    label="Last name"
+                    placeholder="My last name"
+                    {...form.getInputProps("last_name")}
+                  />
+                </Stack>
+              </Group>
 
-            const site = await directus.request(readItem("sites", site_id));
-            if (!site) {
-              alert("You're not a collaborator in this site.");
-              return;
-            }
+              <PasswordStrength
+                name="password"
+                label="Password"
+                placeholder="Your password"
+                leftSection={<TbLock size={16} />}
+                required
+                {...passwordProps}
+                value={passwordProps.value ?? ""}
+                autoComplete="new-password"
+                autoFocus={Boolean(form.values.first_name)}
+              />
 
-            const { cms_url } = site;
-
-            window.location.href = cms_url;
-          }}
-          renderButton={(props) => (
-            <Button {...props} fullWidth accessKey="s" mt="xs">
-              Save & go to CMS
-            </Button>
-          )}
-        />
+              {form.errors.action && (
+                <Group justify="center">{form.errors.action}</Group>
+              )}
+              <Group>
+                <Button
+                  {...form.submitButtonProps}
+                  fullWidth
+                  accessKey="s"
+                  mt="xs"
+                >
+                  Save & go to CMS
+                </Button>
+              </Group>
+            </Stack>
+          </Stack>
+        </FormWrapper>
       </Paper>
     </Stack>
   );

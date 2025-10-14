@@ -26,7 +26,6 @@ import {
   TbUsers,
 } from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
-import InviteUserForm from "../InviteUserForm";
 import CollaboratorsTable from "./CollaboratorsTable";
 import fastClick from "/src/utils/fastClick";
 import InstallConfig from "./InstallConfig";
@@ -147,10 +146,7 @@ const EditSitePage: React.FC = () => {
               </Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="manage">
-              <Stack gap="xl">
-                <CollaboratorsTable site={data as Site} />
-                <InviteUserForm site={data as Site} />
-              </Stack>
+              <CollaboratorsTable site={data as Site} />
             </Tabs.Panel>
             <Tabs.Panel value="install">
               <InstallConfig site={data as Site} />

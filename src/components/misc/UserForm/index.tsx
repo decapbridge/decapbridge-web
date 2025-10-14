@@ -24,12 +24,12 @@ const schema = z.object({
   avatar: z.string().url().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   password: z.string().min(8).max(255).optional(),
 });
 
 interface UserFormProps {
-  type: "signup" | "update" | "invite" | "finalize";
+  type: "signup" | "update"; // TODO: we can do this differently, by checking the props maybe.
   initialValues?: Partial<CustomSchema["directus_users"][number]>;
   action: (values: z.infer<typeof schema>) => Promise<void>;
   renderButton: (btnProps: ButtonProps) => React.ReactNode;
@@ -61,9 +61,6 @@ const UserForm: React.FC<UserFormProps> = ({
         values.avatar = avatarFile.id;
       }
       await action(values);
-      if (type === "invite") {
-        form.reset();
-      }
     },
   });
 
@@ -152,9 +149,9 @@ const UserForm: React.FC<UserFormProps> = ({
           leftSection={<TbAt size={16} />}
           required
           {...form.getInputProps("email")}
-          disabled={type === "update" || type === "finalize"}
+          disabled={type === "update"}
         />
-        {(type === "signup" || type === "finalize") && (
+        {type === "signup" && (
           <PasswordStrength
             name="password"
             label="Password"

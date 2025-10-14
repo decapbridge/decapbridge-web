@@ -38,7 +38,9 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             ))}
           </Avatar.Group>
           {isAdmin ? (
-            <Badge size="sm">You are the admin</Badge>
+            <Badge size="sm" variant="light">
+              You are the admin
+            </Badge>
           ) : (
             <Tooltip
               label={`${(site.user_created as any)?.email} is the owner.`}
@@ -65,7 +67,7 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
           <Button
             component={InternalLink}
             href={`/dashboard/sites/edit?siteId=${site.id}`}
-            variant="light"
+            variant="filled"
             fullWidth
           >
             Manage site
@@ -75,7 +77,7 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             component="a"
             href={site.cms_url}
             target="_blank"
-            variant="light"
+            variant="filled"
             rightSection={<TbExternalLink size="1.25em" />}
           >
             Go to CMS

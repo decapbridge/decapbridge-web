@@ -59,9 +59,19 @@ const useAsyncForm = <V extends Record<string, unknown>>({
   loadingOverlay,
   ...args
 }: UseAsyncFormParams<V>) => {
+  const { urlParsed } = usePageContext();
   const form = useForm({
     ...args,
     validate: zod4Resolver(schema),
+    initialErrors: urlParsed.search["error"]
+      ? {
+          action: (
+            <Text c="var(--mantine-color-error)" size="sm" px="md">
+              {formatErrorMessages(urlParsed.search["error"])}
+            </Text>
+          ),
+        }
+      : undefined,
   });
 
   const [state, setState] = useState<FormState>("iddle");
@@ -107,16 +117,22 @@ const useAsyncForm = <V extends Record<string, unknown>>({
 };
 
 import { UseFormReturnType } from "@mantine/form";
+import { usePageContext } from "vike-react/usePageContext";
 
 export const accessTokenError = 'Invalid "access_token"';
 export const repoError = 'Invalid "repo"';
+export const invalidProvider = "INVALID_PROVIDER";
+export const contentTooLarge = "Uploaded content is too large";
 
 const errorMap = {
-  [`Value for field "email" in collection "directus_users" has to be unique.`]:
+  [`field "email" in collection "directus_users" has to be unique.`]:
     "This email is already used.",
   [accessTokenError]: "Invalid access token.",
   [repoError]:
     "Access token does not have permission to access this repository.",
+  [invalidProvider]:
+    "This user belongs to a different auth provider. Please try a different sign-in method.",
+  [contentTooLarge]: "Uploaded content is too large. Max file size: 500kb",
 };
 
 const formatErrorMessages = (errorMessage: string) => {
@@ -133,7 +149,7 @@ const applyErrorsToForm = (error: any, form: UseFormReturnType<any>) => {
   const actionErrors: string[] = [];
 
   if (error.message) {
-    actionErrors.push(error.message);
+    actionErrors.push(formatErrorMessages(error.message));
   }
 
   if (error.errors && Array.isArray(error.errors)) {

@@ -6,6 +6,7 @@ import {
   Title,
   Divider,
   Button,
+  Group,
 } from "@mantine/core";
 import TimeAgo from "/src/components/ui/TimeAgo";
 import useCurrentUser from "/src/hooks/useCurrentUser";
@@ -15,13 +16,18 @@ import { notifications } from "@mantine/notifications";
 import directus from "/src/utils/directus";
 import onlyDiff from "/src/utils/onlyDiff";
 import queryClient from "/src/utils/queryClient";
+import {
+  TbBrandGoogleFilled,
+  TbBrandWindowsFilled,
+  TbPassword,
+} from "react-icons/tb";
 
 const MyProfilePage: React.FC = () => {
   const user = useCurrentUser();
 
   return (
     <Container size="xs" my="xl">
-      <Stack>
+      <Stack gap="xl">
         <Paper withBorder shadow="md" p="xl" radius="lg">
           <Title order={3}>Edit profile</Title>
           <Divider my="sm" />
@@ -48,11 +54,33 @@ const MyProfilePage: React.FC = () => {
             )}
           />
         </Paper>
-        {user.last_access && (
-          <Text>
-            Last access: <TimeAgo span fw="bold" timestamp={user.last_access} />
-          </Text>
-        )}
+        <Stack>
+          {user.last_access && (
+            <Text>
+              Last access:{" "}
+              <TimeAgo span fw="bold" timestamp={user.last_access} />
+            </Text>
+          )}
+          <Group gap="sm">
+            <Text>Login method:</Text>
+            {user.provider === "google" ? (
+              <Group gap={8}>
+                <TbBrandGoogleFilled size="1.5rem" />
+                <Text fw="bold">Google login</Text>
+              </Group>
+            ) : user.provider === "microsoft" ? (
+              <Group gap={8}>
+                <TbBrandWindowsFilled size="1.5rem" />
+                <Text fw="bold">Microsoft login</Text>
+              </Group>
+            ) : (
+              <Group gap={8}>
+                <TbPassword size="1.5rem" />
+                <Text fw="bold">Password login</Text>
+              </Group>
+            )}
+          </Group>
+        </Stack>
       </Stack>
     </Container>
   );
