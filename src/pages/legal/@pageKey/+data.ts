@@ -5,7 +5,7 @@ import { readOne } from "/src/cms/collection-loader.server";
 
 export const data = (({ routeParams: { pageKey } }) => {
   try {
-    return readOne("text-pages", pageKey);
+    return readOne("legal", pageKey);
   } catch (error: unknown) {
     throw render(404, (error as Error).message);
   }

@@ -46,5 +46,5 @@ export const pages = {
 // Collections
 // ===========================
 export const collections = {
-  "text-pages": baseCollectionSchema,
+  "legal": baseCollectionSchema,
 } satisfies CollectionsCmsSchema;

@@ -411,8 +411,8 @@ collections:
   # Text Pages
   # ============================
   - label: Text Pages
-    name: text-pages
-    folder: content/collections/text-pages
+    name: legal
+    folder: content/collections/legal
     create: true
     slug: "{{key}}"
     identifier_field: "meta.title"

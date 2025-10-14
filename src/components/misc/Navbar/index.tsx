@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   );
   const pages = user ? authedPages : publicPages;
   const {
-    pagesMeta: { "text-pages": textPages },
+    pagesMeta: { legal: textPages },
   } = useGlobalData();
   return (
     <AppShell.Navbar py="md" px="lg" className={styles.navbar}>

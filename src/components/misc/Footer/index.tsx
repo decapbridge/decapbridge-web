@@ -6,7 +6,7 @@ import useGlobalData from "/src/hooks/useGlobalData";
 
 export default function FooterSimple() {
   const {
-    pagesMeta: { "text-pages": textPages },
+    pagesMeta: { legal: textPages },
   } = useGlobalData();
 
   const items = textPages.map((link) => (
