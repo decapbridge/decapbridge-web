@@ -93,7 +93,12 @@ export function HeroBullets() {
         <Paper
           withBorder
           shadow="xl"
-          style={{ overflow: "hidden" }}
+          display="flex"
+          style={{
+            overflow: "hidden",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           maw="36rem"
           w="100%"
         >

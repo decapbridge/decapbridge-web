@@ -21,6 +21,7 @@ import InternalLink from "/src/components/core/InternalLink";
 import { getPasswordResetUrl } from "/src/utils/constants";
 import type { Data } from "./+data";
 import { usePageContext } from "vike-react/usePageContext";
+import { useEffect } from "react";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -32,12 +33,17 @@ const ForgotPassword: React.FC = () => {
   const form = useAsyncForm({
     schema,
     initialValues: {
-      email: urlParsed.search["email"] ?? "",
+      email: "",
     },
     action: async ({ email }) => {
       await directus.request(passwordRequest(email, getPasswordResetUrl()));
     },
   });
+  useEffect(() => {
+    if (!form.values.email && urlParsed.search["email"]) {
+      form.setFieldValue("email", urlParsed.search["email"]);
+    }
+  }, []);
   return (
     <Stack m="auto" maw={480} gap={0}>
       {form.state !== "submitted" ? (

@@ -1,11 +1,4 @@
-import {
-  Title,
-  Text,
-  Button,
-  PasswordInput,
-  Stack,
-  Anchor,
-} from "@mantine/core";
+import { Title, Text, Button, Stack, Anchor } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { TbLock } from "react-icons/tb";
 import { usePageContext } from "vike-react/usePageContext";
@@ -18,6 +11,7 @@ import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import directus from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import type { Data } from "./+data";
+import PasswordStrength from "../../signup/PasswordStrength";
 
 const schema = z.object({
   password: z.string().min(3).max(255),
@@ -45,6 +39,7 @@ const ResetPassword: React.FC = () => {
       await navigate("/auth/login");
     },
   });
+  const passwordProps = form.getInputProps("password");
   return (
     <Stack m="auto" maw={460} gap={0}>
       {token ? (
@@ -61,13 +56,14 @@ const ResetPassword: React.FC = () => {
             p="xl"
             my="md"
           >
-            <PasswordInput
+            <PasswordStrength
               name="password"
               label={content.password.label}
               placeholder={content.password.placeholder}
               leftSection={<TbLock size={16} />}
               required
-              {...form.getInputProps("password")}
+              {...passwordProps}
+              value={passwordProps.value ?? ""}
               autoFocus
             />
             <Button {...form.submitButtonProps} mt="lg" fullWidth>

@@ -1,20 +1,20 @@
-import { Container, Stack, Title, Accordion } from "@mantine/core";
+import { Container, Stack, Title, Text, Accordion } from "@mantine/core";
 
 const items: { title: string; description: string }[] = [
   {
-    title: "Branded login pages and emails",
+    title: "Automatic Github token retrival",
     description:
-      "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
-  },
-  {
-    title: "Deeper Github integration",
-    description:
-      "Integrate Login with Github and Github Apps, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you.",
+      "Integrate Login with Github and token management, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you in a few clicks.",
   },
   {
     title: "More SSO options",
     description:
       "Integrate Login with Apple, Okta, Auth0, Github, Gitlab and Discord.",
+  },
+  {
+    title: "Branded login pages and emails",
+    description:
+      "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
   },
   {
     title: "More git providers",
@@ -41,10 +41,15 @@ const items: { title: string; description: string }[] = [
 const Roadmap: React.FC = () => {
   return (
     <Container size="xs" my="xl" py="xl">
-      <Stack my="xl">
-        <Title order={2} ta="center">
-          Roadmap
-        </Title>
+      <Stack gap="xl" my="xl">
+        <Stack gap={4}>
+          <Title order={2} ta="center">
+            Roadmap
+          </Title>
+          <Text size="sm" ta="center">
+            Planned features for this year and early 2026.
+          </Text>
+        </Stack>
         <Accordion variant="separated">
           {items.map((i) => (
             <Accordion.Item px="xs" value={i.title} key={i.title}>
