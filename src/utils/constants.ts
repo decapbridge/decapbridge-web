@@ -9,15 +9,15 @@ export const passwordResetUrl = "/auth/password/reset";
 export const getPasswordResetUrl = () => `${window.location.origin}${passwordResetUrl}`
 
 export const getDirectusUrl = () => {
-  if (typeof window !== 'undefined' && window.location.origin.includes('decapbridge.com')) {
-    return "https://auth.decapbridge.com"
+  if (typeof window !== 'undefined' && window.location.origin.includes('localhost')) {
+    return "http://localhost:8055"
   }
-  return "http://localhost:8055"
+  return "https://auth.decapbridge.com"
 }
 
 export const getGitGatewayUrl = () => {
-  if (typeof window !== 'undefined' && window.location.origin.includes('decapbridge.com')) {
-    return "https://gateway.decapbridge.com"
+  if (typeof window !== 'undefined' && window.location.origin.includes('localhost')) {
+    return "http://localhost:8081"
   }
-  return "http://localhost:8081"
+  return "https://gateway.decapbridge.com"
 }
