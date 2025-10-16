@@ -1,6 +1,6 @@
 {
   "site_name": "DecapBridge",
   "site_url": "https://decapbridge.com",
-  "site_description": "Give your clients and non-technical users access to Decap CMS without needing a Github/Gitlab account. Let them use your Decap CMS instance, without ever touching a third party at all. Invite them by email and have them start contributing in seconds.",
+  "site_description": "Give your clients and non-technical users access to Decap CMS without needing a Github/Gitlab account. Let them use your Decap CMS instance using familiar authentication methods of their choice. Invite them by email and have them start contributing in seconds.",
   "site_title": "Instant Auth for Decap CMS"
 }

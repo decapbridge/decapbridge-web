@@ -111,7 +111,6 @@ const FinalizePage: React.FC = () => {
         const avatarFile = await directus.request(uploadFiles(form));
         values.avatar = avatarFile.id;
       }
-
       if (!token) {
         alert("Missing token in URL");
         return;
@@ -262,7 +261,6 @@ const FinalizePage: React.FC = () => {
                   />
                 </Stack>
               </Group>
-
               <PasswordStrength
                 name="password"
                 label="Password"
@@ -274,7 +272,6 @@ const FinalizePage: React.FC = () => {
                 autoComplete="new-password"
                 autoFocus={Boolean(form.values.first_name)}
               />
-
               {form.errors.action && (
                 <Group justify="center">{form.errors.action}</Group>
               )}

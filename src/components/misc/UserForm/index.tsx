@@ -8,28 +8,26 @@ import {
   Button,
   FileButton,
 } from "@mantine/core";
-import { TbAt, TbEdit, TbLock, TbUpload, TbX } from "react-icons/tb";
+import { TbAt, TbEdit, TbUpload, TbX } from "react-icons/tb";
 import { z } from "zod";
 
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 
 import directus, { CustomSchema } from "/src/utils/directus";
 
-import PasswordStrength from "/src/pages/auth/signup/PasswordStrength";
 import { uploadFiles } from "@directus/sdk";
 import { useRef, useMemo } from "react";
 import getAvatarUrl from "/src/utils/getAvatarUrl";
 
 const schema = z.object({
-  avatar: z.string().url().or(z.any()).nullable(),
+  avatar: z.url().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.email().max(255),
-  password: z.string().min(8).max(255).optional(),
 });
 
 interface UserFormProps {
-  type: "signup" | "update"; // TODO: we can do this differently, by checking the props maybe.
+  type: "update"; // TODO: Clean this up...
   initialValues?: Partial<CustomSchema["directus_users"][number]>;
   action: (values: z.infer<typeof schema>) => Promise<void>;
   renderButton: (btnProps: ButtonProps) => React.ReactNode;
@@ -54,7 +52,7 @@ const UserForm: React.FC<UserFormProps> = ({
       password: initialValues?.password ?? undefined,
     },
     action: async (values) => {
-      if (type !== "signup" && values.avatar instanceof File) {
+      if (values.avatar instanceof File) {
         const form = new FormData();
         form.append("file", values.avatar);
         const avatarFile = await directus.request(uploadFiles(form));
@@ -65,7 +63,6 @@ const UserForm: React.FC<UserFormProps> = ({
   });
 
   const avatarProps = form.getInputProps("avatar");
-  const passwordProps = form.getInputProps("password");
 
   const avatarUrl = useMemo(() => {
     if (typeof window !== "undefined" && form.values.avatar instanceof File) {
@@ -151,19 +148,6 @@ const UserForm: React.FC<UserFormProps> = ({
           {...form.getInputProps("email")}
           disabled={type === "update"}
         />
-        {type === "signup" && (
-          <PasswordStrength
-            name="password"
-            label="Password"
-            placeholder="Your password"
-            leftSection={<TbLock size={16} />}
-            required
-            {...passwordProps}
-            value={passwordProps.value ?? ""}
-            autoComplete="new-password"
-            autoFocus={Boolean(form.values.first_name)}
-          />
-        )}
         {form.errors.action && (
           <Group justify="center">{form.errors.action}</Group>
         )}

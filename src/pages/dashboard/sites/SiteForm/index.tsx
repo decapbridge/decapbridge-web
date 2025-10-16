@@ -40,7 +40,9 @@ const schema = z.object({
   git_provider: z.enum(["github", "gitlab"]),
   repo: z
     .string()
-    .regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+$/)
+    .regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+$/, {
+      error: "Invalid string: must match pattern: org/repo",
+    })
     .min(3)
     .max(255),
   access_token: z.string().min(3).max(255),
@@ -52,6 +54,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
   const queryClient = useQueryClient();
 
   const form = useAsyncForm({
+    validateInputOnBlur: true,
     allowMultipleSubmissions: Boolean(initialValues),
     loadingOverlay: true,
     initialValues: {
@@ -149,11 +152,12 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
 
   const gitProvider = capitalize(form.values.git_provider);
 
-  const tokenLink = form.isValid("repo")
-    ? form.values.git_provider === "github"
+  const tokenLink =
+    form.values.git_provider === "github"
       ? "https://github.com/settings/tokens"
-      : `https://gitlab.com/${form.values.repo}/-/settings/access_tokens`
-    : null;
+      : form.isValid("repo")
+      ? `https://gitlab.com/${form.values.repo}/-/settings/access_tokens`
+      : null;
 
   return (
     <FormWrapper form={form} withBorder radius="lg" p="xl" shadow="md">
@@ -238,6 +242,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
         <TextInput
           label="Your Decap CMS login URL"
           placeholder="https://your-site.com/admin/index.html"
+          description="Provide the full URL of your Decap CMS admin page. Users will be redirected there for CMS login."
           name="cms_url"
           {...form.getInputProps("cms_url")}
           required
@@ -263,8 +268,8 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             ) : (
               <Stack gap="xs">
                 <Text size="sm">
-                  Users will see a Login button, which will send back to
-                  DecapBridge for login options. Currently supported:
+                  Users will see a Login button, which will initialize login
+                  flow via DecapBridge for login options. Currently supported:
                 </Text>
                 <List size="sm">
                   <List.Item>Login with Google</List.Item>

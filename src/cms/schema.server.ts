@@ -12,6 +12,7 @@ import login from "/content/pages/auth/login.json";
 import signup from "/content/pages/auth/signup.json";
 import forgot from "/content/pages/auth/password/forgot.json";
 import reset from "/content/pages/auth/password/reset.json";
+import finalize from "/content/pages/auth/finalize.json";
 import sites from "/content/pages/dashboard/sites.json";
 import newSite from "/content/pages/dashboard/new-site.json";
 import edit from "/content/pages/dashboard/edit-site.json";
@@ -35,6 +36,7 @@ export const pages = {
   "auth/signup": signup,
   "auth/password/forgot": forgot,
   "auth/password/reset": reset,
+  "auth/finalize": finalize,
   "dashboard/sites": sites,
   "dashboard/sites/new": newSite,
   "dashboard/sites/edit": edit,
