@@ -17,7 +17,7 @@ import { useRef } from "react";
 import InternalLink from "/src/components/core/InternalLink";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 
-const images = [...Array(6).keys()].map(
+const images = [...Array(10).keys()].map(
   (num) => `/demo/demo-${String(num + 1)}.png`
 );
 
@@ -52,12 +52,8 @@ export function HeroBullets() {
             }
           >
             <List.Item>
-              <b>Quick email-based invites</b> - Quickly shoot out email invites
-              to let collaborators edit your Decap CMS sites.
-            </List.Item>
-            <List.Item>
-              <b>Simple user management</b> - Invite or kick out collaborators
-              from your site with an intuitive interface.
+              <b>Email-based invites</b> - Quickly shoot out email invites to
+              let collaborators edit your Decap CMS sites.
             </List.Item>
             <List.Item>
               <b>Login with Google or Microsoft</b> - Let your users chose their
@@ -65,9 +61,13 @@ export function HeroBullets() {
               options coming soon.
             </List.Item>
             <List.Item>
+              <b>Simple user management</b> - Invite or kick out collaborators
+              from your site with an intuitive interface.
+            </List.Item>
+            {/* <List.Item>
               <b>Ready in a minute</b> - Get your editors to start contributing
               in the CMS today.
-            </List.Item>
+            </List.Item> */}
           </List>
 
           <Group mt="1.75rem">
