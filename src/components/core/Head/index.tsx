@@ -113,7 +113,7 @@ const Head: React.FC = () => {
 
       <script
         defer
-        src="https://umami.millisecond.studio/script.js"
+        src="https://stats.millisecond.studio/script.js"
         data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e"
       />
 
