@@ -16,7 +16,6 @@ import { useData } from "vike-react/useData";
 
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import useMaybeUser from "/src/hooks/useMaybeUser";
-import directus from "/src/utils/directus";
 import { Data } from "./+data";
 import { TbBrandDiscordFilled, TbMailFilled } from "react-icons/tb";
 
@@ -44,13 +43,16 @@ const ContactPage: React.FC = () => {
     schema,
     action: async (values) => {
       try {
-        const res = await fetch(`${directus.url.origin}/contact-form`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values, null, 2),
-        });
+        const res = await fetch(
+          `https://api.postcatch.io/submit/644f92a3-37fd-4ea4-a549-2227f3c00756`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values, null, 2),
+          }
+        );
         if (!res.ok) {
           throw new Error("Request failed.");
         }
