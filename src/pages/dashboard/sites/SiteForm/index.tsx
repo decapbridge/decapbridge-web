@@ -203,7 +203,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   </>
                 ) : (
                   <>
-                    It needs access to the following scores: <Code>api</Code>,{" "}
+                    It needs access to the following scopes: <Code>api</Code>,{" "}
                     <Code>read_api</Code>, <Code>read_repository</Code> and{" "}
                     <Code>write_repository</Code>.
                   </>

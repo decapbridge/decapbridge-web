@@ -4,18 +4,19 @@
   right: 0;
   padding: var(--mantine-spacing-md);
   flex: 0 0 calc(var(--docs-table-of-contents-width) - 20px);
+  min-width: 18rem;
 }
 
 .link {
   display: block;
   text-decoration: none;
-  color: var(--mantine-color-text);
-  line-height: 1.2;
+  color: var(--mantine-color-text) !important;
+  line-height: 1.2 !important;
   font-size: var(--mantine-font-size-sm);
-  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md) !important;
   padding-left: calc(
     var(--toc-link-offset) * var(--mantine-spacing-xs) + 0.25rem
-  );
+  ) !important;
   border-top-right-radius: var(--mantine-radius-sm);
   border-bottom-right-radius: var(--mantine-radius-sm);
   border-left: rem(1px) solid

@@ -68,9 +68,8 @@
 
 .oversized-toc-wrapper {
   @media (min-width: calc($mantine-breakpoint-md)) {
-    width: calc(100% + 9rem);
     & > :first-child {
-      width: calc(100% - 20rem);
+      width: calc(100% - 16rem);
     }
   }
   & > :last-child {

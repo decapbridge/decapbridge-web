@@ -13,9 +13,10 @@ import GithubLink from "/src/components/ui/GithubLink";
 
 const Header: React.FC = () => {
   const { user } = useMaybeUser();
-  const publicPages = usePageMeta("/contact");
-  const authedPages = usePageMeta("/dashboard/sites", "/contact");
-  const pages = user ? authedPages : publicPages;
+  const [docs, contact] = usePageMeta("/docs/introduction", "/contact");
+  const publicPages = [{ ...docs, title: "Documentation" }, contact];
+  const [sites] = usePageMeta("/dashboard/sites");
+  const pages = user ? [sites, ...publicPages] : publicPages;
   const { opened, close, toggle } = useMobileMenuOpened();
   return (
     <AppShell.Header>
