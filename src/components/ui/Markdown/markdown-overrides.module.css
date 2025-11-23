@@ -1,7 +1,4 @@
 .markdown-container {
-  & pre > code {
-    padding: 0 !important;
-  }
   & h1,
   & h2,
   & h3,

@@ -14,6 +14,7 @@ import {
 import hljs from "highlight.js/lib/core";
 import yamlLang from "highlight.js/lib/languages/yaml";
 import plaintextLang from "highlight.js/lib/languages/plaintext";
+import xmlLang from "highlight.js/lib/languages/xml";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { usePageContext } from "vike-react/usePageContext";
@@ -25,7 +26,9 @@ import { defaultColorScheme } from "/src/utils/constants";
 import queryClient from "/src/utils/queryClient";
 import { theme } from "/src/utils/theme";
 import store from "/src/utils/store";
+import HljsCssLoader from "../HljsCssLoader";
 
+hljs.registerLanguage("xml", xmlLang);
 hljs.registerLanguage("plaintext", plaintextLang);
 hljs.registerLanguage("yaml", yamlLang);
 
@@ -57,6 +60,7 @@ const App: Config["Wrapper"] = ({ children }) => {
     <QueryClientProvider client={queryClient}>
       <MantineProvider defaultColorScheme={defaultColorScheme} theme={theme}>
         <CodeHighlightAdapterProvider adapter={highlightJsAdapter}>
+          <HljsCssLoader />
           <Provider store={store}>{pageContent}</Provider>
         </CodeHighlightAdapterProvider>
       </MantineProvider>
