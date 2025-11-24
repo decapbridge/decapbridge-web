@@ -65,7 +65,7 @@ For most people, you would create a `admin` folder at the root of your public as
     <title>My-website Admin page</title>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@3.9.0/dist/decap-cms.js"></script>
   </body>
 </html>
 ```

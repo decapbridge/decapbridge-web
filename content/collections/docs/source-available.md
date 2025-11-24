@@ -5,9 +5,9 @@ meta:
 
 ## DecapBridge is Source-Available
 
-DecapBridge started as a personal project for my own websites and clients back in 2023. It was not initially meant for open-source or public use. After a while, with Netlify slowly detaching itself from the project, and now decided to [deprecate Netlify Identity](https://www.netlify.com/changelog/deprecation-netlify-identity/), it only made sense to upgrade the service and open it to the public.
+DecapBridge started as a closed source project for my own websites and clients back in 2023. It was not initially meant for public use. After a while, with Netlify slowly detaching itself from the project, and now decided to [deprecate Netlify Identity](https://www.netlify.com/changelog/deprecation-netlify-identity/), it only made sense to scale up the service and open it to the public.
 
-Between 2024 and early 2025, it had already gathered hundreds of early adopter websites and Netlify refugees. We're now at a thousand and counting!
+Between 2024 and early 2025, it had already gathered hundreds of early adopter websites and Netlify refugees. We're now counting over a thousand!
 
 A big concern for more serious projects was the handling of the Github/Gitlab access tokens. DecapBridge uses `aes-256-gcm` encryption on the access tokens which is highly secure, however users had concerns about wether or not and how this actually happened. My word could not cut it anymore - I had to Open Source.
 
