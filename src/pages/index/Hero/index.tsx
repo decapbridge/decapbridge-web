@@ -34,12 +34,10 @@ export function HeroBullets() {
             website.
           </Title>
           <Text c="dimmed" mt="md" maw="36rem">
-            You're using Decap CMS with GitHub or Gitlab, but don't want to have
-            to ask your editors and clients to create accounts with your git
-            provider? You also don't want to set up your own authentication
-            service? This is just what you need.
+            You're using Decap CMS, and don't want to ask your users to create
+            accounts with your git provider? You also don't want to setup your
+            own authentication service? This is just what you need.
           </Text>
-
           <List
             maw="26rem"
             mt="1.25rem"

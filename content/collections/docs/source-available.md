@@ -15,7 +15,7 @@ This pushed me to clean up the code and release the DecapBridge codebase on Gith
 
 DecapBridge on Github: [https://github.com/decapbridge/](https://github.com/decapbridge/)
 
-The code is not MIT licensed however, it us under a BSL license with custom terms. In short:
+The code is not MIT licensed however, it is under a BSL license with custom terms. In short:
 
 - You can view the source code and contribute to the project
 - You can fork, but cannot change the name or brand

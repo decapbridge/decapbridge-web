@@ -10,6 +10,7 @@ import {
   Divider,
   TitleProps,
   Table,
+  ImageProps,
 } from "@mantine/core";
 import { Components } from "react-markdown";
 import RenderCodeBlock from "./RenderCodeBlock";
@@ -36,6 +37,14 @@ const TitleWithId: React.FC = (props: TitleProps) => {
   return <Title id={slug} {...props} />;
 };
 
+const LinkedImage: React.FC = (props: ImageProps) => {
+  return (
+    <Anchor target="_blank" href={props.src}>
+      <Image {...props} />
+    </Anchor>
+  );
+};
+
 const components: Components = {
   h1: withDefaultProps(TitleWithId, { order: 1 }),
   h2: withDefaultProps(TitleWithId, { order: 2 }),
@@ -47,7 +56,7 @@ const components: Components = {
   // @ts-expect-error weird types
   a: withDefaultProps(Anchor, { component: InternalLink }),
   blockquote: withDefaultProps(Blockquote, {}),
-  img: withDefaultProps(Image, {}),
+  img: LinkedImage,
   hr: withDefaultProps(Divider, {}),
   ul: withDefaultProps(List, {}),
   ol: withDefaultProps(List, { type: "ordered" }),

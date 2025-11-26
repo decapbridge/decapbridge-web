@@ -9,15 +9,15 @@ Here's an overview of what getting setup with DecapBridge looks like.
 
 At this stage, we assume you already have a website under development and are either planning to use _Decap CMS_, or are already using _Decap CMS_ to manage some site content. This also implies you are hosting your code on Github, or Gitlab, which are the 2 git providers we support at the moment.
 
-First time using _Decap CMS_? Keep in mind you should also have a look at the [official docs](https://decapcms.org/docs/basic-steps/), which will be helpful along your journey, but we can get to that later.
+First time using _Decap CMS_? Keep in mind you should also have a look at the [Decap CMS docs](https://decapcms.org/docs/basic-steps/), which will be helpful along your journey, but we can get to that later.
 
-## Signing up
+## Register your first site
 
 If you haven't already, as a site owner, [create an account](/auth/signup) to get started. The profile picture, first and last names are all optional. They will be used in the CMS and if you configure it so, when you commit changes to your repository.
 
 In the dashboard, you will be able to add and manage many different Decap CMS sites under the same account.
 
-## Adding your first site
+## Add a site
 
 When in the Dashboard, you will be invited to add your first site. The form should be self-explanatory, but here are some more details. Keep in mind you can change any of these options later on, at any time.
 
@@ -51,7 +51,7 @@ You can create such a token in the "Access tokens" tab of your repository, here:
 
 Here, insert the full URL of your Decap CMS's instance admin page. Users will be redirected there for CMS login. It should look something like this: `https://your-site.com/admin/index.html`.
 
-Don't know what I'm talking about? Now is when I would reach for the official docs, install step: [https://decapcms.org/docs/install-decap-cms/](https://decapcms.org/docs/install-decap-cms/).
+Don't know what I'm talking about? Now is when I would reach for the _Decap CMS_ docs, install step: [https://decapcms.org/docs/install-decap-cms/](https://decapcms.org/docs/install-decap-cms/).
 
 For most people, you would create a `admin` folder at the root of your public assets file in your website's code directory, then add a `index.html` in it with something like this:
 
@@ -92,7 +92,7 @@ Your CMS might not be fully configured at this point, but if you push these chan
 
 ## Finalize your CMS configuration
 
-For this part, refer to the official docs [configuration options](https://decapcms.org/docs/configuration-options/) to tailor your CMS to your website's content (define the collections, the fields etc.).
+For this part, refer to the _Decap CMS_ docs [configuration options](https://decapcms.org/docs/configuration-options/) to tailor your CMS to your website's content (define the collections, the fields etc.).
 
 ## Invite collaborators
 
