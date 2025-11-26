@@ -9,6 +9,7 @@ import {
   Image,
   Divider,
   TitleProps,
+  Table,
 } from "@mantine/core";
 import { Components } from "react-markdown";
 import RenderCodeBlock from "./RenderCodeBlock";
@@ -53,6 +54,13 @@ const components: Components = {
   li: withDefaultProps(List.Item, {}),
   code: withDefaultProps(Code, {}),
   pre: RenderCodeBlock,
+  table: Table,
+  thead: Table.Thead,
+  tbody: Table.Tbody,
+  tfoot: Table.Tfoot,
+  tr: Table.Tr,
+  th: Table.Th,
+  td: Table.Td,
 };
 
 export default components;

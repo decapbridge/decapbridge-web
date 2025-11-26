@@ -14,6 +14,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
   const pages = usePageMeta(
     "/docs/introduction",
     "/docs/getting-started",
+    "/docs/architecture",
     "/docs/source-available"
   );
   return (

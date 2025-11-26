@@ -23,7 +23,7 @@
   @media (min-width: $mantine-breakpoint-sm) {
     position: sticky;
     top: 4.25rem;
-    width: 14rem;
+    width: 12rem;
   }
 }
 

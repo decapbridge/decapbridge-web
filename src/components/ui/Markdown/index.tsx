@@ -1,5 +1,6 @@
 import { Stack } from "@mantine/core";
 import ReactMarkdown, { Options } from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import components from "./components";
 
@@ -22,6 +23,7 @@ const Markdown: React.FC<MarkdownProps> = ({
     <ReactMarkdown
       {...options}
       components={{ ...components, ...options.components }}
+      remarkPlugins={[remarkGfm]}
     >
       {markdown}
     </ReactMarkdown>

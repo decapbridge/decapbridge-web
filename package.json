@@ -31,6 +31,7 @@
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "typescript-eslint": "^8.39.1",
     "vike-react": "^0.6.5",
     "zod": "^4.0.17"

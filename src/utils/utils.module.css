@@ -67,13 +67,13 @@
 }
 
 .oversized-toc-wrapper {
-  @media (min-width: calc($mantine-breakpoint-md)) {
+  @media (min-width: calc($mantine-breakpoint-lg)) {
     & > :first-child {
       width: calc(100% - 16rem);
     }
   }
   & > :last-child {
-    @media (max-width: calc($mantine-breakpoint-md)) {
+    @media (max-width: calc($mantine-breakpoint-lg)) {
       display: none;
     }
   }
