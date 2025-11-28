@@ -10,12 +10,14 @@ import navigate from "/src/utils/navigate";
 import useGlobalData from "/src/hooks/useGlobalData";
 
 import styles from "./spotlight.module.css";
+import useAuthActions from "/src/hooks/useAuthActions";
 
 const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
   const {
     misc: { search_label, empty_label },
     pagesMeta,
   } = useGlobalData();
+  const { logout } = useAuthActions();
 
   const actions: SpotlightActionData[] = useMemo(() => {
     return Object.values(pagesMeta)
@@ -25,7 +27,8 @@ const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
         label: meta.title,
         description: meta.description,
         onClick: () => navigate(meta.urlPathname),
-      }));
+      }))
+      .concat({ id: "logout", label: "Logout", onClick: logout } as any);
   }, []);
 
   return (

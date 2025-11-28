@@ -12,15 +12,15 @@ import styles from "./navbar.module.css";
 const Navbar: React.FC = () => {
   const { close } = useMobileMenuOpened();
   const { user } = useMaybeUser();
-  const publicPages = usePageMeta("/contact");
+  const [docs, contact] = usePageMeta("/docs/introduction", "/contact");
+  const publicPages = [{ ...docs, title: "Documentation" }, contact];
   const authedPages = usePageMeta(
     "/dashboard/sites",
     "/dashboard/profile",
     "/dashboard/activity",
-    "/dashboard/settings",
-    "/contact"
+    "/dashboard/settings"
   );
-  const pages = user ? authedPages : publicPages;
+  const pages = user ? [...authedPages, ...publicPages] : publicPages;
   const {
     pagesMeta: { legal: textPages },
   } = useGlobalData();
