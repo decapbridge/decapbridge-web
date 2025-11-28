@@ -11,11 +11,14 @@ const formatCollection = (collection: string) => {
 };
 
 const ActivityPage: React.FC = () => {
-  const { page, setPage, limit, totalPages } =
-    useCollectionPagination("directus_activity");
+  const { page, setPage, limit, totalPages } = useCollectionPagination(
+    "directus_activity",
+    20
+  );
   const { data } = useDirectusRequest(
     readActivities({
       sort: ["-timestamp"],
+      fields: ["*", { user: ["email"] }],
       page,
       limit,
     })

@@ -3,9 +3,7 @@ import { AllCollections, aggregate } from "@directus/sdk";
 import { usePagination } from "@mantine/hooks";
 import { CustomSchema } from "/src/utils/directus";
 
-const limit = 10;
-
-const useCollectionPagination = (collection: AllCollections<CustomSchema>) => {
+const useCollectionPagination = (collection: AllCollections<CustomSchema>, limit = 10) => {
   const { data: counts } = useDirectusRequest(
     aggregate(collection, {
       aggregate: {

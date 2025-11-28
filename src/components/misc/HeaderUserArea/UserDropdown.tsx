@@ -1,6 +1,12 @@
 import { ReactElement } from "react";
 import { Menu, Text } from "@mantine/core";
-import { TbChevronRight, TbSettings, TbLogout, TbUser } from "react-icons/tb";
+import {
+  TbChevronRight,
+  TbSettings,
+  TbLogout,
+  TbUser,
+  TbActivity,
+} from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import useAuthActions from "/src/hooks/useAuthActions";
@@ -11,9 +17,9 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
   const user = useCurrentUser();
   const { misc } = useGlobalData();
   const { logout } = useAuthActions();
-  const [templatesLink, settingsLink] = usePageMeta(
+  const [templatesLink, activityLink, settingsLink] = usePageMeta(
     "/dashboard/profile",
-    // "/dashboard/activity",
+    "/dashboard/activity",
     "/dashboard/settings"
   );
 
@@ -48,7 +54,7 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
         >
           {templatesLink.title}
         </Menu.Item>
-        {/* <Menu.Item
+        <Menu.Item
           component={InternalLink}
           style={{ textDecoration: "none" }}
           href={activityLink.urlPathname}
@@ -56,7 +62,7 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
           key={activityLink.urlPathname}
         >
           {activityLink.title}
-        </Menu.Item> */}
+        </Menu.Item>
         <Menu.Item
           component={InternalLink}
           style={{ textDecoration: "none" }}
