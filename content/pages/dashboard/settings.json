@@ -1,5 +1,5 @@
 {
-  "confirm_account_deletion_heading": "Permanently delete your account?",
+  "confirm_account_deletion_heading": "Immediately delete your account?",
   "color_scheme_heading": "Change color scheme",
   "meta": {
     "title": "Settings",
@@ -16,7 +16,6 @@
   "delete_account_success_title": "Account deleted",
   "reset_password_success_message": "A reset password link was sent to your email address.",
   "delete_account_button": "Delete your account",
-  "confirm_account_deletion_warning": "This will immediately start deleting your account. All related information will be deleted forever.",
   "delete_account_heading": "Delete account",
   "delete_account_sub_heading": "Once you delete your account, there is no going back. Please be certain."
 }

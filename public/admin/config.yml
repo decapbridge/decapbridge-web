@@ -384,11 +384,6 @@ collections:
               widget: "string",
             }
           - {
-              label: "Confirm account deletion warning",
-              name: "confirm_account_deletion_warning",
-              widget: "string",
-            }
-          - {
               label: "Confirm account deletion button",
               name: "confirm_account_deletion_button",
               widget: "string",
