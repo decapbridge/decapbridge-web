@@ -42,7 +42,7 @@ const Roadmap: React.FC = () => {
             Roadmap
           </Title>
           <Text size="sm" ta="center">
-            Planned features for this year and early 2026.
+            Slow and steady upcoming features
           </Text>
         </Stack>
         <Accordion variant="separated">
