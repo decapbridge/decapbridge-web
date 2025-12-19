@@ -7,7 +7,7 @@
   "login_pkce_button": "Sign into CMS",
   "create_account": "Create account",
   "sub_header": "Do not have an account yet?",
-  "header": "Welcome back!",
+  "header": "Welcome back, login with:",
   "email": {
     "placeholder": "email@example.com",
     "label": "Email"

@@ -110,20 +110,22 @@ const SignupPage: React.FC = () => {
 
   return (
     <Stack m="auto" maw={520}>
-      <Stack gap={0}>
-        <Title ta="center">{content.header}</Title>
-        <Group gap={6} justify="center" align="center">
-          <Text c="dimmed" size="sm">
-            {content.sub_header}
-          </Text>
-          <Anchor component={InternalLink} href="/auth/login" size="sm">
-            {content.login}
-          </Anchor>
-        </Group>
-      </Stack>
       <Paper withBorder shadow="md" p="xl" radius="lg">
         <FormWrapper form={form} radius={0} shadow="none">
-          <Stack gap="xl" pt="sm">
+          <Stack gap="lg">
+            <Stack gap={0}>
+              <Title ta="center" order={2}>
+                {content.header}
+              </Title>
+              <Group gap={6} justify="center" align="center">
+                <Text c="dimmed" size="sm">
+                  {content.sub_header}
+                </Text>
+                <Anchor component={InternalLink} href="/auth/login" size="sm">
+                  {content.login}
+                </Anchor>
+              </Group>
+            </Stack>
             <Group justify="center">
               <Button
                 leftSection={<GoogleIcon />}

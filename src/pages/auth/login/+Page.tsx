@@ -56,39 +56,21 @@ const LoginPage: React.FC = () => {
 
   return (
     <Stack m="auto" maw={420} gap={0}>
-      {urlParsed.search["site_name"] ? (
-        <>
-          <Title ta="center" order={2}>
-            Sign into
-          </Title>
-          <Title ta="center" order={3}>
-            <code>{urlParsed.search["site_name"]}</code>
-          </Title>
-        </>
-      ) : (
-        <Title ta="center">{content.header}</Title>
-      )}
-      {!isPkceFlow && (
-        <Group mt={4} gap={6} justify="center" align="center">
-          <Text c="dimmed" size="sm">
-            {content.sub_header}
-          </Text>
-          <Anchor component={InternalLink} href="/auth/signup" size="sm">
-            {content.create_account}
-          </Anchor>
-        </Group>
-      )}
-
-      <FormWrapper
-        form={form}
-        withBorder
-        shadow="md"
-        p="xl"
-        my="md"
-        radius="lg"
-      >
+      <FormWrapper form={form} withBorder shadow="md" p="xl" radius="lg">
         <Stack>
-          <Group justify="center">
+          <Stack gap={0}>
+            {urlParsed.search["site_name"] ? (
+              <Title ta="center" order={4}>
+                Sign into {urlParsed.search["site_name"]}
+              </Title>
+            ) : (
+              <Title ta="center" order={4} mb="xs">
+                {content.header}
+              </Title>
+            )}
+          </Stack>
+
+          <Group grow>
             <Button
               leftSection={<GoogleIcon />}
               radius="xl"
@@ -109,11 +91,7 @@ const LoginPage: React.FC = () => {
             </Button>
           </Group>
 
-          <Divider
-            label="Or continue with email"
-            labelPosition="center"
-            my="sm"
-          />
+          <Divider label="Or continue with email" labelPosition="center" />
           <TextInput
             name="email"
             label={content.email.label}
@@ -155,6 +133,16 @@ const LoginPage: React.FC = () => {
           >
             {isPkceFlow ? content.login_pkce_button : content.login_button}
           </Button>
+          {!isPkceFlow && (
+            <Group gap={6} justify="center" align="center">
+              <Text c="dimmed" size="sm">
+                {content.sub_header}
+              </Text>
+              <Anchor component={InternalLink} href="/auth/signup" size="sm">
+                {content.create_account}
+              </Anchor>
+            </Group>
+          )}
         </Stack>
       </FormWrapper>
     </Stack>

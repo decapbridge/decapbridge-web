@@ -156,45 +156,43 @@ const FinalizePage: React.FC = () => {
 
   return (
     <Stack m="auto" maw={520}>
-      <Stack gap={0}>
-        <Title ta="center" order={3}>
-          Finalize your account before joining <code>{site_name}</code>
-        </Title>
-      </Stack>
       <Paper withBorder shadow="md" p="xl" radius="lg">
         <FormWrapper form={form} radius={0} shadow="none">
-          <Stack gap="xl">
-            <Title order={4} ta="center">
-              {email}
-            </Title>
-            {auth_type === "pkce" && (
-              <Stack>
-                <Text ta="center" c="dimmed" size="sm">
-                  Welcome, choose your prefered login method:
-                </Text>
-                <Group justify="center">
-                  <Button
-                    leftSection={<GoogleIcon />}
-                    radius="xl"
-                    variant="default"
-                    component="a"
-                    href={getSsoRedirectUrl("google")}
-                  >
-                    Login with Google
-                  </Button>
-                  <Button
-                    leftSection={<MicrosoftIcon />}
-                    radius="xl"
-                    variant="default"
-                    component="a"
-                    href={getSsoRedirectUrl("microsoft")}
-                  >
-                    Login with Microsoft
-                  </Button>
-                </Group>
-                <Divider label="OR, use a password:" labelPosition="center" />
-              </Stack>
-            )}
+          <Stack>
+            <Stack gap="xs">
+              <Title ta="center" order={3}>
+                Finalize your account before joining {site_name}
+              </Title>
+              {auth_type === "pkce" && (
+                <Stack>
+                  <Text ta="center" c="dimmed" size="sm">
+                    Choose your prefered login method <br />
+                    for {email}:
+                  </Text>
+                  <Group justify="center">
+                    <Button
+                      leftSection={<GoogleIcon />}
+                      radius="xl"
+                      variant="default"
+                      component="a"
+                      href={getSsoRedirectUrl("google")}
+                    >
+                      Login with Google
+                    </Button>
+                    <Button
+                      leftSection={<MicrosoftIcon />}
+                      radius="xl"
+                      variant="default"
+                      component="a"
+                      href={getSsoRedirectUrl("microsoft")}
+                    >
+                      Login with Microsoft
+                    </Button>
+                  </Group>
+                  <Divider label="OR, use a password:" labelPosition="center" />
+                </Stack>
+              )}
+            </Stack>
             <Stack>
               <Group gap="md">
                 <Stack align="center" gap="xs" py="sm">
