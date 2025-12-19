@@ -17,20 +17,15 @@ import { usePageContext } from "vike-react/usePageContext";
 import InternalLink from "/src/components/core/InternalLink";
 import directus from "/src/utils/directus";
 import onlyDiff from "/src/utils/onlyDiff";
-import {
-  TbEdit,
-  TbUpload,
-  TbX,
-  TbLock,
-  TbBrandGoogleFilled,
-  TbBrandWindowsFilled,
-} from "react-icons/tb";
+import { TbEdit, TbUpload, TbX, TbLock } from "react-icons/tb";
 import PasswordStrength from "../signup/PasswordStrength";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import { useCallback, useMemo, useRef } from "react";
 import getAvatarUrl from "/src/utils/getAvatarUrl";
 import z from "zod";
 import { getDirectusUrl } from "/src/utils/constants";
+import { GoogleIcon } from "/src/components/ui/GoogleIcon";
+import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 
 // If user is here, there 2 possible paths:
 // 1. set a password using the token, login, then go to cms
@@ -179,7 +174,7 @@ const FinalizePage: React.FC = () => {
                 </Text>
                 <Group justify="center">
                   <Button
-                    leftSection={<TbBrandGoogleFilled size="1.25rem" />}
+                    leftSection={<GoogleIcon />}
                     radius="xl"
                     variant="default"
                     component="a"
@@ -188,7 +183,7 @@ const FinalizePage: React.FC = () => {
                     Login with Google
                   </Button>
                   <Button
-                    leftSection={<TbBrandWindowsFilled size="1.25rem" />}
+                    leftSection={<MicrosoftIcon />}
                     radius="xl"
                     variant="default"
                     component="a"

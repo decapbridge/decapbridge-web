@@ -14,17 +14,14 @@ import { useData } from "vike-react/useData";
 import InternalLink from "/src/components/core/InternalLink";
 import type { Data } from "./+data";
 import { usePageContext } from "vike-react/usePageContext";
-import {
-  TbBrandGoogleFilled,
-  TbBrandWindowsFilled,
-  TbAt,
-  TbLock,
-} from "react-icons/tb";
+import { TbAt, TbLock } from "react-icons/tb";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import { useQueryClient } from "@tanstack/react-query";
 import usePkceAuth from "/src/hooks/usePkceAuth";
 import directus from "/src/utils/directus";
 import z from "zod";
+import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
+import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -93,7 +90,7 @@ const LoginPage: React.FC = () => {
         <Stack>
           <Group justify="center">
             <Button
-              leftSection={<TbBrandGoogleFilled size="1.25rem" />}
+              leftSection={<GoogleIcon />}
               radius="xl"
               variant="default"
               component="a"
@@ -102,7 +99,7 @@ const LoginPage: React.FC = () => {
               Google
             </Button>
             <Button
-              leftSection={<TbBrandWindowsFilled size="1.25rem" />}
+              leftSection={<MicrosoftIcon />}
               radius="xl"
               variant="default"
               component="a"

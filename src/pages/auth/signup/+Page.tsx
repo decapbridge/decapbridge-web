@@ -20,20 +20,14 @@ import useAuthActions from "/src/hooks/useAuthActions";
 import directus from "/src/utils/directus";
 import { readMe, updateUser, uploadFiles } from "@directus/sdk";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  TbEdit,
-  TbUpload,
-  TbX,
-  TbAt,
-  TbLock,
-  TbBrandGoogleFilled,
-  TbBrandWindowsFilled,
-} from "react-icons/tb";
+import { TbEdit, TbUpload, TbX, TbAt, TbLock } from "react-icons/tb";
 import PasswordStrength from "./PasswordStrength";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import { useRef, useMemo, useCallback } from "react";
 import getAvatarUrl from "/src/utils/getAvatarUrl";
 import { getDirectusUrl } from "/src/utils/constants";
+import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
+import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 
 const schema = z.object({
   avatar: z.url().or(z.any()).nullable(),
@@ -132,7 +126,7 @@ const SignupPage: React.FC = () => {
           <Stack gap="xl" pt="sm">
             <Group justify="center">
               <Button
-                leftSection={<TbBrandGoogleFilled size="1.25rem" />}
+                leftSection={<GoogleIcon />}
                 radius="xl"
                 variant="default"
                 component="a"
@@ -141,7 +135,7 @@ const SignupPage: React.FC = () => {
                 Signup with Google
               </Button>
               <Button
-                leftSection={<TbBrandWindowsFilled size="1.25rem" />}
+                leftSection={<MicrosoftIcon />}
                 radius="xl"
                 variant="default"
                 component="a"

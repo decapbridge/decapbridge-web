@@ -19,19 +19,13 @@ import { notifications } from "@mantine/notifications";
 import directus from "/src/utils/directus";
 import onlyDiff from "/src/utils/onlyDiff";
 import queryClient from "/src/utils/queryClient";
-import {
-  TbAt,
-  TbBrandGoogleFilled,
-  TbBrandWindowsFilled,
-  TbEdit,
-  TbPassword,
-  TbUpload,
-  TbX,
-} from "react-icons/tb";
+import { TbAt, TbEdit, TbPassword, TbUpload, TbX } from "react-icons/tb";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
 import { useRef, useMemo } from "react";
 import getAvatarUrl from "/src/utils/getAvatarUrl";
 import z from "zod";
+import { GoogleIcon } from "/src/components/ui/GoogleIcon";
+import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 
 const schema = z.object({
   avatar: z.url().or(z.any()).nullable(),
@@ -189,12 +183,12 @@ const MyProfilePage: React.FC = () => {
             <Text>Login method:</Text>
             {user.provider === "google" ? (
               <Group gap={8}>
-                <TbBrandGoogleFilled size="1.5rem" />
+                <GoogleIcon />
                 <Text fw="bold">Google login</Text>
               </Group>
             ) : user.provider === "microsoft" ? (
               <Group gap={8}>
-                <TbBrandWindowsFilled size="1.5rem" />
+                <MicrosoftIcon />
                 <Text fw="bold">Microsoft login</Text>
               </Group>
             ) : (

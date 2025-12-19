@@ -13,14 +13,7 @@ import {
 } from "@mantine/core";
 import directus, { CustomSchema, Site } from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
-import {
-  TbAt,
-  TbBrandGoogleFilled,
-  TbBrandWindowsFilled,
-  TbPassword,
-  TbSend,
-  TbX,
-} from "react-icons/tb";
+import { TbAt, TbPassword, TbSend, TbX } from "react-icons/tb";
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
@@ -28,6 +21,8 @@ import { customEndpoint } from "@directus/sdk";
 import z from "zod";
 import { notifications } from "@mantine/notifications";
 import queryClient from "/src/utils/queryClient";
+import { GoogleIcon } from "/src/components/ui/GoogleIcon";
+import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -105,15 +100,15 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
           <Group gap="xs">
             {user.provider === "google" ? (
               <Tooltip label="Google login">
-                <TbBrandGoogleFilled size="1rem" />
+                <GoogleIcon />
               </Tooltip>
             ) : user.provider === "microsoft" ? (
               <Tooltip label="Microsoft login">
-                <TbBrandWindowsFilled size="1rem" />
+                <MicrosoftIcon />
               </Tooltip>
             ) : (
               <Tooltip label="Password login">
-                <TbPassword size="1rem" />
+                <TbPassword size="1.25rem" />
               </Tooltip>
             )}
             {user.last_access ? (
