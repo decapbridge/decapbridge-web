@@ -1,4 +1,4 @@
-import { createTheme, Image, Button, ActionIcon, Modal } from "@mantine/core";
+import { createTheme, Image, Button, ActionIcon, Modal, Container, Notification } from "@mantine/core";
 import styles from "./utils.module.css";
 
 export const theme = createTheme({
@@ -27,9 +27,14 @@ export const theme = createTheme({
         centered: true,
       },
     }),
-    Container: Modal.extend({
+    Container: Container.extend({
       defaultProps: {
         w: "100%",
+      },
+    }),
+    Notification: Notification.extend({
+      defaultProps: {
+        radius: "sm",
       },
     }),
   },

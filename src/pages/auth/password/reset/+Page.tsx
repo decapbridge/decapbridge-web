@@ -43,19 +43,16 @@ const ResetPassword: React.FC = () => {
   return (
     <Stack m="auto" maw={460} gap={0}>
       {token ? (
-        <>
-          <Title ta="center">{content.header}</Title>
-          <Text c="dimmed" size="sm" ta="center">
-            {content.sub_header}
-          </Text>
-          <FormWrapper
-            form={form}
-            withBorder
-            shadow="md"
-            radius="md"
-            p="xl"
-            my="md"
-          >
+        <FormWrapper form={form} withBorder shadow="md" radius="lg" p="xl">
+          <Stack>
+            <Stack gap={0}>
+              <Title ta="center" order={3}>
+                {content.header}
+              </Title>
+              <Text c="dimmed" size="sm" ta="center">
+                {content.sub_header}
+              </Text>
+            </Stack>
             <PasswordStrength
               name="password"
               label={content.password.label}
@@ -66,11 +63,11 @@ const ResetPassword: React.FC = () => {
               value={passwordProps.value ?? ""}
               autoFocus
             />
-            <Button {...form.submitButtonProps} mt="lg" fullWidth>
+            <Button {...form.submitButtonProps} fullWidth>
               {content.submit_button}
             </Button>
-          </FormWrapper>
-        </>
+          </Stack>
+        </FormWrapper>
       ) : (
         <Stack ta="center">
           <Title order={2}>{content.token_missing}</Title>

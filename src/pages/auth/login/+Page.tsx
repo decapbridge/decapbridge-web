@@ -125,12 +125,7 @@ const LoginPage: React.FC = () => {
           {form.errors.action && (
             <Group justify="center">{form.errors.action}</Group>
           )}
-          <Button
-            {...form.submitButtonProps}
-            fullWidth
-            accessKey="s"
-            mt={form.errors.action ? 0 : "xs"}
-          >
+          <Button {...form.submitButtonProps} fullWidth accessKey="s">
             {isPkceFlow ? content.login_pkce_button : content.login_button}
           </Button>
           {!isPkceFlow && (

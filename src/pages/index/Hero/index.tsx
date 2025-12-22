@@ -67,8 +67,7 @@ export function HeroBullets() {
               in the CMS today.
             </List.Item> */}
           </List>
-
-          <Group mt="1.75rem">
+          <Group mt="1.75rem" gap="xs" align="center">
             <Button
               radius="xl"
               size="lg"
@@ -78,14 +77,16 @@ export function HeroBullets() {
             >
               {user ? "Go to dashboard" : "Get started"}
             </Button>
-            {/* <Button
-              variant="default"
+            <Button
               radius="xl"
-              size="md"
+              size="lg"
+              variant="subtle"
               className={classes.control}
+              component={InternalLink}
+              href="/docs/introduction"
             >
-              Source code
-            </Button> */}
+              Read the docs
+            </Button>
           </Group>
         </div>
         <Paper

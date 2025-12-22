@@ -47,43 +47,34 @@ const ForgotPassword: React.FC = () => {
   return (
     <Stack m="auto" maw={480} gap={0}>
       {form.state !== "submitted" ? (
-        <>
-          <Title fz="h2" ta="center">
-            {content.header}
-          </Title>
-          <Text c="dimmed" size="sm" ta="center">
-            {content.sub_header}
-          </Text>
-          <FormWrapper
-            form={form}
-            withBorder
-            shadow="md"
-            radius="md"
-            p="xl"
-            my="md"
-          >
-            <TextInput
-              name="email"
-              label={content.email.label}
-              placeholder={content.email.placeholder}
-              leftSection={<TbAt size={16} />}
-              required
-              {...form.getInputProps("email")}
-              autoFocus
-            />
-            <Group justify="space-between" mt="lg">
-              <Anchor component={InternalLink} href="/auth/login" size="sm">
-                <Center>
-                  <TbArrowLeft size={12} />
-                  <Box ml={5}>{content.login_link}</Box>
-                </Center>
-              </Anchor>
-              <Button {...form.submitButtonProps}>
-                {content.submit_button}
-              </Button>
-            </Group>
-          </FormWrapper>
-        </>
+        <FormWrapper form={form} withBorder shadow="md" radius="lg" p="xl">
+          <Stack gap={0} mb="md">
+            <Title order={3} ta="center">
+              {content.header}
+            </Title>
+            <Text c="dimmed" size="sm" ta="center">
+              {content.sub_header}
+            </Text>
+          </Stack>
+          <TextInput
+            name="email"
+            label={content.email.label}
+            placeholder={content.email.placeholder}
+            leftSection={<TbAt size={16} />}
+            required
+            {...form.getInputProps("email")}
+            autoFocus
+          />
+          <Group justify="space-between" mt="lg">
+            <Anchor component={InternalLink} href="/auth/login" size="sm">
+              <Center>
+                <TbArrowLeft size={12} />
+                <Box ml={5}>{content.login_link}</Box>
+              </Center>
+            </Anchor>
+            <Button {...form.submitButtonProps}>{content.submit_button}</Button>
+          </Group>
+        </FormWrapper>
       ) : (
         <Center style={{ minHeight: "2rem" }}>
           <Stack ta="center">
