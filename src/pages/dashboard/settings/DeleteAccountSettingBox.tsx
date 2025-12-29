@@ -40,7 +40,7 @@ const DeleteAccountSettingBox: React.FC = () => {
     },
     action: async () => {
       await directus.request(updateUser(user.id, { status: "archived" }));
-      logout();
+      await logout();
       notifications.show({
         title: content.delete_account_success_title,
         message: content.delete_account_success_message,
