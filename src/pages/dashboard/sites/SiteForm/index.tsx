@@ -40,7 +40,7 @@ const schema = z.object({
   git_provider: z.enum(["github", "gitlab"]),
   repo: z
     .string()
-    .regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_.]+$/, {
+    .regex(/^[a-zA-Z0-9-_.]+\/[a-zA-Z0-9-_./]+$/, {
       error: "Invalid string: must match pattern: org/repo",
     })
     .min(3)
@@ -75,7 +75,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               headers: {
                 Authorization: `Bearer ${values.access_token}`,
               },
-            }
+            },
           );
           if (!tokenValidationResponse.ok) {
             throw { errors: [new Error(accessTokenError)] };
@@ -87,7 +87,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               headers: {
                 Authorization: `Bearer ${values.access_token}`,
               },
-            }
+            },
           );
           if (!repoValidationResponse.ok) {
             throw { errors: [new Error(repoError)] };
@@ -100,7 +100,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               headers: {
                 Authorization: `Bearer ${values.access_token}`,
               },
-            }
+            },
           );
           if (!tokenValidationResponse.ok) {
             throw { errors: [new Error(accessTokenError)] };
@@ -108,13 +108,13 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           // Validate the repository
           const repoValidationResponse = await fetch(
             `https://gitlab.com/api/v4/projects/${encodeURIComponent(
-              values.repo
+              values.repo,
             )}`,
             {
               headers: {
                 Authorization: `Bearer ${values.access_token}`,
               },
-            }
+            },
           );
           if (!repoValidationResponse.ok) {
             throw { errors: [new Error(repoError)] };
@@ -125,11 +125,15 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
       let createdId: null | string = null;
       if (initialValues?.id) {
         await directus.request(
-          updateItem("sites", initialValues.id, onlyDiff(initialValues, values))
+          updateItem(
+            "sites",
+            initialValues.id,
+            onlyDiff(initialValues, values),
+          ),
         );
       } else {
         const createResult = await directus.request(
-          createItem("sites", values)
+          createItem("sites", values),
         );
         createdId = createResult.id;
       }
@@ -147,7 +151,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
   });
 
   const canEditAccessToken = Boolean(
-    !initialValues?.access_token || form.isDirty("access_token")
+    !initialValues?.access_token || form.isDirty("access_token"),
   );
 
   const gitProvider = capitalize(form.values.git_provider);
@@ -156,8 +160,8 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     form.values.git_provider === "github"
       ? "https://github.com/settings/tokens"
       : form.isValid("repo")
-      ? `https://gitlab.com/${form.values.repo}/-/settings/access_tokens`
-      : null;
+        ? `https://gitlab.com/${form.values.repo}/-/settings/access_tokens`
+        : null;
 
   return (
     <FormWrapper form={form} withBorder radius="lg" p="xl" shadow="md">
