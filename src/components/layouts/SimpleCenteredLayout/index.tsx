@@ -15,7 +15,7 @@ const DefaultCenteredLayout: React.FC<DefaultCenteredLayoutProps> = ({
 }) => {
   const { urlPathname } = usePageContext();
   return (
-    <Stack pos="relative">
+    <Stack pos="relative" mih="100vh">
       <Group
         p="md"
         pr="xl"
