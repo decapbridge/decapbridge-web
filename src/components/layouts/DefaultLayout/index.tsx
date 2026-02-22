@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
-import { AppShell } from "@mantine/core";
+import { AppShell, Button, Divider, Stack } from "@mantine/core";
 import { usePageContext } from "vike-react/usePageContext";
 
 import Header from "/src/components/misc/Header";
 import Footer from "/src/components/misc/Footer";
-import Navbar from "/src/components/misc/Navbar";
 
 import SkipToContent from "/src/components/misc/SkipToContent";
 import MountTransition from "/src/components/ui/MountTransition";
@@ -12,19 +11,38 @@ import useMobileMenuOpened from "/src/hooks/useMobileMenuOpened";
 import { mainContentId } from "/src/utils/constants";
 
 import styles from "./layout.module.css";
+import utils from "/src/utils/utils.module.css";
+import InternalLink from "/src/components/core/InternalLink";
+import useGlobalData from "/src/hooks/useGlobalData";
+import usePageMeta from "/src/hooks/usePageMeta";
 
 interface DefaultLayoutProps {
   children: ReactNode;
 }
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
-  const { opened } = useMobileMenuOpened();
   const { urlPathname } = usePageContext();
+  const { opened, close } = useMobileMenuOpened();
+  const {
+    pagesMeta: { legal },
+  } = useGlobalData();
+  const publicPages = usePageMeta(
+    "/auth/login",
+    "/auth/signup",
+    "/docs/introduction",
+    "/auth/password/forgot",
+    "/contact",
+  ).map((p) =>
+    p.urlPathname === "/docs/introduction"
+      ? { ...p, title: "Documentation" }
+      : p,
+  );
   return (
     <AppShell
+      key="app"
       header={{ height: 52 }}
       navbar={{
-        width: 300,
+        width: 224,
         breakpoint: "sm",
         collapsed: { desktop: true, mobile: !opened },
       }}
@@ -32,6 +50,39 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     >
       <SkipToContent id={mainContentId} />
       <Header />
+      <AppShell.Navbar py="md" px="1rem">
+        <Stack gap={4} onClick={close}>
+          {publicPages.map(({ urlPathname, title }) => (
+            <Button
+              key={urlPathname}
+              justify="start"
+              component={InternalLink}
+              href={urlPathname}
+              variant="transparent"
+              className={utils["nav-button"]}
+              size="sm"
+            >
+              {title}
+            </Button>
+          ))}
+        </Stack>
+        <Divider mt="auto" mb="xs" mx="-1rem" />
+        <Stack gap={0} onClick={close}>
+          {legal.map(({ urlPathname, title }) => (
+            <Button
+              key={urlPathname}
+              justify="start"
+              component={InternalLink}
+              href={urlPathname}
+              variant="transparent"
+              className={utils["nav-button"]}
+              size="xs"
+            >
+              {title}
+            </Button>
+          ))}
+        </Stack>
+      </AppShell.Navbar>
       <MountTransition key={urlPathname} keepMounted transition="fade-up">
         {(css) => (
           <AppShell.Main
@@ -44,7 +95,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
         )}
       </MountTransition>
       <Footer />
-      <Navbar />
     </AppShell>
   );
 };

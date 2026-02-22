@@ -1,4 +1,4 @@
-import { Container, Group, Anchor, Text } from "@mantine/core";
+import { Container, Group, Anchor, Text, AppShell } from "@mantine/core";
 import classes from "./footer.module.css";
 import InternalLink from "/src/components/core/InternalLink";
 import Logo from "/src/components/misc/Logo";
@@ -22,14 +22,22 @@ export default function FooterSimple() {
   ));
 
   return (
-    <div className={classes.footer}>
-      <Container className={classes.inner}>
+    <AppShell.Footer className={classes.footer}>
+      <Container className={classes.inner} px="xl">
         <Logo withTitle />
-        <Group className={classes.links}>{items}</Group>
-        <Text size="sm" c="dimmed">
-          <Anchor href="https://millisecond.studio/">millisecond.studio</Anchor>
+        {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+          <Group className={classes.links}>{items}</Group>
+        )}
+        <Text size="sm" c="dimmed" pr="xl">
+          {import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED ? (
+            <Anchor href="https://decapbridge.com">decapbridge.com</Anchor>
+          ) : (
+            <Anchor href="https://millisecond.studio">
+              millisecond.studio
+            </Anchor>
+          )}
         </Text>
       </Container>
-    </div>
+    </AppShell.Footer>
   );
 }

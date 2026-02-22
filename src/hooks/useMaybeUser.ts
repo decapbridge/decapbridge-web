@@ -28,6 +28,7 @@ const useMaybeUser = () => {
     queryKey: ["user"],
     queryFn: fetchUser,
     refetchOnMount: false,
+    // placeholderData: keepPreviousData // TODO: need to test this better
   });
   return {
     user: data as CustomDirectusUser,

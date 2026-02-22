@@ -6,6 +6,7 @@ import "@mantine/carousel/styles.css";
 
 import React from "react";
 import { Center, MantineProvider } from "@mantine/core";
+import { generateColors } from "@mantine/colors-generator";
 import { Notifications } from "@mantine/notifications";
 import {
   CodeHighlightAdapterProvider,
@@ -34,10 +35,34 @@ hljs.registerLanguage("yaml", yamlLang);
 
 const highlightJsAdapter = createHighlightJsAdapter(hljs);
 
+// Theme deep copy
+const sessionTheme = {
+  ...theme,
+  colors: { ...theme.colors },
+  other: { ...theme.other },
+};
+
 const App: Config["Wrapper"] = ({ children }) => {
-  const { abortStatusCode } = usePageContext();
+  const { abortStatusCode, urlParsed } = usePageContext();
+  const { site_id, site_name, site_color, site_logo } = urlParsed.search;
 
   let pageContent: React.ReactElement | undefined;
+
+  let pageTheme = theme;
+  if (site_id) {
+    if (site_name) {
+      (sessionTheme.other as any).site_name = site_name;
+    }
+    if (site_color) {
+      sessionTheme.colors = {
+        custom: generateColors(site_color),
+      };
+    }
+    if (site_logo) {
+      (sessionTheme.other as any).site_logo = site_logo;
+    }
+    pageTheme = sessionTheme;
+  }
 
   if (abortStatusCode) {
     pageContent = (
@@ -58,7 +83,10 @@ const App: Config["Wrapper"] = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider defaultColorScheme={defaultColorScheme} theme={theme}>
+      <MantineProvider
+        defaultColorScheme={defaultColorScheme}
+        theme={pageTheme}
+      >
         <CodeHighlightAdapterProvider adapter={highlightJsAdapter}>
           <HljsCssLoader />
           <Provider store={store}>{pageContent}</Provider>

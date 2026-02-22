@@ -17,11 +17,11 @@
   font-weight: 500 !important;
   &[aria-current="true"] {
     font-weight: 600 !important;
-    --button-bg: var(--mantine-color-pink-light) !important;
-    --button-hover: var(--mantine-color-pink-light-hover) !important;
+    --button-bg: var(--mantine-color-custom-light) !important;
+    --button-hover: var(--mantine-color-custom-light-hover) !important;
     --button-color: light-dark(
-      var(--mantine-color-pink-8),
-      var(--mantine-color-pink-1)
+      var(--mantine-color-custom-8),
+      var(--mantine-color-custom-1)
     ) !important;
     --ai-bg: var(--button-bg) !important;
     --ai-hover: var(--button-hover) !important;
@@ -59,7 +59,8 @@
   opacity: 0;
   &[data-transition-state="iddle"] {
     --transition-duration: 250ms;
-    transition: transform var(--transition-duration) ease-in-out,
+    transition:
+      transform var(--transition-duration) ease-in-out,
       opacity var(--transition-duration) ease-in-out;
     transform: translate3D(0, 0, 0) scale(1);
     opacity: 1;

@@ -1,4 +1,5 @@
 .layout {
+  /* Footer improvements part 1 */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -6,8 +7,11 @@
 }
 
 .main-content {
-  min-height: auto !important;
+  /* Footer improvements part 2 */
   flex: 1;
+  min-height: auto !important;
+
+  /* Fix for the fade-up */
   display: flex !important;
   flex-direction: column;
   align-items: stretch;

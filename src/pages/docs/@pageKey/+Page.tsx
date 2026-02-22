@@ -11,19 +11,17 @@ const DocsPage: React.FC = () => {
   const { body } = useData<Data>();
   const toc = mdToToc(body);
   return (
-    <>
-      <Container size="lg" p="xl" my="xl">
-        <Group
-          wrap="nowrap"
-          align="flex-start"
-          justify="space-between"
-          className={styles["oversized-toc-wrapper"]}
-        >
-          <Markdown markdown={body} />
-          <TableOfContents toc={toc} />
-        </Group>
-      </Container>
-    </>
+    <Container size="lg" p="xl" my="xl">
+      <Group
+        wrap="nowrap"
+        align="flex-start"
+        justify="space-between"
+        className={styles["oversized-toc-wrapper"]}
+      >
+        <Markdown markdown={body} />
+        <TableOfContents toc={toc} />
+      </Group>
+    </Container>
   );
 };
 

@@ -25,7 +25,7 @@ const DefaultCenteredLayout: React.FC<DefaultCenteredLayoutProps> = ({
         left={0}
         right={0}
       >
-        <Logo href="/" withTitle />
+        <Logo withTitle />
         <ColorSchemeToggle />
       </Group>
       <CenteredScreenLayout>

@@ -1,76 +1,74 @@
-Business Source License 1.1 – DecapBridge Custom Terms
-© 2025 Alexandre Lotte
+DecapBridge Source License 1.0
+Copyright 2026 Alexandre Lotte
 
-Licensor: Alexandre Lotte  
-Licensed Work: DecapBridge
+TERMS AND CONDITIONS
 
----
+1. Definitions
 
-1. Grant of Rights
+"Software" means the DecapBridge source code and all associated files made
+available under this license.
 
----
+"Licensor" means Alexandre Lotte.
 
-1.1 You may view the source code of the Licensed Work.
+"Hosted Service" means the official DecapBridge service operated by the
+Licensor at decapbridge.com and any subdomains thereof.
 
-1.2 You may submit contributions (pull requests, patches, issues, etc.).  
-All contributions become part of the Licensed Work and are owned by the Licensor.
+"Personal Use" means use by an individual for personal projects, testing,
+learning, or non-commercial hobby projects, where no revenue is generated
+and no clients or third parties are served.
 
-1.3 You may fork, modify, and run the Licensed Work **only for Non-Commercial Use**.
+"Commercial Use" means use by or on behalf of a business, agency, freelancer,
+or any entity that generates revenue, serves clients, or uses the Software
+to support a commercial activity.
 
-1.4 You may self-host the Licensed Work for **Non-Commercial Use**, with any configuration you choose.
+"Commercial Self-Hosting License" means a one-time license purchased from
+the Licensor granting the right to self-host the Software for Commercial Use.
 
----
 
-2. Non-Commercial Use
+2. Permitted Uses
 
----
+2.1 You may use the Hosted Service under the terms of the Licensor's
+subscription plans at decapbridge.com, including any free tier offered.
 
-“Non-Commercial Use” means any use that is not intended for or directed toward producing revenue, offering paid services, operating a commercial product, or supporting a business activity.
+2.2 You may view, fork, and modify the source code of the Software for
+Personal Use.
 
-Non-Commercial Use includes:
+2.3 You may self-host the Software for Personal Use at no cost.
 
-- Personal projects
-- Research
-- Educational use
-- Hobby or experimental projects
-- Open-source or side projects not generating revenue
+2.4 You may self-host the Software for Commercial Use provided you have
+purchased a valid Commercial Self-Hosting License from the Licensor.
 
----
+2.5 You may submit contributions (pull requests, patches, issues) to the
+Software. All accepted contributions become part of the Software and are
+owned by the Licensor.
 
-3. Commercial Use Requires a Paid License
 
----
+3. Restrictions
 
-3.1 You may only use, deploy, host, or run the Licensed Work in a **Commercial Use** scenario if you first obtain a **Commercial Self-Hosting License** from the Licensor via a one-time purchase.
+3.1 You may not self-host the Software for Commercial Use without a valid
+Commercial Self-Hosting License.
 
-3.2 The one-time commercial license grants perpetual rights to self-host the Licensed Work for your own business purposes.
+3.2 You may not offer the Software, or any substantially similar derivative,
+as a hosted or managed service to third parties.
 
-3.3 Use of the Licensor’s **public hosted version** of DecapBridge is subject to a separate monthly subscription agreement that may include additional features, support, or hosted services not included in this license.
+3.3 You may not rebrand, rename, or redistribute the Software publicly as
+your own product.
 
----
+3.4 You may not remove or alter any copyright, license, or attribution notices
+in the Software.
 
-4. Restrictions
+3.5 All rights not explicitly granted in this license are reserved by the
+Licensor.
 
----
 
-4.1 You may **not** rebrand, rename, or publicly offer a fork of the Licensed Work under a different name.
+4. No Warranty
 
-4.2 You may **not** publicly distribute or publish a fork for commercial purposes.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. THE LICENSOR SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THE SOFTWARE, UNDER ANY KIND OF LEGAL CLAIM.
 
-4.3 You may **not** use the Licensed Work to operate a competing hosted service or SaaS business without a valid Commercial Self-Hosting License.
 
-4.4 Except as explicitly permitted, all other rights are reserved by the Licensor.
+5. Contact
 
----
-
-5. No Warranty
-
----
-
-THE LICENSED WORK IS PROVIDED “AS IS” AND WITHOUT WARRANTY OF ANY KIND.  
-THE LICENSOR DISCLAIMS ALL LIABILITY TO THE MAXIMUM EXTENT PERMITTED BY LAW.
-
----
-
-For commercial licensing inquiries, contact:  
-Alexandre lotte - hello@decapbridge.com
+For Commercial Self-Hosting Licenses or any licensing inquiries:
+Alexandre Lotte — hello@decapbridge.com

@@ -13,9 +13,7 @@ const ColorSchemeToggle: React.FC = () => {
     <ActionIcon
       onClick={toggleColorScheme}
       variant="transparent"
-      size="md"
-      w={30}
-      h={30}
+      size="lg"
       aria-label="Toggle color scheme"
     >
       <TbSun className={cx(classes.icon, classes.light)} />

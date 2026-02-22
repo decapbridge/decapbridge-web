@@ -1,11 +1,16 @@
 import { createTheme, Image, Button, ActionIcon, Modal, Container, Notification } from "@mantine/core";
 import styles from "./utils.module.css";
+import siteSettings from '/content/settings/site.json'
+import { generateColors } from "@mantine/colors-generator";
 
 export const theme = createTheme({
-  primaryColor: 'pink',
+  primaryColor: 'custom',
   fontFamily: '"IBM Plex Sans", sans-serif',
   headings: { fontFamily: '"Montserrat", sans-serif' },
-  defaultRadius: 'xl',
+  defaultRadius: import.meta.env.VITE_DECAPBRIDGE_THEME_RADIUS ?? 'xl',
+  colors: {
+    custom: generateColors(import.meta.env.VITE_DECAPBRIDGE_THEME_COLOR ?? '#e64980')
+  },
   components: {
     Image: Image.extend({
       defaultProps: {
@@ -38,4 +43,9 @@ export const theme = createTheme({
       },
     }),
   },
+  other: {
+    site_name: import.meta.env.VITE_DECAPBRIDGE_SITE_NAME ?? siteSettings.site_name,
+    site_url: import.meta.env.VITE_DECAPBRIDGE_SITE_URL ?? siteSettings.site_url,
+    site_logo: import.meta.env.VITE_DECAPBRIDGE_SITE_LOGO ?? '/favicon.svg',
+  }
 });

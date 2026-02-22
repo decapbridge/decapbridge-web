@@ -22,7 +22,7 @@ const ColorSchemeSettingBox: React.FC = () => {
   const content = useData<Data>();
 
   return (
-    <Paper withBorder shadow="md" p="xl" my="xl" radius="md">
+    <Paper withBorder shadow="md" p="xl" radius="md">
       <Title order={3}>{content.color_scheme_heading}</Title>
       <Divider mt="xs" />
       <Group justify="space-between" mt="md">

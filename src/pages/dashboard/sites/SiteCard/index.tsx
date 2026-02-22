@@ -30,7 +30,7 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Stack>
+      <Stack flex={1}>
         <Group justify="space-between">
           <Avatar.Group>
             {allUsers.map((u: any) => (
@@ -51,8 +51,8 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             </Tooltip>
           )}
         </Group>
-        <Group justify="space-between">
-          <Text fw="bold">{site.repo}</Text>
+        <Group mt="auto" justify="space-between">
+          <Text fw="bold">{site.name ?? site.repo}</Text>
           {site.git_provider === "github" ? (
             <Tooltip label="Github site">
               <TbBrandGithub size="1.5rem" />

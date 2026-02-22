@@ -5,7 +5,7 @@ import InternalLink from "/src/components/core/InternalLink";
 
 const NewSitePage: React.FC = () => {
   return (
-    <Container size="md" my="xl">
+    <Container size="md" p="xl">
       <Stack>
         <Group>
           <Button

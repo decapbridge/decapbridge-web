@@ -20,12 +20,12 @@ import onlyDiff from "/src/utils/onlyDiff";
 import { TbEdit, TbUpload, TbX, TbLock } from "react-icons/tb";
 import PasswordStrength from "../signup/PasswordStrength";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import { useCallback, useMemo, useRef } from "react";
-import getAvatarUrl from "/src/utils/getAvatarUrl";
+import { useCallback, useRef } from "react";
 import z from "zod";
 import { getDirectusUrl } from "/src/utils/constants";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
+import useFileUrl from "/src/hooks/useFileUrl";
 
 // If user is here, there 2 possible paths:
 // 1. set a password using the token, login, then go to cms
@@ -33,7 +33,7 @@ import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 // In both cases, this is just to "setup" the account, then user will initiate PKCE from CMS for final login.
 
 const schema = z.object({
-  avatar: z.url().or(z.any()).nullable(),
+  avatar: z.string().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.email().max(255),
@@ -62,6 +62,8 @@ const FinalizePage: React.FC = () => {
     avatar,
     site_id,
     site_name,
+    // site_logo,
+    // site_color,
     redirect_uri,
     auth_type,
   } = urlParsed.search;
@@ -84,10 +86,10 @@ const FinalizePage: React.FC = () => {
   const getSsoRedirectUrl = useCallback(
     (provider: string) => {
       return `${getDirectusUrl()}/auth/login/${provider}?redirect=${encodeURIComponent(
-        ssoRedirectUrl
+        ssoRedirectUrl,
       )}`;
     },
-    [ssoRedirectUrl]
+    [ssoRedirectUrl],
   );
 
   const form = useAsyncForm({
@@ -115,7 +117,7 @@ const FinalizePage: React.FC = () => {
         { email: values.email, password: values.password! },
         {
           mode: "json",
-        }
+        },
       );
       const me = await directus.request(readMe());
       if (!me) {
@@ -129,10 +131,9 @@ const FinalizePage: React.FC = () => {
             first_name: values.first_name,
             last_name: values.last_name,
             ...(values.avatar ? { avatar: values.avatar } : {}),
-          })
-        )
+          }),
+        ),
       );
-
       window.location.href = redirect_uri;
     },
   });
@@ -140,14 +141,7 @@ const FinalizePage: React.FC = () => {
   const avatarProps = form.getInputProps("avatar");
   const passwordProps = form.getInputProps("password");
 
-  const avatarUrl = useMemo(() => {
-    if (typeof window !== "undefined" && form.values.avatar instanceof File) {
-      return URL.createObjectURL(form.values.avatar);
-    }
-    if (form.values.avatar) {
-      return getAvatarUrl(form.values.avatar);
-    }
-  }, [form.values.avatar]);
+  const avatarUrl = useFileUrl(form.values.avatar);
 
   const clearFile = () => {
     avatarProps.onChange(null);
@@ -172,7 +166,6 @@ const FinalizePage: React.FC = () => {
                   <Group justify="center">
                     <Button
                       leftSection={<GoogleIcon />}
-                      radius="xl"
                       variant="default"
                       component="a"
                       href={getSsoRedirectUrl("google")}
@@ -181,7 +174,6 @@ const FinalizePage: React.FC = () => {
                     </Button>
                     <Button
                       leftSection={<MicrosoftIcon />}
-                      radius="xl"
                       variant="default"
                       component="a"
                       href={getSsoRedirectUrl("microsoft")}
@@ -206,7 +198,7 @@ const FinalizePage: React.FC = () => {
                     <FileButton
                       resetRef={resetRef}
                       onChange={avatarProps.onChange}
-                      accept="image/png,image/jpeg"
+                      accept="image/png,image/jpeg,image/jpg,image/svg"
                     >
                       {(props) => (
                         <Button

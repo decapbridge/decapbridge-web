@@ -1,9 +1,10 @@
 .inner {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 4rem;
   padding-top: calc(var(--mantine-spacing-xl) * 4);
-  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 3);
   @media (max-width: $mantine-breakpoint-md) {
     padding-top: var(--mantine-spacing-xl);
     flex-direction: column;
@@ -32,7 +33,7 @@
 
 .highlight {
   position: relative;
-  background-color: var(--mantine-color-pink-light);
+  background-color: var(--mantine-color-custom-light);
   border-radius: var(--mantine-radius-sm);
   padding: 4px 12px;
 }

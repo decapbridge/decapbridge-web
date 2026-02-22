@@ -21,9 +21,9 @@ const SsoCallbackPage: React.FC = () => {
           throw new Error("Missing refresh_token in URL params");
         }
         const auth = await directus.request(
-          refresh({ mode: "json", refresh_token: urlParsed.search.code })
+          refresh({ mode: "json", refresh_token: urlParsed.search.code }),
         );
-        authenticationStorage.set(auth);
+        await authenticationStorage.set(auth);
         await queryClient.invalidateQueries({
           queryKey: ["user"],
           refetchType: "all",

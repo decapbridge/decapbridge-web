@@ -31,11 +31,11 @@ const Head: React.FC = () => {
     (urlPathname !== "/" && data?.meta?.description) || site.site_description;
 
   const image = getThumbnailUrl({ title, description });
-  const baseUrl = site.site_url;
-  const pageUrl = `${baseUrl}${urlOriginal}`;
 
   const theme = useMantineTheme();
   const themeColor = theme.colors[theme.primaryColor][6];
+  const baseUrl = theme.other.site_url;
+  const pageUrl = `${baseUrl}${urlOriginal}`;
 
   return (
     <>

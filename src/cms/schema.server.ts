@@ -18,6 +18,7 @@ import newSite from "/content/pages/dashboard/new-site.json";
 import edit from "/content/pages/dashboard/edit-site.json";
 import profile from "/content/pages/dashboard/profile.json";
 import activity from "/content/pages/dashboard/activity.json";
+import billing from "/content/pages/dashboard/billing.json";
 import userSettings from "/content/pages/dashboard/settings.json";
 
 // Settings
@@ -42,6 +43,7 @@ export const pages = {
   "dashboard/sites/edit": edit,
   "dashboard/profile": profile,
   "dashboard/activity": activity,
+  "dashboard/billing": billing,
   "dashboard/settings": userSettings,
 } satisfies PagesCmsSchema;
 

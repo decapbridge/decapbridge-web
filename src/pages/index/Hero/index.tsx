@@ -18,7 +18,7 @@ import InternalLink from "/src/components/core/InternalLink";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 
 const images = [...Array(10).keys()].map(
-  (num) => `/demo/demo-${String(num + 1)}.png`
+  (num) => `/demo/demo-${String(num + 1)}.png`,
 );
 
 export function HeroBullets() {
@@ -44,7 +44,7 @@ export function HeroBullets() {
             spacing="sm"
             size="sm"
             icon={
-              <ThemeIcon size={20} radius="xl">
+              <ThemeIcon size={20}>
                 <TbCheck size="0.875rem" stroke="white" />
               </ThemeIcon>
             }
@@ -69,7 +69,6 @@ export function HeroBullets() {
           </List>
           <Group mt="1.75rem" gap="xs" align="center">
             <Button
-              radius="xl"
               size="lg"
               className={classes.control}
               component={InternalLink}
@@ -78,7 +77,6 @@ export function HeroBullets() {
               {user ? "Go to dashboard" : "Get started"}
             </Button>
             <Button
-              radius="xl"
               size="lg"
               variant="subtle"
               className={classes.control}

@@ -23,14 +23,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { TbEdit, TbUpload, TbX, TbAt, TbLock } from "react-icons/tb";
 import PasswordStrength from "./PasswordStrength";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import { useRef, useMemo, useCallback } from "react";
-import getAvatarUrl from "/src/utils/getAvatarUrl";
+import { useRef, useCallback } from "react";
 import { getDirectusUrl } from "/src/utils/constants";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
+import useFileUrl from "/src/hooks/useFileUrl";
 
 const schema = z.object({
-  avatar: z.url().or(z.any()).nullable(),
+  avatar: z.string().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.email().max(255),
@@ -83,14 +83,7 @@ const SignupPage: React.FC = () => {
   const avatarProps = form.getInputProps("avatar");
   const passwordProps = form.getInputProps("password");
 
-  const avatarUrl = useMemo(() => {
-    if (typeof window !== "undefined" && form.values.avatar instanceof File) {
-      return URL.createObjectURL(form.values.avatar);
-    }
-    if (form.values.avatar) {
-      return getAvatarUrl(form.values.avatar);
-    }
-  }, [form.values.avatar]);
+  const avatarUrl = useFileUrl(form.values.avatar);
 
   const clearFile = () => {
     avatarProps.onChange(null);
@@ -102,10 +95,10 @@ const SignupPage: React.FC = () => {
   const getSsoRedirectUrl = useCallback(
     (provider: string) => {
       return `${getDirectusUrl()}/auth/login/${provider}?redirect=${encodeURIComponent(
-        ssoRedirectUrl
+        ssoRedirectUrl,
       )}`;
     },
-    [ssoRedirectUrl]
+    [ssoRedirectUrl],
   );
 
   return (
@@ -129,7 +122,6 @@ const SignupPage: React.FC = () => {
             <Group justify="center">
               <Button
                 leftSection={<GoogleIcon />}
-                radius="xl"
                 variant="default"
                 component="a"
                 href={getSsoRedirectUrl("google")}
@@ -138,7 +130,6 @@ const SignupPage: React.FC = () => {
               </Button>
               <Button
                 leftSection={<MicrosoftIcon />}
-                radius="xl"
                 variant="default"
                 component="a"
                 href={getSsoRedirectUrl("microsoft")}
@@ -160,7 +151,7 @@ const SignupPage: React.FC = () => {
                     <FileButton
                       resetRef={resetRef}
                       onChange={avatarProps.onChange}
-                      accept="image/png,image/jpeg"
+                      accept="image/png,image/jpeg,image/jpg,image/svg"
                     >
                       {(props) => (
                         <Button

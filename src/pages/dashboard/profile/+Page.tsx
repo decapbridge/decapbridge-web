@@ -21,14 +21,14 @@ import onlyDiff from "/src/utils/onlyDiff";
 import queryClient from "/src/utils/queryClient";
 import { TbAt, TbEdit, TbPassword, TbUpload, TbX } from "react-icons/tb";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import { useRef, useMemo } from "react";
-import getAvatarUrl from "/src/utils/getAvatarUrl";
+import { useRef } from "react";
 import z from "zod";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
+import useFileUrl from "/src/hooks/useFileUrl";
 
 const schema = z.object({
-  avatar: z.url().or(z.any()).nullable(),
+  avatar: z.string().or(z.any()).nullable(),
   first_name: z.string(),
   last_name: z.string(),
   email: z.email().max(255),
@@ -71,14 +71,7 @@ const MyProfilePage: React.FC = () => {
 
   const avatarProps = form.getInputProps("avatar");
 
-  const avatarUrl = useMemo(() => {
-    if (typeof window !== "undefined" && form.values.avatar instanceof File) {
-      return URL.createObjectURL(form.values.avatar);
-    }
-    if (form.values.avatar) {
-      return getAvatarUrl(form.values.avatar);
-    }
-  }, [form.values.avatar]);
+  const avatarUrl = useFileUrl(form.values.avatar);
 
   const clearFile = () => {
     avatarProps.onChange(null);
@@ -86,12 +79,11 @@ const MyProfilePage: React.FC = () => {
   };
 
   return (
-    <Container size="xs" my="xl">
+    <Container size="sm" p="xl" my="md">
       <Stack gap="xl">
         <Paper withBorder shadow="md" p="xl" radius="lg">
           <Title order={3}>Edit profile</Title>
           <Divider my="sm" />
-
           <FormWrapper form={form} radius={0} shadow="none">
             <Stack>
               <Stack align="center" gap="xs" py="sm">
@@ -105,7 +97,7 @@ const MyProfilePage: React.FC = () => {
                   <FileButton
                     resetRef={resetRef}
                     onChange={avatarProps.onChange}
-                    accept="image/png,image/jpeg"
+                    accept="image/png,image/jpeg,image/jpg,image/svg"
                   >
                     {(props) => (
                       <Button

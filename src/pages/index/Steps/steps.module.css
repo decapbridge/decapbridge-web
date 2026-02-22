@@ -28,7 +28,7 @@
 }
 
 .highlight {
-  background-color: var(--mantine-color-pink-light);
+  background-color: var(--mantine-color-custom-light);
   padding: 5px;
   padding-top: 0;
   border-radius: var(--mantine-radius-sm);

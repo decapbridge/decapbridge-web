@@ -14,10 +14,13 @@ import {
   Image,
   Card,
   List,
+  ColorInput,
+  FileInput,
+  CloseButton,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
-import { createItem, updateItem } from "@directus/sdk";
+import { createItem, updateItem, uploadFiles } from "@directus/sdk";
 import { z } from "zod";
 
 import useAsyncForm, {
@@ -31,6 +34,9 @@ import onlyDiff from "/src/utils/onlyDiff";
 import { TbKey, TbX } from "react-icons/tb";
 import capitalize from "/src/utils/capitalize";
 import { Carousel } from "@mantine/carousel";
+import useFileUrl from "/src/hooks/useFileUrl";
+import useCurrentUser from "/src/hooks/useCurrentUser";
+import isProUser from "/src/utils/isProUser";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -48,10 +54,15 @@ const schema = z.object({
   access_token: z.string().min(3).max(255),
   cms_url: z.url().max(255),
   auth_type: z.enum(["classic", "pkce"]),
+  name: z.string().max(255).nullable(),
+  logo: z.any().or(z.file()).nullable(),
+  color: z.string().max(255).nullable(),
 });
 
 const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
   const queryClient = useQueryClient();
+
+  const user = useCurrentUser();
 
   const form = useAsyncForm({
     validateInputOnBlur: true,
@@ -63,9 +74,25 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
       access_token: initialValues?.access_token ?? "",
       cms_url: initialValues?.cms_url ?? "",
       auth_type: initialValues?.auth_type ?? "pkce",
+      name: initialValues?.name ?? null,
+      color: initialValues?.color ?? null,
+      logo: (initialValues?.logo ?? null) as any,
     },
     schema,
     action: async (values) => {
+      if (!values.name) {
+        values.name = null;
+      }
+      if (!values.color) {
+        values.color = null;
+      }
+      if (values.logo instanceof File) {
+        const formData = new FormData();
+        formData.append("file", values.logo);
+        const logoFile = await directus.request(uploadFiles(formData));
+        values.logo = logoFile.id;
+      }
+
       if (!values.access_token.startsWith("encrypted_")) {
         if (values.git_provider === "github") {
           // Validate the access token
@@ -252,47 +279,105 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           required
         />
         <SimpleGrid cols={2}>
-          <Stack>
-            <Radio.Group
-              mt="xl"
-              label="Auth type"
-              description="Choose your prefered login interface for this Decap CMS instance."
-              {...form.getInputProps("auth_type")}
-            >
-              <Group pt="xs">
-                <Radio label="Classic" value="classic" />
-                <Radio label="PKCE" value="pkce" />
-              </Group>
-            </Radio.Group>
-            {form.values.auth_type === "classic" ? (
-              <Text size="sm">
-                Users will be presented with a email/password form directly on
-                your Decap CMS instance. Password logins only.
-              </Text>
-            ) : (
-              <Stack gap="xs">
-                <Text size="sm">
-                  Users will see a Login button, which will initialize login
-                  flow via DecapBridge for login options. Currently supported:
+          <Stack mt="xl" pr="lg">
+            <Stack gap="xs">
+              <Radio.Group
+                label="Auth type"
+                description="Choose your prefered login interface for this Decap CMS instance."
+                {...form.getInputProps("auth_type")}
+              >
+                <Group pt="xs">
+                  <Radio label="Classic" value="classic" />
+                  <Radio label="PKCE" value="pkce" />
+                </Group>
+              </Radio.Group>
+              {form.values.auth_type === "classic" ? (
+                <Text size="xs">
+                  Users will be presented with a email/password form directly on
+                  your Decap CMS instance. Password logins only.
                 </Text>
-                <List size="sm">
-                  <List.Item>Login with Google</List.Item>
-                  <List.Item>Login with Microsoft</List.Item>
-                  <List.Item>Password login</List.Item>
-                </List>
-                <Text size="xs">Requires Decap CMS v3.8.3 or above.</Text>
+              ) : (
+                <Stack gap="xs">
+                  <Text size="xs">
+                    Users will see a Login button, which will initialize login
+                    flow via DecapBridge for login options. Currently supported:
+                  </Text>
+                  <List size="xs">
+                    <List.Item>Login with Google</List.Item>
+                    <List.Item>Login with Microsoft</List.Item>
+                    <List.Item>Password login</List.Item>
+                  </List>
+                  <Text size="xs">Requires Decap CMS v3.8.3 or above.</Text>
+                </Stack>
+              )}
+            </Stack>
+            {isProUser(user) && (
+              <Stack>
+                <TextInput
+                  label="Site Name"
+                  name="name"
+                  {...form.getInputProps("name")}
+                  value={form.getInputProps("name").value ?? ""}
+                />
+                <SimpleGrid cols={2} style={{ alignItems: "end" }} spacing="sm">
+                  <FileInput
+                    label="Site Logo"
+                    name="logo"
+                    {...form.getInputProps("logo")}
+                    valueComponent={({ value }) => {
+                      return (
+                        <Image
+                          alt="site logo"
+                          src={useFileUrl(value as File | string)}
+                          style={{ pointerEvents: "none" }}
+                          maw="1.75rem"
+                          mah="1.75rem"
+                          bdrs="xs"
+                        />
+                      );
+                    }}
+                    // valueComponent={
+                    //   siteLogoUrl ? (
+                    //     <Image alt="site logo" src={siteLogoUrl} />
+                    //   ) : undefined
+                    // }
+                    clearable
+                  />
+                  <ColorInput
+                    label="Theme color"
+                    name="color"
+                    {...form.getInputProps("color")}
+                    value={form.getInputProps("color").value ?? ""}
+                    rightSection={
+                      form.getInputProps("color").value && (
+                        <CloseButton
+                          onClick={() => form.setFieldValue("color", null)}
+                        />
+                      )
+                    }
+                    format="hex"
+                    swatches={[
+                      "#2e2e2e",
+                      "#868e96",
+                      "#fa5252",
+                      "#e64980",
+                      "#be4bdb",
+                      "#7950f2",
+                      "#4c6ef5",
+                      "#228be6",
+                      "#15aabf",
+                      "#12b886",
+                      "#40c057",
+                      "#82c91e",
+                      "#fab005",
+                      "#fd7e14",
+                    ]}
+                  />
+                </SimpleGrid>
               </Stack>
             )}
-            <Stack mt="auto">
-              <Group justify="space-between">
-                <Button {...form.submitButtonProps} accessKey="s">
-                  {initialValues ? "Save changes" : "Create site"}
-                </Button>
-              </Group>
-              {form.errors.action && <Group>{form.errors.action}</Group>}
-            </Stack>
           </Stack>
-          <Stack gap="xs" p="md">
+          <Stack gap="xs" mt="md">
             <Text ta="center" size="xs" c="dimmed">
               Preview of the {form.values.auth_type} flow:
             </Text>
@@ -326,6 +411,14 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             </Card>
           </Stack>
         </SimpleGrid>
+        <Stack>
+          <Group>
+            <Button {...form.submitButtonProps} accessKey="s" size="md">
+              {initialValues ? "Save changes" : "Create site"}
+            </Button>
+          </Group>
+          {form.errors.action && <Group>{form.errors.action}</Group>}
+        </Stack>
       </Stack>
     </FormWrapper>
   );

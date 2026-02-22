@@ -6,6 +6,8 @@ import directus from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import useGlobalData from "./useGlobalData";
 import { useCallback } from "react";
+import { goToCheckout, StripePriceKey } from "../utils/stripe";
+import { usePageContext } from "vike-react/usePageContext";
 
 export const defaultLoginRedirect = "/dashboard/sites";
 
@@ -20,6 +22,7 @@ interface SignupParams {
 const useAuthActions = () => {
   const { misc } = useGlobalData();
   const queryClient = useQueryClient();
+  const { urlParsed } = usePageContext();
 
   const signup = useCallback(
     async (params: SignupParams) => {
@@ -29,7 +32,11 @@ const useAuthActions = () => {
         queryKey: ["user"],
         refetchType: "all",
       });
-      await navigate("/dashboard/sites");
+      if (urlParsed.search.plan) {
+        await goToCheckout(urlParsed.search.plan as StripePriceKey);
+      } else {
+        await navigate("/dashboard/sites");
+      }
     },
     []
   );

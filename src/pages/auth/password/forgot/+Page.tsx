@@ -9,6 +9,7 @@ import {
   Alert,
   Stack,
   Anchor,
+  useMantineTheme,
 } from "@mantine/core";
 import { TbAlertCircle, TbArrowLeft, TbAt } from "react-icons/tb";
 import { passwordRequest } from "@directus/sdk";
@@ -30,6 +31,7 @@ const schema = z.object({
 const ForgotPassword: React.FC = () => {
   const content = useData<Data>();
   const { urlParsed } = usePageContext();
+  const theme = useMantineTheme();
   const form = useAsyncForm({
     schema,
     initialValues: {
@@ -81,7 +83,7 @@ const ForgotPassword: React.FC = () => {
             <Alert
               icon={<TbAlertCircle size={16} />}
               title={content.success_title}
-              c="pink"
+              c={theme.primaryColor}
             >
               {content.success_description}
             </Alert>

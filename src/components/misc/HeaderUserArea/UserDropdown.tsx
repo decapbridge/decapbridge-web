@@ -6,6 +6,7 @@ import {
   TbLogout,
   TbUser,
   TbActivity,
+  TbInvoice,
 } from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
@@ -17,10 +18,11 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
   const user = useCurrentUser();
   const { misc } = useGlobalData();
   const { logout } = useAuthActions();
-  const [templatesLink, activityLink, settingsLink] = usePageMeta(
+  const [profileLink, billingLink, activityLink, settingsLink] = usePageMeta(
     "/dashboard/profile",
+    "/dashboard/billing",
     "/dashboard/activity",
-    "/dashboard/settings"
+    "/dashboard/settings",
   );
 
   if (!user) {
@@ -35,7 +37,7 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
           component={InternalLink}
           style={{ textDecoration: "none" }}
           rightSection={<TbChevronRight size={14} />}
-          href="/dashboard/profile"
+          href="/dashboard/sites"
         >
           <Text fw={500}>
             {user.first_name} {user.last_name}
@@ -48,11 +50,11 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
         <Menu.Item
           component={InternalLink}
           style={{ textDecoration: "none" }}
-          href={templatesLink.urlPathname}
+          href={profileLink.urlPathname}
           leftSection={<TbUser size={14} />}
-          key={templatesLink.urlPathname}
+          key={profileLink.urlPathname}
         >
-          {templatesLink.title}
+          {profileLink.title}
         </Menu.Item>
         <Menu.Item
           component={InternalLink}
@@ -63,6 +65,17 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
         >
           {activityLink.title}
         </Menu.Item>
+        {/* {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+          <Menu.Item
+            component={InternalLink}
+            style={{ textDecoration: "none" }}
+            href={billingLink.urlPathname}
+            leftSection={<TbInvoice size={14} />}
+            key={billingLink.urlPathname}
+          >
+            {billingLink.title}
+          </Menu.Item>
+        )} */}
         <Menu.Item
           component={InternalLink}
           style={{ textDecoration: "none" }}

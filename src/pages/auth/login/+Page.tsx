@@ -73,7 +73,6 @@ const LoginPage: React.FC = () => {
           <Group grow>
             <Button
               leftSection={<GoogleIcon />}
-              radius="xl"
               variant="default"
               component="a"
               href={getSsoRedirectUrl("google")}
@@ -82,7 +81,6 @@ const LoginPage: React.FC = () => {
             </Button>
             <Button
               leftSection={<MicrosoftIcon />}
-              radius="xl"
               variant="default"
               component="a"
               href={getSsoRedirectUrl("microsoft")}

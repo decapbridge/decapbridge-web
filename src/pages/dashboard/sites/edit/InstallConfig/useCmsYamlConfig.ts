@@ -1,10 +1,10 @@
-import useGlobalData from "/src/hooks/useGlobalData"
+import { useMantineTheme } from "@mantine/core"
 import { getDirectusUrl, getGitGatewayUrl } from "/src/utils/constants"
 import { Site } from "/src/utils/directus"
 
 const useCmsYamlConfig = (site: Site) => {
 
-  const global = useGlobalData()
+  const theme = useMantineTheme()
 
   const siteUrl = site.cms_url ? new URL(site.cms_url).origin : null;
 
@@ -19,7 +19,7 @@ const useCmsYamlConfig = (site: Site) => {
 
 
   const bottomBlock = `# Better Decap + Bridge logo (optional)
-logo_url: ${global.site.site_url}/decapcms-with-bridge.svg
+logo_url: ${theme.other.site_url}/decapcms-with-bridge.svg
 
 ${siteUrl ? (
       `# Add site links in Decap CMS (optional)

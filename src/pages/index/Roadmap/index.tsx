@@ -1,20 +1,26 @@
-import { Container, Stack, Title, Text, Accordion } from "@mantine/core";
+import {
+  Container,
+  Stack,
+  Title,
+  Text,
+  Accordion,
+  Anchor,
+  Group,
+} from "@mantine/core";
+import utils from "/src/utils/utils.module.css";
+import InternalLink from "/src/components/core/InternalLink";
+import useColorSchemeToggle from "/src/hooks/useColorSchemeToggle";
 
 const items: { title: string; description: string }[] = [
+  {
+    title: "i18n translations",
+    description:
+      "Add multilingual translation to the web UI to improve world wide accessibility.",
+  },
   {
     title: "Automatic Github token retrival",
     description:
       "Integrate Login with Github and token management, so you don't have to type in the repo name or create and copy-paste an access token. This could be done automatically for you in a few clicks.",
-  },
-  {
-    title: "Branded login pages and emails",
-    description:
-      "You will be able to change the colors, logos and texts of the authentication pages and invite emails on a site-per-site basis (Sign up, Sign in, Forgot password, Reset password)",
-  },
-  {
-    title: "White-label self hosting",
-    description:
-      "Ability to self host a simplified version of DecapBridge, which you can change the apearance as well (with a comercial license)",
   },
   {
     title: "More SSO options",
@@ -26,35 +32,51 @@ const items: { title: string; description: string }[] = [
     description:
       "Support for more git providers, missing ones are: azure, gitea and bitbucket",
   },
-  {
-    title: "i18n translations",
-    description:
-      "Add multilingual translation to the web UI to improve world wide accessibility.",
-  },
 ];
 
 const Roadmap: React.FC = () => {
+  const { colorScheme } = useColorSchemeToggle();
   return (
-    <Container size="xs" my="xl" py="xl">
-      <Stack gap="xl" my="xl">
-        <Stack gap={4}>
-          <Title order={2} ta="center">
-            Roadmap
-          </Title>
-          <Text size="sm" ta="center">
-            Slow and steady upcoming features
-          </Text>
+    // <div className={`${utils["alt-background"]} ${utils["top-border"]}`}>
+    <div className={`${utils["alt-background"]}`}>
+      <Container size="xs" mb="xl" py="xl">
+        <Stack gap="xl" my="xl">
+          <Stack gap={4}>
+            <Title order={2} ta="center">
+              What's next
+            </Title>
+            <Text size="sm" ta="center">
+              Upcoming features roadmap
+            </Text>
+          </Stack>
+          <Accordion variant="separated">
+            {items.map((i) => (
+              <Accordion.Item
+                px="xs"
+                value={i.title}
+                key={i.title}
+                style={
+                  colorScheme === "light"
+                    ? {
+                        background: "white",
+                        border: `calc(0.0625rem * var(--mantine-scale)) solid var(--mantine-color-gray-3)`,
+                      }
+                    : {}
+                }
+              >
+                <Accordion.Control>{i.title}</Accordion.Control>
+                <Accordion.Panel>{i.description}</Accordion.Panel>
+              </Accordion.Item>
+            ))}
+          </Accordion>
+          <Group justify="center">
+            <Anchor size="sm" component={InternalLink} href="/contact">
+              Ideas? Please leave them here!
+            </Anchor>
+          </Group>
         </Stack>
-        <Accordion variant="separated">
-          {items.map((i) => (
-            <Accordion.Item px="xs" value={i.title} key={i.title}>
-              <Accordion.Control>{i.title}</Accordion.Control>
-              <Accordion.Panel>{i.description}</Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Stack>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

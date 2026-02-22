@@ -10,6 +10,7 @@ import {
   AuthenticationStorage,
 } from "@directus/sdk";
 import { getDirectusUrl } from "./constants";
+import { StripePriceKey } from "./stripe";
 
 const authKey = "auth";
 
@@ -50,7 +51,10 @@ export interface Site {
   date_updated: string;
   user_created?: CustomSchema['directus_users'][number] | string;
   user_updated?: CustomSchema['directus_users'][number] | string;
-  collaborators: Collaborator[]
+  collaborators: Collaborator[];
+  name?: string | null;
+  logo?: string | null;
+  color?: string | null;
 }
 
 export interface CustomCollections {
@@ -70,7 +74,21 @@ export type CustomSchema = CoreSchema &
 
 export type CustomSchemaEnum = Exclude<keyof CustomSchema, "directus_settings">;
 
-export type CustomDirectusUser = CustomSchema["directus_users"][number];
+export type StripeSubscriptionStatus =
+  | 'incomplete'
+  | 'incomplete_expired'
+  | 'trialing'
+  | 'active'
+  | 'past_due'
+  | 'canceled'
+  | 'unpaid'
+  | 'paused';
+
+export type CustomDirectusUser = CustomSchema["directus_users"][number] & {
+  stripe_customer_id?: string;
+  stripe_price_key?: StripePriceKey;
+  stripe_subscription_status?: StripeSubscriptionStatus;
+};
 
 
 const directus = createDirectus<CustomSchema>(
@@ -83,8 +101,5 @@ const directus = createDirectus<CustomSchema>(
     })
   );
 
-// const test = await directus.request(readItems('directus_operations'))
-
-// test[0].
 
 export default directus;

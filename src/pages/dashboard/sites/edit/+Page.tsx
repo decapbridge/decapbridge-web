@@ -48,7 +48,7 @@ const EditSitePage: React.FC = () => {
         { collaborators: ["*", { directus_users_id: ["*"] }] },
         { user_created: ["*"] },
       ],
-    })
+    }),
   );
   useEffect(() => {
     if (!search.siteId) {
@@ -72,7 +72,7 @@ const EditSitePage: React.FC = () => {
   };
 
   return (
-    <Container size="md" my="xl">
+    <Container size="md" p="xl">
       <Stack>
         <Group justify="space-between">
           <Button

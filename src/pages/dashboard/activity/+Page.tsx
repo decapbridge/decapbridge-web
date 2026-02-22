@@ -13,7 +13,7 @@ const formatCollection = (collection: string) => {
 const ActivityPage: React.FC = () => {
   const { page, setPage, limit, totalPages } = useCollectionPagination(
     "directus_activity",
-    20
+    20,
   );
   const { data } = useDirectusRequest(
     readActivities({
@@ -21,10 +21,10 @@ const ActivityPage: React.FC = () => {
       fields: ["*", { user: ["email"] }],
       page,
       limit,
-    })
+    }),
   );
   return (
-    <Container size="sm" py="xs" my="xl">
+    <Container size="md" p="xl" my="md">
       <Table mb="xl">
         <Table.Thead>
           <Table.Tr>

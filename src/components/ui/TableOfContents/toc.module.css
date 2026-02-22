@@ -30,13 +30,16 @@
   &[data-active] {
     font-weight: 500 !important;
     border-left-color: light-dark(
-      var(--mantine-color-pink-6),
-      var(--mantine-color-pink-4)
+      var(--mantine-color-custom-6),
+      var(--mantine-color-custom-4)
     );
-    color: light-dark(var(--mantine-color-pink-6), var(--mantine-color-pink-4));
+    color: light-dark(
+      var(--mantine-color-custom-6),
+      var(--mantine-color-custom-4)
+    );
     &,
     &:hover {
-      background-color: var(--mantine-color-pink-light) !important;
+      background-color: var(--mantine-color-custom-light) !important;
     }
   }
 }

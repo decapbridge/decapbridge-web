@@ -17,12 +17,7 @@ const PasswordResetSettingBox: React.FC = () => {
     return null;
   }
   const handlePasswordReset = async () => {
-    await directus.request(
-      passwordRequest(
-        user.email!,
-        getPasswordResetUrl()
-      )
-    );
+    await directus.request(passwordRequest(user.email!, getPasswordResetUrl()));
     setResetPasswordSent(true);
     notifications.show({
       title: content.reset_password_success_title,
@@ -30,7 +25,7 @@ const PasswordResetSettingBox: React.FC = () => {
     });
   };
   return (
-    <Paper withBorder shadow="md" p="xl" my="xl" radius="md">
+    <Paper withBorder shadow="md" p="xl" radius="md">
       <Title order={3}>{content.reset_password_heading}</Title>
       <Divider mt="xs" />
       <Text size="sm" my="sm">

@@ -48,7 +48,7 @@ const DeleteAccountSettingBox: React.FC = () => {
     },
   });
   return (
-    <Paper withBorder shadow="md" p="xl" my="xl" radius="md">
+    <Paper withBorder shadow="md" p="xl" radius="md">
       <Title order={3}>{content.delete_account_heading}</Title>
       <Divider mt="xs" />
       <Text size="sm" my="sm">

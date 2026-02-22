@@ -10,10 +10,13 @@ import {
   Title,
   Tooltip,
   TextInput,
+  Anchor,
+  Alert,
+  useMantineTheme,
 } from "@mantine/core";
 import directus, { CustomSchema, Site } from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
-import { TbAt, TbPassword, TbSend, TbX } from "react-icons/tb";
+import { TbAt, TbInfoCircle, TbPassword, TbSend, TbX } from "react-icons/tb";
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
@@ -23,6 +26,10 @@ import { notifications } from "@mantine/notifications";
 import queryClient from "/src/utils/queryClient";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
+import useCurrentUser from "/src/hooks/useCurrentUser";
+import InternalLink from "/src/components/core/InternalLink";
+import isProUser from "/src/utils/isProUser";
+import { freeCollaboratorLimit } from "/src/utils/freeLimits";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -33,6 +40,8 @@ interface CollaboratorsTableProps {
 }
 
 const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
+  const user = useCurrentUser();
+  const theme = useMantineTheme();
   const form = useAsyncForm({
     allowMultipleSubmissions: true,
     schema,
@@ -46,7 +55,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
             method: "POST",
             path: `/sites/${site.id}/invite`,
             body: JSON.stringify(values),
-          })
+          }),
         );
         notifications.show({
           message: "Invite email sent!",
@@ -138,33 +147,57 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
     );
   });
 
+  const canAddCollaborators =
+    isProUser(user) || (allUsers?.length ?? 0) < freeCollaboratorLimit;
+
   return (
     <Paper withBorder radius="lg" p="xl" shadow="md">
       <Stack>
         <Title order={4}>Manage collaborators for this site</Title>
         <Divider />
-        <FormWrapper form={form} radius={0} shadow="none">
-          <Group align="flex-end">
-            <TextInput
-              style={{ flexGrow: 1 }}
-              labelProps={{ mb: 4, ml: 2 }}
-              name="email"
-              label="Invite new collaborator by email"
-              placeholder="someone@example.com"
-              leftSection={<TbAt size={16} />}
-              required
-              {...form.getInputProps("email")}
-            />
-            <Button
-              {...form.submitButtonProps}
-              accessKey="s"
-              mt="xs"
-              rightSection={<TbSend size="1.5em" />}
+        {canAddCollaborators ? (
+          <FormWrapper form={form} radius={0} shadow="none">
+            <Group align="flex-end">
+              <TextInput
+                style={{ flexGrow: 1 }}
+                labelProps={{ mb: 4, ml: 2 }}
+                name="email"
+                label="Invite new collaborator by email"
+                placeholder="someone@example.com"
+                leftSection={<TbAt size={16} />}
+                required
+                {...form.getInputProps("email")}
+              />
+              <Button
+                {...form.submitButtonProps}
+                accessKey="s"
+                mt="xs"
+                rightSection={<TbSend size="1.5em" />}
+              >
+                Send invitation email
+              </Button>
+            </Group>
+          </FormWrapper>
+        ) : (
+          <Alert
+            variant="light"
+            color={theme.primaryColor}
+            title="Free account collaborator limit reached."
+            icon={<TbInfoCircle />}
+            bdrs="md"
+          >
+            You've reached the free account limit of 10 users per site. As a
+            power-user, please consider upgrading to remove all limits, access
+            premium features and help the development of DecapBridge!{" "}
+            <Anchor
+              size="sm"
+              component={InternalLink}
+              href="/dashboard/billing"
             >
-              Send invitation email
-            </Button>
-          </Group>
-        </FormWrapper>
+              Click here to go to the billing page and learn more.
+            </Anchor>
+          </Alert>
+        )}
         <ScrollArea>
           <Table miw={800} verticalSpacing="sm">
             <Table.Thead>

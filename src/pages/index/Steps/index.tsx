@@ -45,7 +45,6 @@ export function Steps() {
         variant="light"
         className={classes.itemIcon}
         size="3.5rem"
-        radius="xl"
         pl="sm"
       >
         {i + 1}.
@@ -61,18 +60,23 @@ export function Steps() {
   ));
 
   return (
-    <div className={utils["alt-background"]}>
+    <div
+      // className={`${utils["alt-background"]} ${utils["bottom-border"]} ${utils["top-border"]}`}
+      className={`${utils["alt-background"]} ${utils["top-border"]}`}
+    >
       <Container size="lg" className={classes.wrapper}>
         <Stack align="center">
           <Title className={classes.title} order={2}>
-            Get your Decap CMS authentication{" "}
-            <span className={classes.highlight}>ready in seconds</span>
+            Get <span className={classes.highlight}>production-ready</span>{" "}
+            Decap CMS auth <span className={classes.highlight}>in seconds</span>
+            .
           </Title>
           <Container size={690} p={0}>
             <Text c="dimmed" className={classes.description}>
-              Trying to decide between Netlify Auth, Auth0 with some cloud
-              functions, or asking your users to create Github accounts? How
-              about trying out something better. It's as easy as one-two-three:
+              Trying to decide between a deprecated Netlify Auth, settings up
+              Auth0 with some cloud functions, or asking your users to create
+              Github accounts? How about something ready to go just for you,
+              it's as easy as one-two-three:
             </Text>
           </Container>
           <SimpleGrid cols={{ base: 1, lg: 3 }} spacing={50} my="xl">

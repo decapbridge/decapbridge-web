@@ -6,11 +6,12 @@ import {
   Text,
   List,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, UseFormReturnType } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import { ZodObject } from "zod";
 import { zod4Resolver } from "mantine-form-zod-resolver";
+import { usePageContext } from "vike-react/usePageContext";
 
 interface FormWrapperProps extends PaperProps {
   children: React.ReactNode;
@@ -116,9 +117,6 @@ const useAsyncForm = <V extends Record<string, unknown>>({
   return { ...form, state, onSubmit, submitButtonProps, loadingOverlay };
 };
 
-import { UseFormReturnType } from "@mantine/form";
-import { usePageContext } from "vike-react/usePageContext";
-
 export const accessTokenError = 'Invalid "access_token"';
 export const repoError = 'Invalid "repo"';
 export const invalidProvider = "INVALID_PROVIDER";
@@ -156,7 +154,7 @@ const applyErrorsToForm = (error: any, form: UseFormReturnType<any>) => {
     for (const err of error.errors) {
       const errorMessage = formatErrorMessages(err.message);
       const key = Object.keys(form.values).find((field) =>
-        err.message?.includes(`"${field}"`)
+        err.message?.includes(`"${field}"`),
       );
       if (key) {
         form.setFieldError(key, errorMessage);

@@ -4,52 +4,70 @@ meta:
 tags:
   - legal
 ---
+
 ## Welcome to DecapBridge
 
-These terms of use govern your use of DecapBridge, a website dedicated to providing technology-related content. By accessing DecapBridge, you agree to these terms in full. If you disagree with these terms or any part of these terms, you must not use this website.
+DecapBridge is a user management and authentication service for [Decap CMS](https://decapcms.org/). It allows website owners to invite collaborators to edit content stored in a Git repository, without requiring those collaborators to have a Git account.
 
-## Intellectual Property Rights
+By accessing or using DecapBridge, you agree to be bound by these terms. If you disagree, do not use the service.
 
-Unless otherwise stated, DecapBridge and/or its licensors own the intellectual property rights published on this website and materials used on DecapBridge. Subject to the license below, all these intellectual property rights are reserved.
+## Accounts
 
-## License to Use Website
+You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account. You must provide accurate information when registering. You must be at least 16 years old to create an account.
 
-You may view, download for caching purposes only, and print pages from the website for your own personal use, subject to the restrictions set out below and elsewhere in these terms of use.
+We reserve the right to suspend or terminate accounts that violate these terms.
 
-You must not:
+## Plans and Billing
 
-* Republish material from this website in neither print nor digital media or documents (including republication on another website);
-* Sell, rent or sub-license material from the website;
-* Show any material from the website in public without consent;
-* Reproduce, duplicate, copy or otherwise exploit material on this website for a commercial purpose;
-* Edit or otherwise modify any material on the website.
+DecapBridge offers a free tier and paid subscription plans. Paid plans are billed on a recurring basis via Stripe. You may cancel your subscription at any time from your account settings; cancellation takes effect at the end of the current billing period.
+
+We reserve the right to change pricing with reasonable notice. Continued use of the service after a price change constitutes acceptance of the new pricing.
 
 ## Acceptable Use
 
-You must not use this website in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of DecapBridge or in any way which is unlawful, illegal, fraudulent or harmful.
+You may not use DecapBridge to:
 
-## Analytics
+- Violate any applicable law or regulation
+- Infringe the intellectual property rights of others
+- Transmit malicious code or interfere with the service's infrastructure
+- Attempt to gain unauthorized access to other users' accounts or data
 
-DecapBridge uses analytics to gather and analyze data about the way users interact with the website. This data helps us improve our content and service.
+## Self-Hosting
+
+The DecapBridge source code is available on GitHub under the DecapBridge Source License 1.0. Self-hosting for personal or non-commercial use is permitted at no cost. Self-hosting for commercial use requires a separate commercial self-hosting license. See the [source-available](/docs/source-available) page for details.
+
+## Intellectual Property
+
+DecapBridge and its content, features, and functionality are owned by Millisecond Studio and are protected under applicable intellectual property laws. You may not reproduce, distribute, or create derivative works without explicit written permission, except as permitted under the source code license.
+
+## Service Availability
+
+We aim to keep DecapBridge available and reliable, but we do not guarantee any specific uptime or availability. We may perform maintenance, introduce changes, or discontinue features at any time. We will make reasonable efforts to notify users of significant disruptions in advance.
+
+## Termination
+
+You may delete your account at any time. Upon deletion, your personal data and associated records are permanently removed from our systems.
+
+We may suspend or terminate your access if you breach these terms, with or without notice depending on the severity of the violation.
 
 ## No Warranties
 
-This website is provided “as is” without any representations or warranties, express or implied. DecapBridge makes no representations or warranties in relation to this website or the information and materials provided on this website.
+The service is provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
 
-## Limitations of Liability
+## Limitation of Liability
 
-DecapBridge will not be liable to you (whether under the law of contact, the law of torts or otherwise) in relation to the contents of, or use of, or otherwise in connection with, this website:
+To the fullest extent permitted by law, Millisecond Studio shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of or inability to use the service, even if advised of the possibility of such damages.
 
-* To the extent that the website is provided free-of-charge, for any direct loss;
-* For any indirect, special or consequential loss; or
-* For any business losses, loss of revenue, income, profits or anticipated savings, loss of contracts or business relationships, loss of reputation or goodwill, or loss or corruption of information or data.
+## Governing Law
 
-## Contact Us
+These terms are governed by the laws of the province of Quebec and the federal laws of Canada applicable therein, without regard to conflict of law principles.
 
-If you have any questions about these Terms of Use, please contact us through our [Contact Us](/contact) page.
+## Changes to These Terms
 
-## Modifications
+We may update these terms from time to time. When we do, we will update the effective date below. Continued use of the service after changes are posted constitutes acceptance of the revised terms.
 
-DecapBridge may revise these terms of use from time to time. Revised terms of use will apply to the use of this website from the date of the publication of the revised terms of use on this website. Please check this page regularly to ensure you are familiar with the current version.
+## Contact
 
-Effective Date: 2024-01-01
+For any questions about these terms: hello@decapbridge.com
+
+Effective Date: 2026-01-01

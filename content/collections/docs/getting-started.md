@@ -35,7 +35,7 @@ Here you need to provide an access token that will let non-git users read/write 
 
 **For Github users**:
 
-For Github, the token needs read and write access the repository's _Contents_, and if using the [Editorial Workflow](https://decapcms.org/docs/editorial-workflows/), _Pull requests_ as well.
+For Github, the token needs read and write access to the repository's _Contents_, and if using the [Editorial Workflow](https://decapcms.org/docs/editorial-workflows/), _Pull requests_ as well.
 
 You can create such a token in your account settings, here: [https://github.com/settings/tokens](https://github.com/settings/tokens).
 
@@ -53,7 +53,7 @@ Here, insert the full URL of your Decap CMS's instance admin page. Users will be
 
 Don't know what I'm talking about? Now is when I would reach for the _Decap CMS_ docs, install step: [https://decapcms.org/docs/install-decap-cms/](https://decapcms.org/docs/install-decap-cms/).
 
-For most people, you would create a `admin` folder at the root of your public assets file in your website's code directory, then add a `index.html` in it with something like this:
+For most people, you would create an `admin` folder at the root of your public assets directory in your website's code directory, then add a `index.html` in it with something like this:
 
 ```html
 <!DOCTYPE html>
@@ -98,7 +98,7 @@ For this part, refer to the _Decap CMS_ docs [configuration options](https://dec
 
 In the dashboard, on your site's page, there should be a "Manage collaborators" tab. In this tab, you can send email invitations to whoever you wish, so that they can log into your site's CMS.
 
-Simply enter their email and hit send. They will receive an inviation email with a link to setup their account. They will then be able to choose their prefered login method or password. If they click the link again after they configured their account, it will send them straight to the CMS.
+Simply enter their email and hit send. They will receive an invitation email with a link to setup their account. They will then be able to choose their preferred login method or password. If they click the link again after they configured their account, it will send them straight to the CMS.
 
 If they can't see the email, check the spam folder. If still nothing, please let me know!
 
