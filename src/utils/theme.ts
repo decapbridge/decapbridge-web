@@ -7,9 +7,9 @@ export const theme = createTheme({
   primaryColor: 'custom',
   fontFamily: '"IBM Plex Sans", sans-serif',
   headings: { fontFamily: '"Montserrat", sans-serif' },
-  defaultRadius: import.meta.env.VITE_DECAPBRIDGE_THEME_RADIUS ?? 'xl',
+  defaultRadius: import.meta.env.VITE_DECAPBRIDGE_THEME_RADIUS || 'xl',
   colors: {
-    custom: generateColors(import.meta.env.VITE_DECAPBRIDGE_THEME_COLOR ?? '#e64980')
+    custom: generateColors(import.meta.env.VITE_DECAPBRIDGE_THEME_COLOR || '#e64980')
   },
   components: {
     Image: Image.extend({
@@ -44,8 +44,8 @@ export const theme = createTheme({
     }),
   },
   other: {
-    site_name: import.meta.env.VITE_DECAPBRIDGE_SITE_NAME ?? siteSettings.site_name,
-    site_url: import.meta.env.VITE_DECAPBRIDGE_SITE_URL ?? siteSettings.site_url,
-    site_logo: import.meta.env.VITE_DECAPBRIDGE_SITE_LOGO ?? '/favicon.svg',
+    site_name: import.meta.env.VITE_DECAPBRIDGE_SITE_NAME || siteSettings.site_name,
+    site_url: import.meta.env.VITE_DECAPBRIDGE_SITE_URL || siteSettings.site_url,
+    site_logo: import.meta.env.VITE_DECAPBRIDGE_SITE_LOGO || '/favicon.svg',
   }
 });

@@ -51,7 +51,7 @@ const ContactPage: React.FC = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(values, null, 2),
-          }
+          },
         );
         if (!res.ok) {
           throw new Error("Request failed.");

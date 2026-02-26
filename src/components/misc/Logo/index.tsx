@@ -15,6 +15,7 @@ import utils from "/src/utils/utils.module.css";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 import isProUser from "/src/utils/isProUser";
 import { usePageContext } from "vike-react/usePageContext";
+import useGlobalData from "/src/hooks/useGlobalData";
 
 interface LogoProps extends ButtonProps {
   href?: PossibleLinks;
@@ -24,15 +25,17 @@ interface LogoProps extends ButtonProps {
 const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
   const theme = useMantineTheme();
   const { urlPathname } = usePageContext();
+  const { site } = useGlobalData();
+
+  let title = site.site_name;
+  if (theme.other.site_logo !== "/favicon.svg") {
+    title = theme.other.site_name;
+  }
 
   const { user } = useMaybeUser();
   const isPro = user && isProUser(user);
   const logo = (
-    <Image
-      src={theme.other.site_logo}
-      w="1.5rem"
-      aria-label={theme.other.site_name}
-    />
+    <Image src={theme.other.site_logo} w="1.5rem" aria-label={title} />
   );
 
   const clickableProps: any = href
@@ -53,7 +56,7 @@ const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
     return (
       <Box pos="relative">
         <Button {...sharedProps} leftSection={logo} pr="sm">
-          {theme.other.site_name}
+          {title}
         </Button>
         {urlPathname.startsWith("/dashboard") && isPro && (
           <Badge
