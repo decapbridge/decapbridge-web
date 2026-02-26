@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "concurrently -n vite,decap \"vite dev\" \"PORT=8082 decap-server\"",
     "build": "vite build",
-    "preview": "sirv dist/client --dev",
+    "start": "sirv dist/client",
     "tsc": "tsc",
     "clean": "rm -rf ./node_modules/.vite",
     "lint": "eslint . --fix"
