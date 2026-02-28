@@ -26,7 +26,7 @@ const DocsLayout: React.FC<DocsLayoutProps> = ({ children }) => {
     "/docs/introduction",
     "/docs/getting-started",
     "/docs/architecture",
-    // "/docs/self-hosting",
+    "/docs/self-hosting",
     "/docs/source-available",
   );
   return (

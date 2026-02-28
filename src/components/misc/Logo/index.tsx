@@ -16,6 +16,7 @@ import useMaybeUser from "/src/hooks/useMaybeUser";
 import isProUser from "/src/utils/isProUser";
 import { usePageContext } from "vike-react/usePageContext";
 import useGlobalData from "/src/hooks/useGlobalData";
+import { env } from "/src/utils/env";
 
 interface LogoProps extends ButtonProps {
   href?: PossibleLinks;
@@ -33,7 +34,8 @@ const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
   }
 
   const { user } = useMaybeUser();
-  const isPro = user && isProUser(user);
+  const showProBadge =
+    user && isProUser(user) && !env('VITE_DECAPBRIDGE_IS_SELFHOSTED');
   const logo = (
     <Image src={theme.other.site_logo} w="1.5rem" aria-label={title} />
   );
@@ -58,7 +60,7 @@ const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
         <Button {...sharedProps} leftSection={logo} pr="sm">
           {title}
         </Button>
-        {urlPathname.startsWith("/dashboard") && isPro && (
+        {urlPathname.startsWith("/dashboard") && showProBadge && (
           <Badge
             pos="absolute"
             top={0}

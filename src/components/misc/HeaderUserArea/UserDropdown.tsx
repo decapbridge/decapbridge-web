@@ -6,13 +6,15 @@ import {
   TbLogout,
   TbUser,
   TbActivity,
-  TbInvoice,
+  TbReceipt,
+  TbRocket,
 } from "react-icons/tb";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import useAuthActions from "/src/hooks/useAuthActions";
 import usePageMeta from "/src/hooks/usePageMeta";
 import useGlobalData from "/src/hooks/useGlobalData";
+import { env } from "/src/utils/env";
 
 const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
   const user = useCurrentUser();
@@ -65,17 +67,23 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
         >
           {activityLink.title}
         </Menu.Item>
-        {/* {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+        {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
           <Menu.Item
             component={InternalLink}
             style={{ textDecoration: "none" }}
             href={billingLink.urlPathname}
-            leftSection={<TbInvoice size={14} />}
+            leftSection={
+              user?.stripe_customer_id ? (
+                <TbReceipt strokeWidth={1.5} size="1.25rem" />
+              ) : (
+                <TbRocket strokeWidth={1.5} size="1.25rem" />
+              )
+            }
             key={billingLink.urlPathname}
           >
-            {billingLink.title}
+            {user?.stripe_customer_id ? billingLink.title : "Upgrades"}
           </Menu.Item>
-        )} */}
+        )}
         <Menu.Item
           component={InternalLink}
           style={{ textDecoration: "none" }}

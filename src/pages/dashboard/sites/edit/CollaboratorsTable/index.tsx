@@ -186,9 +186,10 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
             icon={<TbInfoCircle />}
             bdrs="md"
           >
-            You've reached the free account limit of 10 users per site. As a
-            power-user, please consider upgrading to remove all limits, access
-            premium features and help the development of DecapBridge!{" "}
+            You've reached the free account limit of {freeCollaboratorLimit}{" "}
+            users per site. As a power-user, please consider upgrading to remove
+            all limits, access premium features and help the development of
+            DecapBridge!
             <Anchor
               size="sm"
               component={InternalLink}

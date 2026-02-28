@@ -9,6 +9,7 @@ import useMobileMenuOpened from "/src/hooks/useMobileMenuOpened";
 
 import utils from "/src/utils/utils.module.css";
 import GithubLink from "/src/components/ui/GithubLink";
+import { env } from "/src/utils/env";
 
 const Header: React.FC = () => {
   const [docs, contact] = usePageMeta("/docs/introduction", "/contact");
@@ -24,7 +25,7 @@ const Header: React.FC = () => {
               <Logo hiddenFrom="xs" />
               <Logo withTitle visibleFrom="xs" />
             </Group>
-            {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+            {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
               <Group visibleFrom="sm" gap="xs">
                 {publicPages.map(({ urlPathname, title }) => (
                   <Button

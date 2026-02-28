@@ -3,6 +3,7 @@ import classes from "./footer.module.css";
 import InternalLink from "/src/components/core/InternalLink";
 import Logo from "/src/components/misc/Logo";
 import useGlobalData from "/src/hooks/useGlobalData";
+import { env } from "/src/utils/env";
 
 export default function FooterSimple() {
   const {
@@ -25,11 +26,11 @@ export default function FooterSimple() {
     <AppShell.Footer className={classes.footer}>
       <Container className={classes.inner} px="xl">
         <Logo withTitle />
-        {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+        {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
           <Group className={classes.links}>{items}</Group>
         )}
         <Text size="sm" c="dimmed" pr="xl">
-          {import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED ? (
+          {env('VITE_DECAPBRIDGE_IS_SELFHOSTED') ? (
             <Anchor href="https://decapbridge.com">decapbridge.com</Anchor>
           ) : (
             <Anchor href="https://millisecond.studio">

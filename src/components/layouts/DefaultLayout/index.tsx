@@ -15,6 +15,7 @@ import utils from "/src/utils/utils.module.css";
 import InternalLink from "/src/components/core/InternalLink";
 import useGlobalData from "/src/hooks/useGlobalData";
 import usePageMeta from "/src/hooks/usePageMeta";
+import { env } from "/src/utils/env";
 
 interface DefaultLayoutProps {
   children: ReactNode;
@@ -26,17 +27,19 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const {
     pagesMeta: { legal },
   } = useGlobalData();
-  const publicPages = usePageMeta(
+  const mobileMenuPages = usePageMeta(
     "/auth/login",
     "/auth/signup",
-    "/docs/introduction",
     "/auth/password/forgot",
-    "/contact",
-  ).map((p) =>
-    p.urlPathname === "/docs/introduction"
-      ? { ...p, title: "Documentation" }
-      : p,
   );
+  const publicPages = !env('VITE_DECAPBRIDGE_IS_SELFHOSTED')
+    ? usePageMeta("/docs/introduction", "/contact").map((p) =>
+        p.urlPathname === "/docs/introduction"
+          ? { ...p, title: "Documentation" }
+          : p,
+      )
+    : [];
+
   return (
     <AppShell
       key="app"
@@ -52,19 +55,21 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <Header />
       <AppShell.Navbar py="md" px="1rem">
         <Stack gap={4} onClick={close}>
-          {publicPages.map(({ urlPathname, title }) => (
-            <Button
-              key={urlPathname}
-              justify="start"
-              component={InternalLink}
-              href={urlPathname}
-              variant="transparent"
-              className={utils["nav-button"]}
-              size="sm"
-            >
-              {title}
-            </Button>
-          ))}
+          {[...mobileMenuPages, ...publicPages].map(
+            ({ urlPathname, title }) => (
+              <Button
+                key={urlPathname}
+                justify="start"
+                component={InternalLink}
+                href={urlPathname}
+                variant="transparent"
+                className={utils["nav-button"]}
+                size="sm"
+              >
+                {title}
+              </Button>
+            ),
+          )}
         </Stack>
         <Divider mt="auto" mb="xs" mx="-1rem" />
         <Stack gap={0} onClick={close}>

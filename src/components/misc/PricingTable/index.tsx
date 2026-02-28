@@ -134,9 +134,15 @@ const PricingCard: React.FC<PricingCardProps> = ({
         {description}
         <Divider />
         {price === 0 ? (
-          <Text fw={500} fz="xl" lh="2.25rem">
-            Free forever
-          </Text>
+          <Group gap="xs" align="center">
+            <Text fw={500} fz="xl" lh="2.25rem">
+              Free forever
+            </Text>
+            <TbHeartFilled
+              size="1.125rem"
+              color={`var(--mantine-color-${theme.primaryColor}-4)`}
+            />
+          </Group>
         ) : (
           <Group gap={6}>
             <Text fw={500} fz="2rem" lh="1">
@@ -148,7 +154,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
                 /mo
               </Text>
             ) : (
-              <Text component="sup" size="xs" mb="md">
+              <Text component="sup" size="xs" mb="md" fw="bold">
                 one time
               </Text>
             )}

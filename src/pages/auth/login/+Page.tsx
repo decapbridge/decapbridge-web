@@ -22,6 +22,7 @@ import directus from "/src/utils/directus";
 import z from "zod";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
+import { env } from "/src/utils/env";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -70,26 +71,37 @@ const LoginPage: React.FC = () => {
             )}
           </Stack>
 
-          <Group grow>
-            <Button
-              leftSection={<GoogleIcon />}
-              variant="default"
-              component="a"
-              href={getSsoRedirectUrl("google")}
-            >
-              Google
-            </Button>
-            <Button
-              leftSection={<MicrosoftIcon />}
-              variant="default"
-              component="a"
-              href={getSsoRedirectUrl("microsoft")}
-            >
-              Microsoft
-            </Button>
-          </Group>
-
-          <Divider label="Or continue with email" labelPosition="center" />
+          {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS') && (
+            <>
+              <Group grow>
+                {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                  "google",
+                ) && (
+                  <Button
+                    leftSection={<GoogleIcon />}
+                    variant="default"
+                    component="a"
+                    href={getSsoRedirectUrl("google")}
+                  >
+                    Google
+                  </Button>
+                )}
+                {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                  "microsoft",
+                ) && (
+                  <Button
+                    leftSection={<MicrosoftIcon />}
+                    variant="default"
+                    component="a"
+                    href={getSsoRedirectUrl("microsoft")}
+                  >
+                    Microsoft
+                  </Button>
+                )}
+              </Group>
+              <Divider label="Or continue with email" labelPosition="center" />
+            </>
+          )}
           <TextInput
             name="email"
             label={content.email.label}

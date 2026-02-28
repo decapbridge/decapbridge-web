@@ -28,6 +28,7 @@ import { getDirectusUrl } from "/src/utils/constants";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import useFileUrl from "/src/hooks/useFileUrl";
+import { env } from "/src/utils/env";
 
 const schema = z.object({
   avatar: z.string().or(z.any()).nullable(),
@@ -119,25 +120,37 @@ const SignupPage: React.FC = () => {
                 </Anchor>
               </Group>
             </Stack>
-            <Group justify="center">
-              <Button
-                leftSection={<GoogleIcon />}
-                variant="default"
-                component="a"
-                href={getSsoRedirectUrl("google")}
-              >
-                Signup with Google
-              </Button>
-              <Button
-                leftSection={<MicrosoftIcon />}
-                variant="default"
-                component="a"
-                href={getSsoRedirectUrl("microsoft")}
-              >
-                Signup with Microsoft
-              </Button>
-            </Group>
-            <Divider label="OR, fill-in details" labelPosition="center" />
+            {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS') && (
+              <>
+                <Group justify="center">
+                  {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                    "google",
+                  ) && (
+                    <Button
+                      leftSection={<GoogleIcon />}
+                      variant="default"
+                      component="a"
+                      href={getSsoRedirectUrl("google")}
+                    >
+                      Signup with Google
+                    </Button>
+                  )}
+                  {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                    "microsoft",
+                  ) && (
+                    <Button
+                      leftSection={<MicrosoftIcon />}
+                      variant="default"
+                      component="a"
+                      href={getSsoRedirectUrl("microsoft")}
+                    >
+                      Signup with Microsoft
+                    </Button>
+                  )}
+                </Group>
+                <Divider label="OR, fill-in details" labelPosition="center" />
+              </>
+            )}
             <Stack>
               <Group gap="md">
                 <Stack align="center" gap="xs" py="sm">

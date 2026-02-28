@@ -27,6 +27,7 @@ import HeadingSection from "/src/components/misc/HeadingSection";
 import useMaybeUser from "/src/hooks/useMaybeUser";
 import AuthenticatedLayout from "/src/components/layouts/AuthenticatedLayout";
 import useAuthActions from "/src/hooks/useAuthActions";
+import { env } from "/src/utils/env";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -96,7 +97,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             >
               {activity.title}
             </Button>
-            {/* {!import.meta.env.VITE_DECAPBRIDGE_IS_SELFHOSTED && (
+            {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
               <Button
                 key={billing.urlPathname}
                 justify="start"
@@ -115,7 +116,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               >
                 {user?.stripe_customer_id ? billing.title : "Upgrades"}
               </Button>
-            )} */}
+            )}
             <Button
               key={settings.urlPathname}
               justify="start"

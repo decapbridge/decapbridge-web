@@ -1,13 +1,5 @@
 {
   "type": "module",
-  "scripts": {
-    "dev": "concurrently -n vite,decap \"vite dev\" \"PORT=8082 decap-server\"",
-    "build": "vite build",
-    "start": "sirv dist/client",
-    "tsc": "tsc",
-    "clean": "rm -rf ./node_modules/.vite",
-    "lint": "eslint . --fix"
-  },
   "dependencies": {
     "@directus/sdk": "^20.2.0",
     "@eslint/js": "^9.39.1",

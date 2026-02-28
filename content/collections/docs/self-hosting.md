@@ -7,7 +7,7 @@ meta:
 
 You're looking to self-host a version of DecapBridge on your own infrastructure? Start here!
 
-## Self-Hosting requirements:
+## Requirements:
 
 Before delving into this, have a look at the requirements for hosting your own instance of DecapBridge:
 
@@ -26,9 +26,15 @@ See below for details on each item:
 
 #### Self-Hosting key
 
-First of all, if you are looking to self-host DecapBridge in a commercial setting, you need to acquire a License, which you can get by purchasing the ["Lifetime pro" plan](/#pricing) which comes with a self-hosting key. If this is for an open-source or a non-profit project, [get in touch](/contact) and I will provide you with a free self-hosting key.
+If you are looking to self-host DecapBridge in a commercial setting, you need to acquire a license, which you can get by purchasing the ["Lifetime pro" plan](/#pricing). If this is for an open-source or non-profit project, [get in touch](/contact) and I will provide you with a free key.
 
-#### Hosting Requirements
+After purchasing, you will receive a license key by email. Set it as an environment variable in your API container:
+
+```env
+DECAPBRIDGE_LICENSE_KEY=key-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.xxxxxxxxxxxxxx
+```
+
+#### Infrastructure Requirements
 
 To host the various DecapBridge services, you will need a container orchestration setup that can run multiple Docker containers:
 
@@ -51,17 +57,85 @@ Without HTTPS, you risk exposing your passwords and git tokens when using the UI
 
 #### Email
 
-To send out invite emails, you will need one of:
+To send out invite emails, configure one of the following transports via the `EMAIL_TRANSPORT` environment variable in your API container.
 
-- a SMTP server
-- (OR) a Mailgun key
-- (OR) a AWS SES api key
+**SMTP** (`EMAIL_TRANSPORT=smtp`)
 
-This is optional, as you can also manually share the invite links by copying them in the UI and sharing them with your users.
+Works with any SMTP-compatible provider (Postmark, SendGrid, Brevo, Resend, your own mail server, etc.):
+
+```env
+EMAIL_TRANSPORT=smtp
+EMAIL_FROM=no-reply@mycompany.com
+EMAIL_SMTP_HOST=smtp.example.com
+EMAIL_SMTP_PORT=587
+EMAIL_SMTP_USER=your-smtp-user
+EMAIL_SMTP_PASSWORD=your-smtp-password
+EMAIL_SMTP_SECURE=false
+```
+
+**Mailgun** (`EMAIL_TRANSPORT=mailgun`)
+
+```env
+EMAIL_TRANSPORT=mailgun
+EMAIL_FROM=no-reply@mycompany.com
+EMAIL_MAILGUN_API_KEY=your-mailgun-api-key
+EMAIL_MAILGUN_DOMAIN=mg.mycompany.com
+```
+
+**AWS SES** (`EMAIL_TRANSPORT=ses`)
+
+```env
+EMAIL_TRANSPORT=ses
+EMAIL_FROM=no-reply@mycompany.com
+EMAIL_SES_REGION=us-east-1
+EMAIL_SES_CREDENTIALS__ACCESS_KEY_ID=your-access-key-id
+EMAIL_SES_CREDENTIALS__SECRET_ACCESS_KEY=your-secret-access-key
+```
+
+**Sendmail** (`EMAIL_TRANSPORT=sendmail`)
+
+Uses the system's sendmail binary. Only practical if your container has a local MTA configured:
+
+```env
+EMAIL_TRANSPORT=sendmail
+EMAIL_FROM=no-reply@mycompany.com
+```
+
+See the [Directus email configuration docs](https://directus.io/docs/configuration/email) for the full reference.
 
 #### SSO login
 
-If you want to enable SSO logins via the PKCE flow in self-hosted mode, you will need to provide your own openid `CLIENT_ID` and `CLIENT_SECRET` fields from Google / Microsoft.
+SSO is handled by Directus's built-in OpenID Connect support. To enable it, register an OAuth app with your provider, then pass the credentials as environment variables in your API container.
+
+See the [Directus SSO configuration docs](https://directus.io/docs/configuration/auth-sso) for the full reference.
+
+To enable both at the same time, set `AUTH_PROVIDERS=google,microsoft` in the api and include env vars for both. Then in the web container, set `VITE_DECAPBRIDGE_AUTH_PROVIDERS="google,microsoft"`.
+
+**Google**
+
+Create an OAuth 2.0 client in the [Google Cloud Console](https://console.cloud.google.com/) and set the authorized redirect URI to `https://auth-api.mycompany.com/auth/login/google/callback`.
+
+```env
+AUTH_PROVIDERS=google
+AUTH_GOOGLE_DRIVER=openid
+AUTH_GOOGLE_CLIENT_ID=your-google-client-id
+AUTH_GOOGLE_CLIENT_SECRET=your-google-client-secret
+AUTH_GOOGLE_ISSUER_URL=https://accounts.google.com
+AUTH_GOOGLE_IDENTIFIER_KEY=email
+```
+
+**Microsoft**
+
+Register an app in the [Azure Portal](https://portal.azure.com/) and set the redirect URI to `https://auth-api.mycompany.com/auth/login/microsoft/callback`.
+
+```env
+AUTH_PROVIDERS=microsoft
+AUTH_MICROSOFT_DRIVER=openid
+AUTH_MICROSOFT_CLIENT_ID=your-microsoft-client-id
+AUTH_MICROSOFT_CLIENT_SECRET=your-microsoft-client-secret
+AUTH_MICROSOFT_ISSUER_URL=https://login.microsoftonline.com/your-tenant-id/v2.0/.well-known/openid-configuration
+AUTH_MICROSOFT_IDENTIFIER_KEY=email
+```
 
 ## Example configuration
 

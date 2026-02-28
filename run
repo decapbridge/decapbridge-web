@@ -1,0 +1,131 @@
+#!/usr/bin/env sh
+
+
+# Start development server
+dev() {
+  npm exec -- \
+    concurrently -n vite,decap \
+    "vite dev" \
+    "PORT=8082 decap-server"
+}
+
+
+# Build for production
+build() {
+  npm exec -- vite build
+}
+
+
+# Inject runtime env vars into built HTML files
+inject_envs() {
+  # Build JSON with only non-empty values so build-time defaults take effect
+  pairs=""
+  for var in \
+    VITE_DECAPBRIDGE_API_URL \
+    VITE_DECAPBRIDGE_GATEWAY_URL \
+    VITE_DECAPBRIDGE_SITE_URL \
+    VITE_DECAPBRIDGE_SITE_NAME \
+    VITE_DECAPBRIDGE_SITE_LOGO \
+    VITE_DECAPBRIDGE_THEME_COLOR \
+    VITE_DECAPBRIDGE_THEME_RADIUS \
+    VITE_DECAPBRIDGE_IS_SELFHOSTED \
+    VITE_DECAPBRIDGE_AUTH_PROVIDERS
+  do
+    eval val="\${$var:-}"
+    if [ -n "$val" ]; then
+      [ -n "$pairs" ] && pairs="$pairs,"
+      pairs="$pairs\"$var\":\"$val\""
+    fi
+  done
+  if [ -n "$pairs" ]; then
+    ENV_SCRIPT="<script>window.__ENV__={${pairs}}</script>"
+    find dist/client -name '*.html' -exec sed -i "s|<head>|<head>${ENV_SCRIPT}|" {} +
+  fi
+}
+
+
+# Start production server
+start() {
+  inject_envs
+  npm exec -- sirv dist/client --host
+}
+
+
+# Type check
+tsc() {
+  npm exec -- tsc
+}
+
+
+# Lint with auto-fix
+lint() {
+  npm exec -- eslint . --fix
+}
+
+
+# Clear Vite cache
+clean() {
+  rm -rf ./node_modules/.vite
+}
+
+
+# Build docker image
+docker_build() {
+  $DOCKER build \
+    -t "$dirname" \
+    .
+}
+
+
+# Run docker image
+docker_run() {
+  $DOCKER run -it --rm \
+    --env-file=.env \
+    -p 8080:8080 \
+    "$dirname" "$@"
+}
+
+
+# Meta
+# ===============
+dirname="$(basename "$(pwd)")"
+tab=$(printf '\t')
+
+DOCKER="podman"
+
+__commands() {
+  grep -v '^ ' "$0" \
+    | grep -v '}' \
+    | grep -v '__' \
+    | grep -v '^ ' \
+    | grep -B1 '() {' \
+    | grep '.' \
+    | sed '/^# /s/^# \(.*\)$/\1/' \
+    | sed 's/() {$//; s/_/:/g' \
+    | tr '\n' '\t' \
+    | sed 's/\t--\t/\n/g' \
+    | awk -F'\t' '{print $2 "\t" $1}'
+}
+
+# Show this help text
+help() {
+  echo "
+decapbridge-web commands
+
+Usage:
+  $(basename "$0") <command> [opts...]
+
+Commands:
+$(__commands | column -t -s "$tab" | awk '{print "  "$0}')
+"
+}
+
+command="$(echo "$@" | tr ':' '_')"
+
+if [ -z "$command" ]; then
+  help
+  exit 1
+fi
+
+# Run commands
+$command

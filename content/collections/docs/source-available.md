@@ -21,4 +21,4 @@ The code is not MIT licensed however, it is under a custom source-available lice
 - You can fork, but cannot change the name or brand
 - You can self host the project using your own configuration, however **if it's for commercial use, you need to acquire a license for self-hosting**.
 
-To acquire a commercial license, [get in touch](/contact) and it will be my pleasure to help get you set up.
+To acquire a commercial license, see [pricing](/#pricing) for a lifetime license, or [get in touch](/contact) and it will be my pleasure to help get you set up.

@@ -26,6 +26,7 @@ import { getDirectusUrl } from "/src/utils/constants";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 import useFileUrl from "/src/hooks/useFileUrl";
+import { env } from "/src/utils/env";
 
 // If user is here, there 2 possible paths:
 // 1. set a password using the token, login, then go to cms
@@ -62,8 +63,6 @@ const FinalizePage: React.FC = () => {
     avatar,
     site_id,
     site_name,
-    // site_logo,
-    // site_color,
     redirect_uri,
     auth_type,
   } = urlParsed.search;
@@ -157,33 +156,45 @@ const FinalizePage: React.FC = () => {
               <Title ta="center" order={3}>
                 Finalize your account before joining {site_name}
               </Title>
-              {auth_type === "pkce" && (
-                <Stack>
-                  <Text ta="center" c="dimmed" size="sm">
-                    Choose your prefered login method <br />
-                    for {email}:
-                  </Text>
-                  <Group justify="center">
-                    <Button
-                      leftSection={<GoogleIcon />}
-                      variant="default"
-                      component="a"
-                      href={getSsoRedirectUrl("google")}
-                    >
-                      Login with Google
-                    </Button>
-                    <Button
-                      leftSection={<MicrosoftIcon />}
-                      variant="default"
-                      component="a"
-                      href={getSsoRedirectUrl("microsoft")}
-                    >
-                      Login with Microsoft
-                    </Button>
-                  </Group>
-                  <Divider label="OR, use a password:" labelPosition="center" />
-                </Stack>
-              )}
+              {auth_type === "pkce" &&
+                env('VITE_DECAPBRIDGE_AUTH_PROVIDERS') && (
+                  <Stack>
+                    <Text ta="center" c="dimmed" size="sm">
+                      Choose your prefered login method <br />
+                      for {email}:
+                    </Text>
+                    <Group justify="center">
+                      {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                        "google",
+                      ) && (
+                        <Button
+                          leftSection={<GoogleIcon />}
+                          variant="default"
+                          component="a"
+                          href={getSsoRedirectUrl("google")}
+                        >
+                          Login with Google
+                        </Button>
+                      )}
+                      {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                        "microsoft",
+                      ) && (
+                        <Button
+                          leftSection={<MicrosoftIcon />}
+                          variant="default"
+                          component="a"
+                          href={getSsoRedirectUrl("microsoft")}
+                        >
+                          Login with Microsoft
+                        </Button>
+                      )}
+                    </Group>
+                    <Divider
+                      label="OR, use a password:"
+                      labelPosition="center"
+                    />
+                  </Stack>
+                )}
             </Stack>
             <Stack>
               <Group gap="md">
