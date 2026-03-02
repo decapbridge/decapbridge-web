@@ -33,6 +33,16 @@ const StripeButton: React.FC<{
   const handleCheckout = async () => {
     try {
       setLoading(true);
+      await goToCheckout(priceKey);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+  const handleSubscribe = async () => {
+    try {
+      setLoading(true);
       if (user.stripe_customer_id) {
         await goToPortal();
       } else {
@@ -60,27 +70,41 @@ const StripeButton: React.FC<{
     );
   }
 
-  if (!user.stripe_customer_id) {
-    return (
-      <Button
-        fullWidth
-        variant="filled"
-        onClick={handleCheckout}
-        loading={loading}
-      >
-        {priceKey === "lifetime" ? "Buy a" : "Upgrade to"} {planName}
-      </Button>
-    );
-  }
+  if (user.stripe_price_key !== "lifetime") {
+    if (priceKey === "lifetime") {
+      return (
+        <Button
+          fullWidth
+          variant="filled"
+          onClick={handleCheckout}
+          loading={loading}
+        >
+          Buy a {planName}
+        </Button>
+      );
+    }
 
+    if (!user.stripe_customer_id) {
+      return (
+        <Button
+          fullWidth
+          variant="filled"
+          onClick={handleSubscribe}
+          loading={loading}
+        >
+          Upgrade to {planName}
+        </Button>
+      );
+    }
+  }
   return (
     <Button
       fullWidth
       variant="light"
-      onClick={handleCheckout}
+      onClick={handleSubscribe}
       loading={loading}
     >
-      Manage plans
+      Manage plan
     </Button>
   );
 };
@@ -202,7 +226,8 @@ const PricingTable: React.FC = () => {
         price={0}
         description={
           <Text size="sm" c="dimmed">
-            For smaller and hobby sites or for just trying out DecapBridge.
+            For smaller sites and hobby users. Also great for trying out
+            DecapBridge.
           </Text>
         }
         quotas={
@@ -220,7 +245,7 @@ const PricingTable: React.FC = () => {
         priceKey="pro"
         description={
           <Text size="sm" c="dimmed">
-            For professional developers with many sites and teams of
+            For professional developers or agencies with many sites and teams of
             collaborators.
           </Text>
         }
@@ -228,7 +253,7 @@ const PricingTable: React.FC = () => {
           <List size="sm">
             <List.Item>Unlimited sites</List.Item>
             <List.Item>Unlimited collaborators</List.Item>
-            <List.Item>Branded login screens and invite emails</List.Item>
+            <List.Item>Brandable login screens and invite emails</List.Item>
             <List.Item>DecapBridge & DecapCMS technical support</List.Item>
           </List>
         }
@@ -246,7 +271,7 @@ const PricingTable: React.FC = () => {
           <List size="sm">
             <List.Item>Unlimited sites</List.Item>
             <List.Item>Unlimited collaborators</List.Item>
-            <List.Item>Branded login screens and invite emails</List.Item>
+            <List.Item>Brandable login screens and invite emails</List.Item>
             <List.Item>DecapBridge & DecapCMS technical support</List.Item>
             <List.Item>White-label Self-Hosting Commercial License</List.Item>
           </List>

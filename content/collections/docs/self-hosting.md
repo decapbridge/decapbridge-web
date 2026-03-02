@@ -113,7 +113,7 @@ To enable both at the same time, set `AUTH_PROVIDERS=google,microsoft` in the ap
 
 **Google**
 
-Create an OAuth 2.0 client in the [Google Cloud Console](https://console.cloud.google.com/) and set the authorized redirect URI to `https://auth-api.mycompany.com/auth/login/google/callback`.
+Create an OAuth 2.0 client in the [Google Cloud Console](https://console.cloud.google.com/) and set the authorized redirect URI to `https://auth.mycompany.com/auth/login/google/callback`.
 
 ```env
 AUTH_PROVIDERS=google
@@ -126,7 +126,7 @@ AUTH_GOOGLE_IDENTIFIER_KEY=email
 
 **Microsoft**
 
-Register an app in the [Azure Portal](https://portal.azure.com/) and set the redirect URI to `https://auth-api.mycompany.com/auth/login/microsoft/callback`.
+Register an app in the [Azure Portal](https://portal.azure.com/) and set the redirect URI to `https://auth.mycompany.com/auth/login/microsoft/callback`.
 
 ```env
 AUTH_PROVIDERS=microsoft
@@ -136,6 +136,31 @@ AUTH_MICROSOFT_CLIENT_SECRET=your-microsoft-client-secret
 AUTH_MICROSOFT_ISSUER_URL=https://login.microsoftonline.com/your-tenant-id/v2.0/.well-known/openid-configuration
 AUTH_MICROSOFT_IDENTIFIER_KEY=email
 ```
+
+#### Customization
+
+You can customize the look and branding of your self-hosted instance using environment variables.
+
+**API container:**
+
+| Variable        | Description                                                    | Example                          |
+| --------------- | -------------------------------------------------------------- | -------------------------------- |
+| `PROJECT_URL`   | Public URL of the web front-end, used for redirects and emails | `https://login.mycompany.com`    |
+| `PROJECT_NAME`  | Display name used in emails and internal references            | `My Company`                     |
+| `PROJECT_COLOR` | Brand accent color                                             | `#e64980`                        |
+| `PROJECT_LOGO`  | URL to a logo image (imported on first boot)                   | `https://mycompany.com/logo.png` |
+
+**Web container:**
+
+| Variable                        | Description                                   | Example                         |
+| ------------------------------- | --------------------------------------------- | ------------------------------- |
+| `VITE_DECAPBRIDGE_API_URL`      | URL of the API container                      | `https://auth.mycompany.com`    |
+| `VITE_DECAPBRIDGE_GATEWAY_URL`  | URL of the Gateway container                  | `https://gateway.mycompany.com` |
+| `VITE_DECAPBRIDGE_SITE_NAME`    | Site name shown in the header and page titles | `My Company sites login portal` |
+| `VITE_DECAPBRIDGE_SITE_URL`     | Public URL of the web front-end               | `https://login.mycompany.com`   |
+| `VITE_DECAPBRIDGE_SITE_LOGO`    | Path or URL to a logo image                   | `/logo.svg`                     |
+| `VITE_DECAPBRIDGE_THEME_COLOR`  | Primary accent color                          | `#e64980`                       |
+| `VITE_DECAPBRIDGE_THEME_RADIUS` | Border radius for UI components               | `xl`                            |
 
 ## Example configuration
 

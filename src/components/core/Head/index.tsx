@@ -7,6 +7,7 @@ import { usePageContext } from "vike-react/usePageContext";
 import type { Config } from "vike/types";
 import renderTitle from "/src/renderer/+title";
 import getTitle from "/src/renderer/getTitle";
+import { env } from "/src/utils/env";
 import { theme } from "/src/utils/theme";
 
 const getThumbnailUrl = (props: { title: string; description: string }) => {
@@ -108,11 +109,13 @@ const Head: React.FC = () => {
         rel="stylesheet"
       />
 
-      <script
-        defer
-        src="https://stats.millisecond.studio/script.js"
-        data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e"
-      />
+      {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
+        <script
+          defer
+          src="https://stats.millisecond.studio/script.js"
+          data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e"
+        />
+      )}
     </>
   );
 };

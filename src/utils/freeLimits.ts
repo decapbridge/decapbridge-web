@@ -1,2 +1,2 @@
 export const freeSitesLimit = 3;
-export const freeCollaboratorLimit = 20;
+export const freeCollaboratorLimit = 10;

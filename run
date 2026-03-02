@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-
 # Start development server
 dev() {
   npm exec -- \
@@ -9,27 +8,25 @@ dev() {
     "PORT=8082 decap-server"
 }
 
-
 # Build for production
 build() {
   npm exec -- vite build
 }
-
 
 # Inject runtime env vars into built HTML files
 inject_envs() {
   # Build JSON with only non-empty values so build-time defaults take effect
   pairs=""
   for var in \
+    VITE_DECAPBRIDGE_IS_SELFHOSTED \
+    VITE_DECAPBRIDGE_SITE_URL \
     VITE_DECAPBRIDGE_API_URL \
     VITE_DECAPBRIDGE_GATEWAY_URL \
-    VITE_DECAPBRIDGE_SITE_URL \
+    VITE_DECAPBRIDGE_AUTH_PROVIDERS \
     VITE_DECAPBRIDGE_SITE_NAME \
     VITE_DECAPBRIDGE_SITE_LOGO \
     VITE_DECAPBRIDGE_THEME_COLOR \
-    VITE_DECAPBRIDGE_THEME_RADIUS \
-    VITE_DECAPBRIDGE_IS_SELFHOSTED \
-    VITE_DECAPBRIDGE_AUTH_PROVIDERS
+    VITE_DECAPBRIDGE_THEME_RADIUS
   do
     eval val="\${$var:-}"
     if [ -n "$val" ]; then
@@ -43,31 +40,26 @@ inject_envs() {
   fi
 }
 
-
 # Start production server
 start() {
   inject_envs
   npm exec -- sirv dist/client --host
 }
 
-
 # Type check
 tsc() {
   npm exec -- tsc
 }
-
 
 # Lint with auto-fix
 lint() {
   npm exec -- eslint . --fix
 }
 
-
 # Clear Vite cache
 clean() {
   rm -rf ./node_modules/.vite
 }
-
 
 # Build docker image
 docker_build() {
@@ -75,7 +67,6 @@ docker_build() {
     -t "$dirname" \
     .
 }
-
 
 # Run docker image
 docker_run() {
@@ -91,7 +82,7 @@ docker_run() {
 dirname="$(basename "$(pwd)")"
 tab=$(printf '\t')
 
-DOCKER="podman"
+DOCKER="docker"
 
 __commands() {
   grep -v '^ ' "$0" \

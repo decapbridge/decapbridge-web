@@ -61,8 +61,7 @@ export function Steps() {
 
   return (
     <div
-      // className={`${utils["alt-background"]} ${utils["bottom-border"]} ${utils["top-border"]}`}
-      className={`${utils["alt-background"]} ${utils["top-border"]}`}
+      className={`${utils["alt-background"]} ${utils["bottom-border"]} ${utils["top-border"]}`}
     >
       <Container size="lg" className={classes.wrapper}>
         <Stack align="center">

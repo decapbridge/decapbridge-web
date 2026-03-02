@@ -37,8 +37,7 @@ const items: { title: string; description: string }[] = [
 const Roadmap: React.FC = () => {
   const { colorScheme } = useColorSchemeToggle();
   return (
-    // <div className={`${utils["alt-background"]} ${utils["top-border"]}`}>
-    <div className={`${utils["alt-background"]}`}>
+    <div className={`${utils["alt-background"]} ${utils["top-border"]}`}>
       <Container size="xs" mb="xl" py="xl">
         <Stack gap="xl" my="xl">
           <Stack gap={4}>
