@@ -245,8 +245,7 @@ const PricingTable: React.FC = () => {
         priceKey="pro"
         description={
           <Text size="sm" c="dimmed">
-            For professional developers or agencies with many sites and teams of
-            collaborators.
+            For professional developers or agencies managing multiple sites.
           </Text>
         }
         quotas={

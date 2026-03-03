@@ -7,6 +7,10 @@ meta:
 
 You're looking to self-host a version of DecapBridge on your own infrastructure? Start here!
 
+## Example configuration
+
+See the [decapbridge/decapbridge-self-hosted-examples](https://github.com/decapbridge/decapbridge-self-hosted-examples) repository for more details.
+
 ## Requirements:
 
 Before delving into this, have a look at the requirements for hosting your own instance of DecapBridge:
@@ -161,7 +165,3 @@ You can customize the look and branding of your self-hosted instance using envir
 | `VITE_DECAPBRIDGE_SITE_LOGO`    | Path or URL to a logo image                   | `/logo.svg`                     |
 | `VITE_DECAPBRIDGE_THEME_COLOR`  | Primary accent color                          | `#e64980`                       |
 | `VITE_DECAPBRIDGE_THEME_RADIUS` | Border radius for UI components               | `xl`                            |
-
-## Example configuration
-
-See the [decapbridge/decapbridge-self-hosted-examples](https://github.com/decapbridge/decapbridge-self-hosted-examples) repository for more details.
