@@ -323,6 +323,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   <FileInput
                     label="Site Logo"
                     name="logo"
+                    accept="image/png,image/jpeg,image/jpg,image/gif"
                     {...form.getInputProps("logo")}
                     valueComponent={({ value }) => {
                       return (
@@ -336,11 +337,6 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                         />
                       );
                     }}
-                    // valueComponent={
-                    //   siteLogoUrl ? (
-                    //     <Image alt="site logo" src={siteLogoUrl} />
-                    //   ) : undefined
-                    // }
                     clearable
                   />
                   <ColorInput
