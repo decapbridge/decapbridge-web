@@ -8,7 +8,7 @@ import {
   Group,
   Text,
 } from "@mantine/core";
-import { updateUser } from "@directus/sdk";
+import { deleteUser } from "@directus/sdk";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { TbAlertCircle } from "react-icons/tb";
@@ -39,7 +39,7 @@ const DeleteAccountSettingBox: React.FC = () => {
       confirm: "",
     },
     action: async () => {
-      await directus.request(updateUser(user.id, { status: "archived" }));
+      await directus.request(deleteUser(user.id));
       await logout();
       notifications.show({
         title: content.delete_account_success_title,
