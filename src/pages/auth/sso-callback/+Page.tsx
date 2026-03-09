@@ -8,6 +8,7 @@ import { refresh } from "@directus/sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import navigate from "/src/utils/navigate";
 import useMaybeUser from "/src/hooks/useMaybeUser";
+import { goToCheckout, StripePriceKey } from "/src/utils/stripe";
 
 const SsoCallbackPage: React.FC = () => {
   const { urlParsed } = usePageContext();
@@ -41,7 +42,13 @@ const SsoCallbackPage: React.FC = () => {
         if (urlParsed.search["redirect_uri"]) {
           window.location.href = urlParsed.search["redirect_uri"];
         } else {
-          await navigate(defaultLoginRedirect);
+          const pendingPlan = localStorage.getItem("pendingPlan");
+          if (pendingPlan) {
+            localStorage.removeItem("pendingPlan");
+            await goToCheckout(pendingPlan as StripePriceKey);
+          } else {
+            await navigate(defaultLoginRedirect);
+          }
         }
       }
     };

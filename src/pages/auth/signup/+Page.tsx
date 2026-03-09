@@ -23,12 +23,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { TbEdit, TbUpload, TbX, TbAt, TbLock } from "react-icons/tb";
 import PasswordStrength from "./PasswordStrength";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { getDirectusUrl } from "/src/utils/constants";
 import { MicrosoftIcon } from "/src/components/ui/MicrosoftIcon";
 import { GoogleIcon } from "/src/components/ui/GoogleIcon";
 import useFileUrl from "/src/hooks/useFileUrl";
 import { env } from "/src/utils/env";
+import { usePageContext } from "vike-react/usePageContext";
 
 const schema = z.object({
   avatar: z.string().or(z.any()).nullable(),
@@ -42,6 +43,13 @@ const SignupPage: React.FC = () => {
   const content = useData<Data>();
   const { signup } = useAuthActions();
   const queryClient = useQueryClient();
+  const { urlParsed } = usePageContext();
+
+  useEffect(() => {
+    if (urlParsed.search.plan) {
+      localStorage.setItem("pendingPlan", urlParsed.search.plan);
+    }
+  }, []);
 
   const resetRef = useRef<() => void>(null);
 
@@ -120,10 +128,10 @@ const SignupPage: React.FC = () => {
                 </Anchor>
               </Group>
             </Stack>
-            {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS') && (
+            {env("VITE_DECAPBRIDGE_AUTH_PROVIDERS") && (
               <>
                 <Group justify="center">
-                  {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                  {env("VITE_DECAPBRIDGE_AUTH_PROVIDERS")?.includes(
                     "google",
                   ) && (
                     <Button
@@ -135,7 +143,7 @@ const SignupPage: React.FC = () => {
                       Signup with Google
                     </Button>
                   )}
-                  {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                  {env("VITE_DECAPBRIDGE_AUTH_PROVIDERS")?.includes(
                     "microsoft",
                   ) && (
                     <Button
