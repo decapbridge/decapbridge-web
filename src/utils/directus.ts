@@ -38,6 +38,7 @@ export interface Collaborator {
   id: number;
   sites_id: Site | string;
   directus_users_id: CustomSchema['directus_users'][number] | string;
+  invite_token?: string | null;
 };
 
 export interface Site {

@@ -3,6 +3,7 @@ import {
   ScrollArea,
   Group,
   Text,
+  ActionIcon,
   Button,
   Divider,
   Paper,
@@ -16,7 +17,14 @@ import {
 } from "@mantine/core";
 import directus, { CustomSchema, Site } from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
-import { TbAt, TbInfoCircle, TbPassword, TbSend, TbX } from "react-icons/tb";
+import {
+  TbAt,
+  TbCopy,
+  TbInfoCircle,
+  TbPassword,
+  TbSend,
+  TbX,
+} from "react-icons/tb";
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
@@ -30,6 +38,7 @@ import useCurrentUser from "/src/hooks/useCurrentUser";
 import InternalLink from "/src/components/core/InternalLink";
 import isProUser from "/src/utils/isProUser";
 import { freeCollaboratorLimit } from "/src/utils/freeLimits";
+import { getDirectusUrl } from "/src/utils/constants";
 
 const schema = z.object({
   email: z.email().max(255),
@@ -127,20 +136,46 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
             )}
           </Group>
         </Table.Td>
-        <Table.Td>
+        <Table.Td align="right">
           {(site.user_created as any)?.id !== user.id && (
-            <RemoveCollaboratorModal site={site} user={user}>
-              {(open) => (
-                <Button
-                  size="xs"
-                  variant="light"
-                  leftSection={<TbX size="1.25em" />}
-                  onClick={open}
-                >
-                  Remove access
-                </Button>
-              )}
-            </RemoveCollaboratorModal>
+            <Group gap="xs" justify="flex-end">
+              {(() => {
+                const collaborator = site.collaborators.find(
+                  (c) =>
+                    c.directus_users_id &&
+                    (typeof c.directus_users_id === "object"
+                      ? c.directus_users_id.id
+                      : c.directus_users_id) === user.id,
+                );
+                if (!collaborator?.invite_token) return null;
+                const joinUrl = `${getDirectusUrl()}/sites/${site.id}/join?user_id=${user.id}&token=${collaborator.invite_token}`;
+                return (
+                  <Tooltip label="Copy invite link">
+                    <ActionIcon
+                      size="md"
+                      variant="light"
+                      onClick={() => {
+                        navigator.clipboard.writeText(joinUrl);
+                        notifications.show({
+                          message: "Invite link copied to clipboard!",
+                        });
+                      }}
+                    >
+                      <TbCopy size="1em" />
+                    </ActionIcon>
+                  </Tooltip>
+                );
+              })()}
+              <RemoveCollaboratorModal site={site} user={user}>
+                {(open) => (
+                  <Tooltip label="Remove access">
+                    <ActionIcon size="md" variant="light" onClick={open}>
+                      <TbX size="1em" />
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </RemoveCollaboratorModal>
+            </Group>
           )}
         </Table.Td>
       </Table.Tr>
@@ -164,6 +199,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                 name="email"
                 label="Invite new collaborator by email"
                 placeholder="someone@example.com"
+                description="User will receive an invitation link by email. You can also manually send them the invite link by copying it below."
                 leftSection={<TbAt size={16} />}
                 required
                 {...form.getInputProps("email")}
@@ -213,7 +249,9 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                 <Table.Th>Full name</Table.Th>
                 <Table.Th>Email</Table.Th>
                 <Table.Th>Last access</Table.Th>
-                <Table.Th>Action</Table.Th>
+                <Table.Th align="right" ta="right">
+                  Action
+                </Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody data-with-row-border>{rows}</Table.Tbody>
