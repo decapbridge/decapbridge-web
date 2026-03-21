@@ -61,7 +61,7 @@ Without HTTPS, you risk exposing your passwords and git tokens when using the UI
 
 #### Email
 
-To send out invite emails, configure one of the following transports via the `EMAIL_TRANSPORT` environment variable in your API container.
+Invite links can be copied directly from the dashboard and shared manually. If you'd like collaborators to receive email notifications when invited, configure one of the following transports via the `EMAIL_TRANSPORT` environment variable in your API container.
 
 **SMTP** (`EMAIL_TRANSPORT=smtp`)
 
