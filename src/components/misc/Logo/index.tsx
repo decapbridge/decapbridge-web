@@ -29,7 +29,7 @@ const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
   const { site } = useGlobalData();
 
   let title = site.site_name;
-  if (theme.other.site_logo !== "/favicon.svg") {
+  if (theme.other.site_logo !== "/favicon.svg" || env('VITE_DECAPBRIDGE_IS_SELFHOSTED')) {
     title = theme.other.site_name;
   }
 
