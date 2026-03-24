@@ -36,7 +36,17 @@ inject_envs() {
   done
   if [ -n "$pairs" ]; then
     ENV_SCRIPT="<script>window.__ENV__={${pairs}}</script>"
-    find dist/client -name '*.html' -exec sed -i "s|<head>|<head>${ENV_SCRIPT}|" {} +
+    for f in dist/client/*.html; do
+      sed "s|<head>|<head>${ENV_SCRIPT}|" "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+    done
+  fi
+
+  # Inject Umami analytics only for non-self-hosted instances
+  if [ -z "${VITE_DECAPBRIDGE_IS_SELFHOSTED:-}" ]; then
+    UMAMI_SCRIPT='<script defer src="https://stats.millisecond.studio/script.js" data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e"></script>'
+    for f in dist/client/*.html; do
+      sed "s|</head>|${UMAMI_SCRIPT}</head>|" "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+    done
   fi
 }
 
