@@ -4,7 +4,7 @@ import "@mantine/spotlight/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/carousel/styles.css";
 
-import React from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import { Center, MantineProvider } from "@mantine/core";
 import { generateColors } from "@mantine/colors-generator";
 import { Notifications } from "@mantine/notifications";
@@ -25,7 +25,7 @@ import SpotlightSearch from "/src/components/core/SpotlightSearch";
 import ColorSchemeOverlay from "/src/components/core/ColorSchemeSwitchOverlay";
 import { defaultColorScheme } from "/src/utils/constants";
 import queryClient from "/src/utils/queryClient";
-import { theme } from "/src/utils/theme";
+import { buildTheme } from "/src/utils/theme";
 import store from "/src/utils/store";
 import HljsCssLoader from "../HljsCssLoader";
 
@@ -35,34 +35,33 @@ hljs.registerLanguage("yaml", yamlLang);
 
 const highlightJsAdapter = createHighlightJsAdapter(hljs);
 
-// Theme deep copy
-const sessionTheme = {
-  ...theme,
-  colors: { ...theme.colors },
-  other: { ...theme.other },
-};
-
 const App: Config["Wrapper"] = ({ children }) => {
   const { abortStatusCode, urlParsed } = usePageContext();
   const { site_id, site_name, site_color, site_logo } = urlParsed.search;
 
   let pageContent: React.ReactElement | undefined;
 
-  let pageTheme = theme;
-  if (site_id) {
-    if (site_name) {
-      (sessionTheme.other as any).site_name = site_name;
-    }
-    if (site_color) {
-      sessionTheme.colors = {
-        custom: generateColors(site_color),
-      };
-    }
-    if (site_logo) {
-      (sessionTheme.other as any).site_logo = site_logo;
-    }
-    pageTheme = sessionTheme;
-  }
+  // Build theme in state so we can force a refresh after hydration
+  // to pick up runtime env values from window.__ENV__
+  const [theme, setTheme] = useState(buildTheme);
+  useLayoutEffect(() => {
+    setTheme(buildTheme());
+  }, []);
+
+  const pageTheme = useMemo(() => {
+    if (!site_id) return theme;
+    return {
+      ...theme,
+      colors: site_color
+        ? { custom: generateColors(site_color) }
+        : theme.colors,
+      other: {
+        ...theme.other,
+        ...(site_name && { site_name }),
+        ...(site_logo && { site_logo }),
+      },
+    };
+  }, [theme, site_id, site_name, site_color, site_logo]);
 
   if (abortStatusCode) {
     pageContent = (
@@ -85,6 +84,7 @@ const App: Config["Wrapper"] = ({ children }) => {
     <QueryClientProvider client={queryClient}>
       <MantineProvider
         defaultColorScheme={defaultColorScheme}
+        deduplicateCssVariables={false}
         theme={pageTheme}
       >
         <CodeHighlightAdapterProvider adapter={highlightJsAdapter}>

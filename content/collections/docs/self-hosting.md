@@ -38,7 +38,7 @@ After purchasing, you will receive a license key by email. Set it as an environm
 DECAPBRIDGE_LICENSE_KEY=key-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.xxxxxxxxxxxxxx
 ```
 
-#### Infrastructure Requirements
+#### Hosting Requirements
 
 To host the various DecapBridge services, you will need a container orchestration setup that can run multiple Docker containers:
 
