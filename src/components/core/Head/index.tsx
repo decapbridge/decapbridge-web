@@ -8,6 +8,7 @@ import type { Config } from "vike/types";
 import renderTitle from "/src/renderer/+title";
 import getTitle from "/src/renderer/getTitle";
 import { theme } from "/src/utils/theme";
+import { env } from "/src/utils/env";
 
 const getThumbnailUrl = (props: { title: string; description: string }) => {
   const base = "https://cdn.thumbsmith.com/v1/u/loteoo/decapbridge";
@@ -99,6 +100,10 @@ const Head: React.FC = () => {
       <meta name="msapplication-navbutton-color" content={themeColor} />
       <meta name="msapplication-TileColor" content={themeColor} />
       <meta name="msapplication-TileImage" content="/icons/icon-512x512.png" />
+
+      {env('VITE_DECAPBRIDGE_IS_CLOUD') && (
+        <script defer src="https://stats.millisecond.studio/script.js" data-website-id="7e32f79e-6551-42f4-a09a-fdfb1957714e" />
+      )}
 
       <ColorSchemeScript />
       <link rel="preconnect" href="https://fonts.googleapis.com" />

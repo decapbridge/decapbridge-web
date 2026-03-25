@@ -11,13 +11,13 @@ import { env } from "/src/utils/env";
 const HomePage: React.FC = () => {
   const { user } = useMaybeUser();
   useEffect(() => {
-    if (env('VITE_DECAPBRIDGE_IS_SELFHOSTED')) {
+    if (!env('VITE_DECAPBRIDGE_IS_CLOUD')) {
       navigate(user ? "/dashboard/sites" : "/auth/login");
     }
   }, [user]);
   return (
     <Stack w="100%" gap={0}>
-      {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') ? (
+      {env('VITE_DECAPBRIDGE_IS_CLOUD') ? (
         <>
           <HeroBullets />
           <Steps />

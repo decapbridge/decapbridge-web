@@ -97,7 +97,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             >
               {activity.title}
             </Button>
-            {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
+            {env('VITE_DECAPBRIDGE_IS_CLOUD') && (
               <Button
                 key={billing.urlPathname}
                 justify="start"

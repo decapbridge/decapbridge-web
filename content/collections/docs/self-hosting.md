@@ -158,10 +158,10 @@ You can customize the look and branding of your self-hosted instance using envir
 
 | Variable                        | Description                                   | Example                         |
 | ------------------------------- | --------------------------------------------- | ------------------------------- |
+| `VITE_DECAPBRIDGE_SITE_URL`     | Public URL of the web front-end               | `https://login.mycompany.com`   |
 | `VITE_DECAPBRIDGE_API_URL`      | URL of the API container                      | `https://auth.mycompany.com`    |
 | `VITE_DECAPBRIDGE_GATEWAY_URL`  | URL of the Gateway container                  | `https://gateway.mycompany.com` |
 | `VITE_DECAPBRIDGE_SITE_NAME`    | Site name shown in the header and page titles | `My Company sites login portal` |
-| `VITE_DECAPBRIDGE_SITE_URL`     | Public URL of the web front-end               | `https://login.mycompany.com`   |
 | `VITE_DECAPBRIDGE_SITE_LOGO`    | Path or URL to a logo image                   | `/logo.svg`                     |
 | `VITE_DECAPBRIDGE_THEME_COLOR`  | Primary accent color                          | `#e64980`                       |
 | `VITE_DECAPBRIDGE_THEME_RADIUS` | Border radius for UI components               | `xl`                            |

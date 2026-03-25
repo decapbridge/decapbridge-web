@@ -32,7 +32,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     "/auth/signup",
     "/auth/password/forgot",
   );
-  const publicPages = !env('VITE_DECAPBRIDGE_IS_SELFHOSTED')
+  const publicPages = env('VITE_DECAPBRIDGE_IS_CLOUD')
     ? usePageMeta("/docs/introduction", "/contact").map((p) =>
         p.urlPathname === "/docs/introduction"
           ? { ...p, title: "Documentation" }

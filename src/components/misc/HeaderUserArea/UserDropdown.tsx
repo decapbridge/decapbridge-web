@@ -67,7 +67,7 @@ const UserDropdown: React.FC<{ trigger: ReactElement }> = ({ trigger }) => {
         >
           {activityLink.title}
         </Menu.Item>
-        {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
+        {env('VITE_DECAPBRIDGE_IS_CLOUD') && (
           <Menu.Item
             component={InternalLink}
             style={{ textDecoration: "none" }}

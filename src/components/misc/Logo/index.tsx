@@ -29,13 +29,13 @@ const Logo: React.FC<LogoProps> = ({ href = "/", withTitle, ...rest }) => {
   const { site } = useGlobalData();
 
   let title = site.site_name;
-  if (theme.other.site_logo !== "/favicon.svg" || env('VITE_DECAPBRIDGE_IS_SELFHOSTED')) {
+  if (theme.other.site_logo !== "/favicon.svg" || !env('VITE_DECAPBRIDGE_IS_CLOUD')) {
     title = theme.other.site_name;
   }
 
   const { user } = useMaybeUser();
   const showProBadge =
-    user && isProUser(user) && !env('VITE_DECAPBRIDGE_IS_SELFHOSTED');
+    user && isProUser(user) && env('VITE_DECAPBRIDGE_IS_CLOUD');
   const logo = (
     <Image src={theme.other.site_logo} w="1.5rem" aria-label={title} />
   );

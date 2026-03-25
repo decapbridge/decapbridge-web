@@ -25,7 +25,7 @@ const Header: React.FC = () => {
               <Logo hiddenFrom="xs" />
               <Logo withTitle visibleFrom="xs" />
             </Group>
-            {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
+            {env('VITE_DECAPBRIDGE_IS_CLOUD') && (
               <Group visibleFrom="sm" gap="xs">
                 {publicPages.map(({ urlPathname, title }) => (
                   <Button

@@ -26,16 +26,16 @@ export default function FooterSimple() {
     <AppShell.Footer className={classes.footer}>
       <Container className={classes.inner} px="xl">
         <Logo withTitle />
-        {!env('VITE_DECAPBRIDGE_IS_SELFHOSTED') && (
+        {env('VITE_DECAPBRIDGE_IS_CLOUD') && (
           <Group className={classes.links}>{items}</Group>
         )}
         <Text size="sm" c="dimmed" pr="xl">
-          {env('VITE_DECAPBRIDGE_IS_SELFHOSTED') ? (
-            <Anchor href="https://decapbridge.com">decapbridge.com</Anchor>
-          ) : (
+          {env('VITE_DECAPBRIDGE_IS_CLOUD') ? (
             <Anchor href="https://millisecond.studio">
               millisecond.studio
             </Anchor>
+          ) : (
+            <Anchor href="https://decapbridge.com">decapbridge.com</Anchor>
           )}
         </Text>
       </Container>
