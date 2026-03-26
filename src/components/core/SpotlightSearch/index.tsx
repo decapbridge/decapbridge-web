@@ -8,9 +8,13 @@ import {
 
 import navigate from "/src/utils/navigate";
 import useGlobalData from "/src/hooks/useGlobalData";
+import { env } from "/src/utils/env";
 
 import styles from "./spotlight.module.css";
 import useAuthActions from "/src/hooks/useAuthActions";
+
+const cloudOnlyPages = ["/contact", "/dashboard/billing"];
+const cloudOnlyCollections = ["docs", "legal"];
 
 const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
   const {
@@ -18,10 +22,13 @@ const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
     pagesMeta,
   } = useGlobalData();
   const { logout } = useAuthActions();
+  const isCloud = env('VITE_DECAPBRIDGE_IS_CLOUD');
 
   const actions: SpotlightActionData[] = useMemo(() => {
-    return Object.values(pagesMeta)
-      .flat()
+    return Object.entries(pagesMeta)
+      .filter(([key]) => isCloud || !cloudOnlyCollections.includes(key))
+      .flatMap(([, metas]) => metas)
+      .filter((meta) => isCloud || !cloudOnlyPages.includes(meta.urlPathname))
       .map((meta) => ({
         id: meta.urlPathname,
         label: meta.title,

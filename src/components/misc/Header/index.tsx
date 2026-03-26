@@ -45,7 +45,7 @@ const Header: React.FC = () => {
             <Group gap="xs" ml="auto">
               <SearchInput mr={4} />
               <ColorSchemeToggle />
-              <GithubLink mr={4} />
+              {env('VITE_DECAPBRIDGE_IS_CLOUD') && <GithubLink mr={4} />}
               <HeaderUserArea />
             </Group>
           </Group>
