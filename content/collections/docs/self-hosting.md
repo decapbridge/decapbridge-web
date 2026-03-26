@@ -165,3 +165,86 @@ You can customize the look and branding of your self-hosted instance using envir
 | `VITE_DECAPBRIDGE_SITE_LOGO`    | Path or URL to a logo image                   | `/logo.svg`                     |
 | `VITE_DECAPBRIDGE_THEME_COLOR`  | Primary accent color                          | `#e64980`                       |
 | `VITE_DECAPBRIDGE_THEME_RADIUS` | Border radius for UI components               | `xl`                            |
+
+For more details, see [decapbridge/decapbridge-self-hosted-examples](https://github.com/decapbridge/decapbridge-self-hosted-examples) for sample `docker-compose` files.
+
+## Platform guides
+
+### Coolify
+
+1. Setup your domain with wildcard subdomains (or add each subdomain individually), pointed to your Coolify instance
+2. Create a "Project" in Coolify. It will create a production environment where you can add all services:
+
+#### Postgres DB
+
+- Add resource > Postgres > Default postgres
+- Copy the "Postgres URL" connection string (you will need it for the API container)
+
+#### Gateway container
+
+- Add resource > "Docker image" (from any registry)
+- Use `ghcr.io/decapbridge/decapbridge-gateway:latest`
+- Setup Domain with port, example: `https://gateway.mycompany.com:8081`, save
+- Add env variables: `PORT=8081` and `GITGATEWAY_JWT_SECRET` set to a secure key (e.g. `openssl rand -hex 32`), save this value for later
+- Deploy container
+
+#### API container
+
+- Add resource > "Docker image" (from any registry)
+- Use `ghcr.io/decapbridge/decapbridge-api:latest`
+- Setup Domain with port, example: `https://auth.mycompany.com:8055`, save
+- Add env variables (see example [here](https://github.com/decapbridge/decapbridge-self-hosted-examples/blob/main/docker-compose-production.yml#L21)). The `SECRET` must match the `GITGATEWAY_JWT_SECRET` you set in the Gateway container
+- Add a volume mount for `/app/uploads` inside the container
+- Deploy container
+
+#### Web container
+
+- Add resource > "Docker image" (from any registry)
+- Use `ghcr.io/decapbridge/decapbridge-web:latest`
+- Configure domain with port, example: `https://login.mycompany.com:8080`, save
+- Add env variables (see example [here](https://github.com/decapbridge/decapbridge-self-hosted-examples/blob/main/docker-compose-production.yml#L4-L13))
+- Deploy container
+
+### Portainer
+
+1. Setup your domain with subdomains pointed to your server (e.g. `auth.mycompany.com`, `login.mycompany.com`, `gateway.mycompany.com`)
+2. In Portainer, select your environment, then create the services under Containers or Stacks:
+
+#### Postgres DB
+
+- Containers > Add container
+- Image: `postgres:16`
+- Add env variables: `POSTGRES_DB=directus`, `POSTGRES_USER=postgres`, `POSTGRES_HOST_AUTH_METHOD=trust` (or set `POSTGRES_PASSWORD` for password auth)
+- Map volume for `/var/lib/postgresql/data`
+- Deploy the container, note the container's IP or name for the API connection string
+
+#### Gateway container
+
+- Containers > Add container
+- Image: `ghcr.io/decapbridge/decapbridge-gateway:latest`
+- Publish port `8081`
+- Add env variables: `PORT=8081` and `GITGATEWAY_JWT_SECRET` set to a secure key (e.g. `openssl rand -hex 32`), save this value for later
+- Deploy the container
+
+#### API container
+
+- Containers > Add container
+- Image: `ghcr.io/decapbridge/decapbridge-api:latest`
+- Publish port `8055`
+- Add env variables (see example [here](https://github.com/decapbridge/decapbridge-self-hosted-examples/blob/main/docker-compose-production.yml#L21)). The `SECRET` must match the `GITGATEWAY_JWT_SECRET` you set in the Gateway container
+- Map volume for `/app/uploads`
+- Deploy the container
+
+#### Web container
+
+- Containers > Add container
+- Image: `ghcr.io/decapbridge/decapbridge-web:latest`
+- Publish port `8080`
+- Add env variables (see example [here](https://github.com/decapbridge/decapbridge-self-hosted-examples/blob/main/docker-compose-production.yml#L4-L13))
+- Deploy the container
+
+**Note:** You will need a reverse proxy (e.g. Nginx Proxy Manager, Traefik, or Caddy) in front of these containers to handle SSL and route your subdomains to the correct ports.
+
+---
+
+Any feedback on these docs is super appreciated! If something is unclear or missing, please [get in touch](/contact).
