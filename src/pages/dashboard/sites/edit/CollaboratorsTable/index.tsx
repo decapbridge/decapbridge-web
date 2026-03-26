@@ -59,15 +59,17 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
     },
     action: async (values) => {
       try {
-        await directus.request(
-          customEndpoint({
+        const result = await directus.request(
+          customEndpoint<{ success: boolean; emailSent: boolean }>({
             method: "POST",
             path: `/sites/${site.id}/invite`,
             body: JSON.stringify(values),
           }),
         );
         notifications.show({
-          message: "Invite email sent!",
+          message: result.emailSent
+            ? "Invite email sent!"
+            : "Collaborator added! Copy the invite link below to share it.",
         });
       } catch (error) {
         if ((error as any).errors) {
