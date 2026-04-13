@@ -9,7 +9,7 @@ DecapBridge started as a closed source project for my own websites and clients b
 
 Between 2024 and early 2025, it had already gathered hundreds of early adopter websites and Netlify refugees. We're now counting over a thousand!
 
-A big concern for more serious projects was the handling of the Github/Gitlab access tokens. DecapBridge uses `aes-256-gcm` encryption on the access tokens which is highly secure, however users had concerns about whether or not and how this actually happened. My word could not cut it anymore - I had to Open Source.
+A big concern for more serious projects was the handling of the Github/Gitlab access tokens. DecapBridge uses `aes-256-gcm` encryption on the access tokens which is highly secure, however users had concerns about whether or not and how this actually happened. My word could not cut it anymore - I had to make the source code public.
 
 This pushed me to clean up the code and release the DecapBridge codebase on Github. Have a look and give the repos a star! ❤️
 

@@ -54,9 +54,15 @@ We may suspend or terminate your access if you breach these terms, with or witho
 
 The service is provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
 
+## Indemnification
+
+You agree to indemnify, defend, and hold harmless Millisecond Studio from any claims, damages, losses, or expenses (including reasonable legal fees) arising from: (a) your use of the service, (b) your violation of these terms, (c) content managed or published through the service, or (d) your provision of Git access tokens for repositories you do not have authority to connect.
+
 ## Limitation of Liability
 
 To the fullest extent permitted by law, Millisecond Studio shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of or inability to use the service, even if advised of the possibility of such damages.
+
+To the maximum extent permitted by law, Millisecond Studio's total cumulative liability for all claims arising from or related to the service shall not exceed the amounts paid by you to Millisecond Studio in the twelve (12) months preceding the claim.
 
 ## Governing Law
 
