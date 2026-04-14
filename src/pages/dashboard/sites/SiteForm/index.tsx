@@ -11,8 +11,11 @@ import {
   Radio,
   Code,
   SimpleGrid,
+  Grid,
   Image,
   Card,
+  Tabs,
+  Tooltip,
   List,
   ColorInput,
   FileInput,
@@ -31,9 +34,9 @@ import useAsyncForm, {
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
+import { useState } from "react";
 import { TbKey, TbX } from "react-icons/tb";
 import capitalize from "/src/utils/capitalize";
-import { Carousel } from "@mantine/carousel";
 import useFileUrl from "/src/hooks/useFileUrl";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import isProUser from "/src/utils/isProUser";
@@ -63,6 +66,8 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
   const queryClient = useQueryClient();
 
   const user = useCurrentUser();
+  const isPro = isProUser(user);
+  const [activeTab, setActiveTab] = useState("invite-email");
 
   const form = useAsyncForm({
     validateInputOnBlur: true,
@@ -177,6 +182,19 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     },
   });
 
+  const effectiveTab = (() => {
+    if (
+      form.values.auth_type === "classic" &&
+      (activeTab === "cms-redirect" || activeTab === "login-portal")
+    ) {
+      return "invite-email";
+    }
+    if (form.values.auth_type === "pkce" && activeTab === "cms-login") {
+      return "invite-email";
+    }
+    return activeTab;
+  })();
+
   const canEditAccessToken = Boolean(
     !initialValues?.access_token || form.isDirty("access_token"),
   );
@@ -278,9 +296,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           {...form.getInputProps("cms_url")}
           required
         />
-        <SimpleGrid cols={2}>
-          <Stack mt="xl" pr="lg">
-            <Stack gap="xs">
+        <Divider />
+        <Grid gutter="xl">
+          <Grid.Col span={{ base: 12, sm: 5 }}>
+            <Stack>
               <Radio.Group
                 label="Auth type"
                 description="Choose your prefered login interface for this Decap CMS instance."
@@ -310,103 +329,175 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   <Text size="xs">Requires Decap CMS v3.8.3 or above.</Text>
                 </Stack>
               )}
-            </Stack>
-            {isProUser(user) && (
-              <Stack>
+              {isPro ? (
                 <TextInput
                   label="Site Name"
                   name="name"
                   {...form.getInputProps("name")}
                   value={form.getInputProps("name").value ?? ""}
                 />
-                <SimpleGrid cols={2} style={{ alignItems: "end" }} spacing="sm">
-                  <FileInput
-                    label="Site Logo"
-                    name="logo"
-                    accept="image/png,image/jpeg,image/jpg,image/gif"
-                    {...form.getInputProps("logo")}
-                    valueComponent={({ value }) => {
-                      return (
-                        <Image
-                          alt="site logo"
-                          src={useFileUrl(value as File | string)}
-                          style={{ pointerEvents: "none" }}
-                          maw="1.75rem"
-                          mah="1.75rem"
-                          bdrs="xs"
-                        />
-                      );
-                    }}
-                    clearable
-                  />
-                  <ColorInput
-                    label="Theme color"
-                    name="color"
-                    {...form.getInputProps("color")}
-                    value={form.getInputProps("color").value ?? ""}
-                    rightSection={
-                      form.getInputProps("color").value && (
-                        <CloseButton
-                          onClick={() => form.setFieldValue("color", null)}
-                        />
-                      )
-                    }
-                    format="hex"
-                    swatches={[
-                      "#2e2e2e",
-                      "#868e96",
-                      "#fa5252",
-                      "#e64980",
-                      "#be4bdb",
-                      "#7950f2",
-                      "#4c6ef5",
-                      "#228be6",
-                      "#15aabf",
-                      "#12b886",
-                      "#40c057",
-                      "#82c91e",
-                      "#fab005",
-                      "#fd7e14",
-                    ]}
-                  />
-                </SimpleGrid>
-              </Stack>
-            )}
-          </Stack>
-          <Stack gap="xs" mt="md">
-            <Text ta="center" size="xs" c="dimmed">
-              Preview of the {form.values.auth_type} flow:
-            </Text>
-            <Card p={0} radius="md">
-              {form.values.auth_type === "classic" ? (
-                <Image
-                  radius={0}
-                  src={`/login-screenshots/classic.png`}
-                  alt={`classic login`}
+              ) : (
+                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
+                  <div>
+                    <TextInput
+                      label="Site Name"
+                      disabled
+                      value="DecapBridge"
+                    />
+                  </div>
+                </Tooltip>
+              )}
+              {isPro ? (
+                <FileInput
+                  label="Site Logo"
+                  name="logo"
+                  accept="image/png,image/jpeg,image/jpg,image/gif"
+                  {...form.getInputProps("logo")}
+                  valueComponent={({ value }) => {
+                    return (
+                      <Image
+                        alt="site logo"
+                        src={useFileUrl(value as File | string)}
+                        style={{ pointerEvents: "none" }}
+                        maw="1.75rem"
+                        mah="1.75rem"
+                        bdrs="xs"
+                      />
+                    );
+                  }}
+                  clearable
                 />
               ) : (
-                <Carousel withIndicators>
-                  <Carousel.Slide display="flex">
-                    <Image
-                      src={`/login-screenshots/pkce.png`}
-                      alt={`pkce login`}
-                      m="auto"
-                      flex={1}
+                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
+                  <div>
+                    <TextInput
+                      label="Site Logo"
+                      disabled
+                      value="Default"
+                      leftSection={
+                        <Image
+                          src="/favicon.svg"
+                          alt="Default logo"
+                          maw="1.25rem"
+                          mah="1.25rem"
+                        />
+                      }
                     />
-                  </Carousel.Slide>
-                  <Carousel.Slide display="flex">
-                    <Image
-                      src={`/login-screenshots/pkce-2.png`}
-                      alt={`pkce login step 2`}
-                      m="auto"
-                      flex={1}
-                    />
-                  </Carousel.Slide>
-                </Carousel>
+                  </div>
+                </Tooltip>
               )}
-            </Card>
-          </Stack>
-        </SimpleGrid>
+              {isPro ? (
+                <ColorInput
+                  label="Theme color"
+                  name="color"
+                  {...form.getInputProps("color")}
+                  value={form.getInputProps("color").value ?? ""}
+                  rightSection={
+                    form.getInputProps("color").value ? (
+                      <CloseButton
+                        onClick={() => form.setFieldValue("color", null)}
+                      />
+                    ) : undefined
+                  }
+                  format="hex"
+                  swatches={[
+                    "#2e2e2e",
+                    "#868e96",
+                    "#fa5252",
+                    "#e64980",
+                    "#be4bdb",
+                    "#7950f2",
+                    "#4c6ef5",
+                    "#228be6",
+                    "#15aabf",
+                    "#12b886",
+                    "#40c057",
+                    "#82c91e",
+                    "#fab005",
+                    "#fd7e14",
+                  ]}
+                />
+              ) : (
+                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
+                  <div>
+                    <ColorInput
+                      label="Theme color"
+                      disabled
+                      value="#e64980"
+                      format="hex"
+                    />
+                  </div>
+                </Tooltip>
+              )}
+            </Stack>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 7 }}>
+            <Tabs value={effectiveTab} onChange={(v) => v && setActiveTab(v)}>
+              <Tabs.List>
+                <Tabs.Tab value="invite-email" fz="xs">
+                  Invite Email
+                </Tabs.Tab>
+                <Tabs.Tab value="finalize" fz="xs">
+                  Finalize
+                </Tabs.Tab>
+                {form.values.auth_type === "classic" ? (
+                  <Tabs.Tab value="cms-login" fz="xs">
+                    CMS Login
+                  </Tabs.Tab>
+                ) : (
+                  <>
+                    <Tabs.Tab value="cms-redirect" fz="xs">
+                      CMS Redirect
+                    </Tabs.Tab>
+                    <Tabs.Tab value="login-portal" fz="xs">
+                      Login Portal
+                    </Tabs.Tab>
+                  </>
+                )}
+              </Tabs.List>
+              <Tabs.Panel value="invite-email" pt="xs">
+                <Card withBorder shadow="md" radius="md" p={0}>
+                  <Image
+                    src="/login-screenshots/classic.png"
+                    alt="Invite email preview"
+                  />
+                </Card>
+              </Tabs.Panel>
+              <Tabs.Panel value="finalize" pt="xs">
+                <Card withBorder shadow="md" radius="md" p={0}>
+                  <Image
+                    src="/login-screenshots/pkce-2.png"
+                    alt="Finalize preview"
+                  />
+                </Card>
+              </Tabs.Panel>
+              <Tabs.Panel value="cms-login" pt="xs">
+                <Card withBorder shadow="md" radius="md" p={0}>
+                  <Image
+                    src="/login-screenshots/classic.png"
+                    alt="Classic login preview"
+                  />
+                </Card>
+              </Tabs.Panel>
+              <Tabs.Panel value="cms-redirect" pt="xs">
+                <Card withBorder shadow="md" radius="md" p={0}>
+                  <Image
+                    src="/login-screenshots/pkce.png"
+                    alt="PKCE redirect preview"
+                  />
+                </Card>
+              </Tabs.Panel>
+              <Tabs.Panel value="login-portal" pt="xs">
+                <Card withBorder shadow="md" radius="md" p={0}>
+                  <Image
+                    src="/login-screenshots/pkce-2.png"
+                    alt="Login portal preview"
+                  />
+                </Card>
+              </Tabs.Panel>
+            </Tabs>
+          </Grid.Col>
+        </Grid>
         <Stack>
           <Group>
             <Button {...form.submitButtonProps} accessKey="s" size="md">
