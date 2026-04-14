@@ -157,14 +157,14 @@ const FinalizePage: React.FC = () => {
                 Finalize your account before joining {site_name}
               </Title>
               {auth_type === "pkce" &&
-                env('VITE_DECAPBRIDGE_AUTH_PROVIDERS') && (
+                env("VITE_DECAPBRIDGE_AUTH_PROVIDERS") && (
                   <Stack>
                     <Text ta="center" c="dimmed" size="sm">
-                      Choose your prefered login method <br />
+                      Choose your preferred login method <br />
                       for {email}:
                     </Text>
                     <Group justify="center">
-                      {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                      {env("VITE_DECAPBRIDGE_AUTH_PROVIDERS")?.includes(
                         "google",
                       ) && (
                         <Button
@@ -176,7 +176,7 @@ const FinalizePage: React.FC = () => {
                           Login with Google
                         </Button>
                       )}
-                      {env('VITE_DECAPBRIDGE_AUTH_PROVIDERS')?.includes(
+                      {env("VITE_DECAPBRIDGE_AUTH_PROVIDERS")?.includes(
                         "microsoft",
                       ) && (
                         <Button

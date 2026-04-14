@@ -7,7 +7,7 @@ import {
 } from "@mantine/spotlight";
 
 import navigate from "/src/utils/navigate";
-import type { ParsedPageMeta, ParsedCollectioneMeta } from "/src/utils/types";
+import type { ParsedPageMeta, ParsedCollectionMeta } from "/src/utils/types";
 import useGlobalData from "/src/hooks/useGlobalData";
 import { env } from "/src/utils/env";
 
@@ -23,12 +23,14 @@ const SpotlightSearch: React.FC<Omit<SpotlightProps, "actions">> = (props) => {
     pagesMeta,
   } = useGlobalData();
   const { logout } = useAuthActions();
-  const isCloud = env('VITE_DECAPBRIDGE_IS_CLOUD');
+  const isCloud = env("VITE_DECAPBRIDGE_IS_CLOUD");
 
   const actions: SpotlightActionData[] = useMemo(() => {
     return Object.entries(pagesMeta)
       .filter(([key]) => isCloud || !cloudOnlyCollections.includes(key))
-      .flatMap(([, metas]) => metas as (ParsedPageMeta | ParsedCollectioneMeta)[])
+      .flatMap(
+        ([, metas]) => metas as (ParsedPageMeta | ParsedCollectionMeta)[],
+      )
       .filter((meta) => isCloud || !cloudOnlyPages.includes(meta.urlPathname))
       .map((meta) => ({
         id: meta.urlPathname,

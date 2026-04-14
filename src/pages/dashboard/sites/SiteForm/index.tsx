@@ -18,8 +18,11 @@ import {
   ColorInput,
   FileInput,
   CloseButton,
+  Badge,
+  Box,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { useHover } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { createItem, updateItem, uploadFiles } from "@directus/sdk";
 import { z } from "zod";
@@ -32,13 +35,16 @@ import useAsyncForm, {
 import directus, { Site } from "/src/utils/directus";
 import navigate from "/src/utils/navigate";
 import onlyDiff from "/src/utils/onlyDiff";
+import InternalLink from "/src/components/core/InternalLink";
 import { useState } from "react";
-import { TbKey, TbX } from "react-icons/tb";
+import { TbKey, TbLockOpen, TbX } from "react-icons/tb";
 import capitalize from "/src/utils/capitalize";
 import useFileUrl from "/src/hooks/useFileUrl";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import isProUser from "/src/utils/isProUser";
-import InternalLink from "/src/components/core/InternalLink";
+import InviteEmailPreview from "./InviteEmailPreview";
+import FinalizePreview from "./FinalizePreview";
+import LoginPortalPreview from "./LoginPortalPreview";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -66,7 +72,12 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
 
   const user = useCurrentUser();
   const isPro = isProUser(user);
-  const defaultTab = (initialValues?.auth_type ?? "pkce") === "classic" ? "cms-login" : "cms-redirect";
+  const { hovered: logoHovered, ref: logoRef } = useHover();
+  const { hovered: colorHovered, ref: colorRef } = useHover();
+  const defaultTab =
+    (initialValues?.auth_type ?? "pkce") === "classic"
+      ? "cms-login"
+      : "cms-redirect";
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   const form = useAsyncForm({
@@ -199,6 +210,11 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
     !initialValues?.access_token || form.isDirty("access_token"),
   );
 
+  const previewLogoUrl = useFileUrl(form.values.logo as File | string | null);
+  const previewName =
+    form.values.name || form.values.repo.split("/")[1] || "DecapBridge";
+  const previewColor = form.values.color || "#e64980";
+
   const gitProvider = capitalize(form.values.git_provider);
 
   const tokenLink =
@@ -302,7 +318,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             <Stack>
               <Radio.Group
                 label="Auth type"
-                description="Choose your prefered login interface for this Decap CMS instance."
+                description="Choose your preferred login interface for this Decap CMS instance."
                 {...form.getInputProps("auth_type")}
               >
                 <Group pt="xs">
@@ -329,16 +345,12 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   <Text size="xs">Requires Decap CMS v3.8.3 or above.</Text>
                 </Stack>
               )}
-              {isPro ? (
-                <TextInput
-                  label="Site Name"
-                  name="name"
-                  {...form.getInputProps("name")}
-                  value={form.getInputProps("name").value ?? ""}
-                />
-              ) : (
-                <TextInput label="Site Name" disabled value="DecapBridge" />
-              )}
+              <TextInput
+                label="Site Name"
+                name="name"
+                {...form.getInputProps("name")}
+                value={form.getInputProps("name").value ?? ""}
+              />
               {isPro ? (
                 <FileInput
                   label="Site Logo"
@@ -360,21 +372,39 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   clearable
                 />
               ) : (
-                <TextInput
-                  label="Site Logo"
-                  disabled
-                  value="Default"
-                  leftSection={
-                    <Image
-                      src="/favicon.svg"
-                      alt="Default logo"
-                      maw="1.25rem"
-                      mah="1.25rem"
-                      opacity={0.5}
-                      style={{ pointerEvents: "none" }}
-                    />
-                  }
-                />
+                <Box ref={logoRef} pos="relative">
+                  <TextInput
+                    label="Site Logo"
+                    disabled
+                    value="DecapBridge"
+                    leftSection={
+                      <Image
+                        src="/favicon.svg"
+                        alt="Default logo"
+                        maw="1.25rem"
+                        mah="1.25rem"
+                        opacity={0.5}
+                        style={{ pointerEvents: "none" }}
+                      />
+                    }
+                  />
+                  <Badge
+                    component={InternalLink}
+                    href="/dashboard/billing"
+                    leftSection={<TbLockOpen size={12} />}
+                    variant="light"
+                    pos="absolute"
+                    bottom="0.5rem"
+                    right="0.5rem"
+                    style={{
+                      zIndex: 1,
+                      opacity: logoHovered ? 1 : 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Pro
+                  </Badge>
+                </Box>
               )}
               {isPro ? (
                 <ColorInput
@@ -408,20 +438,38 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   ]}
                 />
               ) : (
-                <ColorInput
-                  label="Theme color"
-                  disabled
-                  value="#e64980"
-                  format="hex"
-                  styles={{ colorPreview: { opacity: 0.5 } }}
-                />
+                <Box ref={colorRef} pos="relative">
+                  <ColorInput
+                    label="Theme color"
+                    disabled
+                    value="#e64980"
+                    format="hex"
+                    styles={{ colorPreview: { opacity: 0.5 } }}
+                  />
+                  <Badge
+                    component={InternalLink}
+                    href="/dashboard/billing"
+                    leftSection={<TbLockOpen size={12} />}
+                    variant="light"
+                    pos="absolute"
+                    bottom="0.5rem"
+                    right="0.5rem"
+                    style={{
+                      zIndex: 1,
+                      opacity: colorHovered ? 1 : 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Pro
+                  </Badge>
+                </Box>
               )}
               {!isPro && (
-                <Text size="xs" c="dimmed" ta="center">
+                <Text size="xs" c="dimmed" ta="center" mt="-0.5rem" mb="1rem">
                   <Anchor component={InternalLink} href="/dashboard/billing">
                     Upgrade
                   </Anchor>{" "}
-                  to customize branding.
+                  to remove DecapBridge branding.
                 </Text>
               )}
             </Stack>
@@ -433,7 +481,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   Invite Email
                 </Tabs.Tab>
                 <Tabs.Tab value="finalize" fz="xs">
-                  Finalize
+                  First Login
                 </Tabs.Tab>
                 {form.values.auth_type === "classic" ? (
                   <Tabs.Tab value="cms-login" fz="xs">
@@ -452,17 +500,20 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               </Tabs.List>
               <Tabs.Panel value="invite-email" pt="xs">
                 <Card withBorder shadow="md" radius="md" p={0}>
-                  <Image
-                    src="/login-screenshots/classic.png"
-                    alt="Invite email preview"
+                  <InviteEmailPreview
+                    name={previewName}
+                    logo={previewLogoUrl}
+                    color={previewColor}
                   />
                 </Card>
               </Tabs.Panel>
               <Tabs.Panel value="finalize" pt="xs">
                 <Card withBorder shadow="md" radius="md" p={0}>
-                  <Image
-                    src="/login-screenshots/pkce-2.png"
-                    alt="Finalize preview"
+                  <FinalizePreview
+                    name={previewName}
+                    logo={previewLogoUrl}
+                    color={previewColor}
+                    isPkce={form.values.auth_type === "pkce"}
                   />
                 </Card>
               </Tabs.Panel>
@@ -484,9 +535,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
               </Tabs.Panel>
               <Tabs.Panel value="login-portal" pt="xs">
                 <Card withBorder shadow="md" radius="md" p={0}>
-                  <Image
-                    src="/login-screenshots/pkce-2.png"
-                    alt="Login portal preview"
+                  <LoginPortalPreview
+                    name={previewName}
+                    logo={previewLogoUrl}
+                    color={previewColor}
                   />
                 </Card>
               </Tabs.Panel>

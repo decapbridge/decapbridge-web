@@ -55,7 +55,7 @@ export function HeroBullets() {
             </List.Item>
             <List.Item>
               <b>Login with Google or Microsoft</b> - Let your users chose their
-              prefered login method. Password login supported as well. More SSO
+              preferred login method. Password login supported as well. More SSO
               options coming soon.
             </List.Item>
             <List.Item>

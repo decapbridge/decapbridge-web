@@ -22,7 +22,7 @@ export type PageData = Record<string, unknown> & {
   meta?: Partial<RawPageMeta>;
 };
 
-export type ParsedCollectioneMeta = RawPageMeta & {
+export type ParsedCollectionMeta = RawPageMeta & {
   urlPathname: CollectionLinks;
 };
 
@@ -31,4 +31,3 @@ export type CollectionLinks = `/${CollectionKeys}/${string}`;
 export type PossiblePaths = PageLinks | CollectionLinks;
 export type MaybeQueryParam = "" | `?${string}`;
 export type PossibleLinks = `${PossiblePaths}${MaybeQueryParam}`;
-

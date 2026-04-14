@@ -3,7 +3,7 @@ import { readAllSettings } from "/src/cms/settings-loader.server";
 import { CollectionKeys, readAll } from "/src/cms/collection-loader.server";
 import { readAllPages } from "/src/cms/page-loader.server";
 import { collections } from "/src/cms/schema.server";
-import { ParsedCollectioneMeta } from "/src/utils/types";
+import { ParsedCollectionMeta } from "/src/utils/types";
 
 const getGlobalData = () => {
   const settings = readAllSettings();
@@ -18,7 +18,7 @@ const getGlobalData = () => {
           ...acc,
           [collection]: readAll(collection).map((i) => i.meta),
         }),
-        {} as Record<CollectionKeys, ParsedCollectioneMeta[]>
+        {} as Record<CollectionKeys, ParsedCollectionMeta[]>,
       ),
     },
   };

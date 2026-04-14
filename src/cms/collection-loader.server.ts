@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { z } from "zod";
-import { ParsedCollectioneMeta } from "/src/utils/types";
+import { ParsedCollectionMeta } from "/src/utils/types";
 import { collections } from "./schema.server";
 
 export type CollectionsCmsSchema = Record<string, z.ZodObject<z.ZodRawShape>>;
@@ -11,7 +11,7 @@ type CollectionSchemas = typeof collections;
 export type CollectionKeys = keyof CollectionSchemas;
 export type Collections = {
   [K in CollectionKeys]: z.infer<CollectionSchemas[K]> & {
-    meta: ParsedCollectioneMeta;
+    meta: ParsedCollectionMeta;
   };
 };
 
@@ -28,7 +28,7 @@ export const getKeys = (collection: CollectionKeys): string[] => {
 
 export const readOne = <C extends CollectionKeys>(
   collection: C,
-  key: string
+  key: string,
 ) => {
   const root = getCollectionPath(collection);
 
@@ -36,7 +36,7 @@ export const readOne = <C extends CollectionKeys>(
 
   if (!fs.existsSync(filePath)) {
     throw new Error(
-      `File ${filePath.replace(process.cwd(), "")} does not exist.`
+      `File ${filePath.replace(process.cwd(), "")} does not exist.`,
     );
   }
 
@@ -46,7 +46,7 @@ export const readOne = <C extends CollectionKeys>(
   } = matter(
     fs.readFileSync(filePath, {
       encoding: "utf-8",
-    })
+    }),
   );
 
   return {
@@ -61,6 +61,6 @@ export const readOne = <C extends CollectionKeys>(
 };
 
 export const readAll = <C extends CollectionKeys>(
-  collection: C
+  collection: C,
 ): Collections[C][] =>
   getKeys(collection).map((key) => readOne(collection, key));
