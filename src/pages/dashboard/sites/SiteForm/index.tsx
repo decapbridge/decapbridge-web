@@ -10,12 +10,10 @@ import {
   Divider,
   Radio,
   Code,
-  SimpleGrid,
   Grid,
   Image,
   Card,
   Tabs,
-  Tooltip,
   List,
   ColorInput,
   FileInput,
@@ -40,6 +38,7 @@ import capitalize from "/src/utils/capitalize";
 import useFileUrl from "/src/hooks/useFileUrl";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import isProUser from "/src/utils/isProUser";
+import InternalLink from "/src/components/core/InternalLink";
 
 interface SiteFormProps {
   initialValues?: Partial<Site>;
@@ -67,7 +66,8 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
 
   const user = useCurrentUser();
   const isPro = isProUser(user);
-  const [activeTab, setActiveTab] = useState("invite-email");
+  const defaultTab = (initialValues?.auth_type ?? "pkce") === "classic" ? "cms-login" : "cms-redirect";
+  const [activeTab, setActiveTab] = useState(defaultTab);
 
   const form = useAsyncForm({
     validateInputOnBlur: true,
@@ -187,10 +187,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
       form.values.auth_type === "classic" &&
       (activeTab === "cms-redirect" || activeTab === "login-portal")
     ) {
-      return "invite-email";
+      return "cms-login";
     }
     if (form.values.auth_type === "pkce" && activeTab === "cms-login") {
-      return "invite-email";
+      return "cms-redirect";
     }
     return activeTab;
   })();
@@ -337,15 +337,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   value={form.getInputProps("name").value ?? ""}
                 />
               ) : (
-                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
-                  <div>
-                    <TextInput
-                      label="Site Name"
-                      disabled
-                      value="DecapBridge"
-                    />
-                  </div>
-                </Tooltip>
+                <TextInput label="Site Name" disabled value="DecapBridge" />
               )}
               {isPro ? (
                 <FileInput
@@ -368,23 +360,21 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   clearable
                 />
               ) : (
-                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
-                  <div>
-                    <TextInput
-                      label="Site Logo"
-                      disabled
-                      value="Default"
-                      leftSection={
-                        <Image
-                          src="/favicon.svg"
-                          alt="Default logo"
-                          maw="1.25rem"
-                          mah="1.25rem"
-                        />
-                      }
+                <TextInput
+                  label="Site Logo"
+                  disabled
+                  value="Default"
+                  leftSection={
+                    <Image
+                      src="/favicon.svg"
+                      alt="Default logo"
+                      maw="1.25rem"
+                      mah="1.25rem"
+                      opacity={0.5}
+                      style={{ pointerEvents: "none" }}
                     />
-                  </div>
-                </Tooltip>
+                  }
+                />
               )}
               {isPro ? (
                 <ColorInput
@@ -418,16 +408,21 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
                   ]}
                 />
               ) : (
-                <Tooltip label="Upgrade to Pro to customize branding" position="bottom">
-                  <div>
-                    <ColorInput
-                      label="Theme color"
-                      disabled
-                      value="#e64980"
-                      format="hex"
-                    />
-                  </div>
-                </Tooltip>
+                <ColorInput
+                  label="Theme color"
+                  disabled
+                  value="#e64980"
+                  format="hex"
+                  styles={{ colorPreview: { opacity: 0.5 } }}
+                />
+              )}
+              {!isPro && (
+                <Text size="xs" c="dimmed" ta="center">
+                  <Anchor component={InternalLink} href="/dashboard/billing">
+                    Upgrade
+                  </Anchor>{" "}
+                  to customize branding.
+                </Text>
               )}
             </Stack>
           </Grid.Col>
