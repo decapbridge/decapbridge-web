@@ -1,3 +1,4 @@
+import "/src/utils/sentry";
 import "@mantine/core/styles.css";
 import "@mantine/code-highlight/styles.css";
 import "@mantine/spotlight/styles.css";
