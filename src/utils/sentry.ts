@@ -11,6 +11,6 @@ if (typeof window !== "undefined" && env("VITE_DECAPBRIDGE_IS_CLOUD")) {
     ],
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0,
-    replaysOnErrorSampleRate: 1.0,
+    replaysOnErrorSampleRate: 0.05,
   });
 }
