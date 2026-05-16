@@ -284,7 +284,10 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             rightSection={
               !canEditAccessToken ? (
                 <TbX
-                  style={{ cursor: "pointer", color: "black" }}
+                  style={{
+                    cursor: "pointer",
+                    color: "var(--mantine-color-text)",
+                  }}
                   onClick={() => form.setFieldValue("access_token", "")}
                 />
               ) : undefined
