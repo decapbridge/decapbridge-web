@@ -1,10 +1,11 @@
-export const MicrosoftIcon: React.FC = () => {
+export const MicrosoftIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       height="22"
       width="22"
       viewBox="0 0 24 24"
+      {...props}
     >
       <path fill="#f35325" d="M1 1h10v10H1z" />
       <path fill="#81bc06" d="M12 1h10v10H12z" />

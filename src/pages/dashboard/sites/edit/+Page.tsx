@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import navigate from "/src/utils/navigate";
 import {
   TbArrowLeft,
+  TbArrowsExchange,
   TbBrandGithub,
   TbBrandGitlab,
   TbCode,
@@ -31,6 +32,7 @@ import fastClick from "/src/utils/fastClick";
 import InstallConfig from "./InstallConfig";
 import { PossibleLinks } from "/src/utils/types";
 import DeleteSiteModal from "../DeleteSiteModal";
+import TransferOwnershipModal from "../TransferOwnershipModal";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 
 const defaultTab = "manage";
@@ -162,6 +164,19 @@ const EditSitePage: React.FC = () => {
                 <Stack gap="xl">
                   <SiteForm initialValues={data as Site} />
                   <Group justify="flex-end">
+                    <TransferOwnershipModal site={data as Site}>
+                      {(open) => (
+                        <Button
+                          onClick={open}
+                          color="red"
+                          size="sm"
+                          rightSection={<TbArrowsExchange size="1.25rem" />}
+                          variant="light"
+                        >
+                          Transfer site ownership
+                        </Button>
+                      )}
+                    </TransferOwnershipModal>
                     <DeleteSiteModal site={data as Site}>
                       {(open) => (
                         <Button
@@ -169,7 +184,6 @@ const EditSitePage: React.FC = () => {
                           color="red"
                           size="sm"
                           rightSection={<TbTrash size="1.25rem" />}
-                          variant="light"
                         >
                           Delete
                         </Button>

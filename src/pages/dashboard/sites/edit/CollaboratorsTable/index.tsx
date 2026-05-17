@@ -22,7 +22,7 @@ import directus, {
   Site,
   getMembership,
 } from "/src/utils/directus";
-import TimeAgo from "/src/components/ui/TimeAgo";
+import { formatDistanceToNow } from "date-fns";
 import {
   TbAt,
   TbArrowDown,
@@ -118,9 +118,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
       );
       notifications.show({
         message:
-          role === "admin"
-            ? "Promoted to admin."
-            : "Demoted to collaborator.",
+          role === "admin" ? "Promoted to admin." : "Demoted to collaborator.",
       });
       await queryClient.invalidateQueries({ queryKey: ["sites"] });
     } catch (error) {
@@ -152,6 +150,24 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
         </Table.Td>
         <Table.Td>{rowUser.email}</Table.Td>
         <Table.Td>
+          {(() => {
+            const lastAccessLabel = rowUser.last_access
+              ? `Last access: ${formatDistanceToNow(new Date(rowUser.last_access))} ago`
+              : "Never logged in";
+            return (
+              <Tooltip label={lastAccessLabel}>
+                {rowUser.provider === "google" ? (
+                  <GoogleIcon />
+                ) : rowUser.provider === "microsoft" ? (
+                  <MicrosoftIcon />
+                ) : (
+                  <TbPassword size="1.25rem" />
+                )}
+              </Tooltip>
+            );
+          })()}
+        </Table.Td>
+        <Table.Td>
           {role === "owner" ? (
             <Badge size="sm" variant="filled">
               Owner
@@ -165,28 +181,6 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
               Collaborator
             </Badge>
           )}
-        </Table.Td>
-        <Table.Td>
-          <Group gap="xs">
-            {rowUser.provider === "google" ? (
-              <Tooltip label="Google login">
-                <GoogleIcon />
-              </Tooltip>
-            ) : rowUser.provider === "microsoft" ? (
-              <Tooltip label="Microsoft login">
-                <MicrosoftIcon />
-              </Tooltip>
-            ) : (
-              <Tooltip label="Password login">
-                <TbPassword size="1.25rem" />
-              </Tooltip>
-            )}
-            {rowUser.last_access ? (
-              <TimeAgo fz="sm" timestamp={rowUser.last_access} />
-            ) : (
-              ""
-            )}
-          </Group>
         </Table.Td>
         <Table.Td align="right">
           {!isRowOwner && (
@@ -208,28 +202,35 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                   </ActionIcon>
                 </Tooltip>
               )}
-              {canManageRoles && ownerIsPro && collaborator && role === "collaborator" && (
-                <Tooltip label="Promote to admin">
-                  <ActionIcon
-                    size="md"
-                    variant="light"
-                    onClick={() => setRole(collaborator.id, "admin")}
-                  >
-                    <TbArrowUp size="1em" />
-                  </ActionIcon>
-                </Tooltip>
-              )}
-              {canManageRoles && ownerIsPro && collaborator && role === "admin" && !isSelf && (
-                <Tooltip label="Demote to collaborator">
-                  <ActionIcon
-                    size="md"
-                    variant="light"
-                    onClick={() => setRole(collaborator.id, "collaborator")}
-                  >
-                    <TbArrowDown size="1em" />
-                  </ActionIcon>
-                </Tooltip>
-              )}
+              {canManageRoles &&
+                ownerIsPro &&
+                collaborator &&
+                role === "collaborator" && (
+                  <Tooltip label="Promote to admin">
+                    <ActionIcon
+                      size="md"
+                      variant="light"
+                      onClick={() => setRole(collaborator.id, "admin")}
+                    >
+                      <TbArrowUp size="1em" />
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              {canManageRoles &&
+                ownerIsPro &&
+                collaborator &&
+                role === "admin" &&
+                !isSelf && (
+                  <Tooltip label="Demote to collaborator">
+                    <ActionIcon
+                      size="md"
+                      variant="light"
+                      onClick={() => setRole(collaborator.id, "collaborator")}
+                    >
+                      <TbArrowDown size="1em" />
+                    </ActionIcon>
+                  </Tooltip>
+                )}
               {!(isSelf && role === "admin") && (
                 <RemoveCollaboratorModal site={site} user={rowUser}>
                   {(open) => (
@@ -314,8 +315,8 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
             </Table.Th> */}
                 <Table.Th>Full name</Table.Th>
                 <Table.Th>Email</Table.Th>
+                <Table.Th>Login</Table.Th>
                 <Table.Th>Role</Table.Th>
-                <Table.Th>Last access</Table.Th>
                 <Table.Th align="right" ta="right">
                   Action
                 </Table.Th>

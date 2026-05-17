@@ -106,9 +106,17 @@ If they can't see the email, check the spam folder. If still nothing, please let
 
 New invitees join as **collaborators** by default. Collaborators can log into the CMS and edit content, but cannot manage other users or change site settings.
 
-You can promote a trusted collaborator to **admin** using the arrow icons in the collaborators table. Admins can invite new collaborators, remove access, and promote or demote others on your behalf. They cannot edit your site's settings or delete the site, that remains owner-only.
+You can promote a trusted collaborator to **admin** using the arrow icons in the collaborators table. Admins can invite new collaborators, remove access, and promote or demote others on your behalf. They cannot edit your site's settings, delete the site, or transfer ownership, those remain owner-only.
 
 The admin role is offered as part of the Pro and Lifetime plans on DecapBridge Cloud.
+
+### Transfer ownership
+
+If you need to hand a site off, for example, you're an agency delivering a site to a client, or a teammate is taking over, open the site's **Settings** tab and click **Transfer ownership**. Enter the email of an existing collaborator on the site and confirm.
+
+The new owner takes over immediately, and you become a collaborator on the site (inheriting whichever role they had). Both of you receive an email confirming the change. From that point on, the new owner's plan determines the site's limits.
+
+The recipient must already be a collaborator, so if you're handing off to someone new, invite them first.
 
 ## Have fun 🎉
 
