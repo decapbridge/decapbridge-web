@@ -252,6 +252,9 @@ const PricingTable: React.FC = () => {
           <List size="sm">
             <List.Item>Unlimited sites</List.Item>
             <List.Item>Unlimited collaborators</List.Item>
+            <List.Item>
+              Admin role for delegating collaborator management
+            </List.Item>
             <List.Item>Brandable login screens and invite emails</List.Item>
             <List.Item>DecapBridge & DecapCMS technical support</List.Item>
           </List>
@@ -263,13 +266,16 @@ const PricingTable: React.FC = () => {
         priceKey="lifetime"
         description={
           <Text size="sm" c="dimmed">
-            Lifetime pro license + commercial self-hosting license.
+            Lifetime professional plan + commercial self-hosting license.
           </Text>
         }
         quotas={
           <List size="sm">
             <List.Item>Unlimited sites</List.Item>
             <List.Item>Unlimited collaborators</List.Item>
+            <List.Item>
+              Admin role for delegating collaborator management
+            </List.Item>
             <List.Item>Brandable login screens and invite emails</List.Item>
             <List.Item>DecapBridge & DecapCMS technical support</List.Item>
             <List.Item>White-label Self-Hosting Commercial License</List.Item>

@@ -102,6 +102,14 @@ Simply enter their email and hit send. They will receive an invitation email wit
 
 If they can't see the email, check the spam folder. If still nothing, please let me know!
 
+### Roles
+
+New invitees join as **collaborators** by default. Collaborators can log into the CMS and edit content, but cannot manage other users or change site settings.
+
+You can promote a trusted collaborator to **admin** using the arrow icons in the collaborators table. Admins can invite new collaborators, remove access, and promote or demote others on your behalf. They cannot edit your site's settings or delete the site, that remains owner-only.
+
+The admin role is offered as part of the Pro and Lifetime plans on DecapBridge Cloud.
+
 ## Have fun 🎉
 
 If you've got all these steps going smoothly, enjoy DecapBridge!
