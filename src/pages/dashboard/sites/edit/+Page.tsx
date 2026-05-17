@@ -12,7 +12,7 @@ import { usePageContext } from "vike-react/usePageContext";
 
 import SiteForm from "/src/pages/dashboard/sites/SiteForm";
 import useDirectusRequest from "/src/hooks/useDirectusRequest";
-import { Site } from "/src/utils/directus";
+import { Site, getMembership } from "/src/utils/directus";
 import { useEffect } from "react";
 import navigate from "/src/utils/navigate";
 import {
@@ -57,11 +57,15 @@ const EditSitePage: React.FC = () => {
   }, [search.siteId]);
 
   const ownerId = (data?.user_created as any)?.id;
+  const isOwner = ownerId === user.id;
+  const isAdmin =
+    !!data && getMembership(data as Site, user.id)?.role === "admin";
+  const canManageSite = isOwner || isAdmin;
   useEffect(() => {
-    if (ownerId && ownerId !== user.id) {
+    if (data && !canManageSite) {
       navigate("/dashboard/sites");
     }
-  }, [ownerId, user.id]);
+  }, [data, canManageSite]);
 
   const tab = search.tab ?? defaultTab;
   const setTab = (tab: string | null) => {
@@ -134,16 +138,18 @@ const EditSitePage: React.FC = () => {
               >
                 config.yml
               </Tabs.Tab>
-              <Tabs.Tab
-                onMouseDown={fastClick}
-                value="settings"
-                leftSection={<TbSettings size="1.5em" />}
-                py={0}
-                h="2.25rem"
-                pl="sm"
-              >
-                Settings
-              </Tabs.Tab>
+              {isOwner && (
+                <Tabs.Tab
+                  onMouseDown={fastClick}
+                  value="settings"
+                  leftSection={<TbSettings size="1.5em" />}
+                  py={0}
+                  h="2.25rem"
+                  pl="sm"
+                >
+                  Settings
+                </Tabs.Tab>
+              )}
             </Tabs.List>
             <Tabs.Panel value="manage">
               <CollaboratorsTable site={data as Site} />
@@ -151,26 +157,28 @@ const EditSitePage: React.FC = () => {
             <Tabs.Panel value="install">
               <InstallConfig site={data as Site} />
             </Tabs.Panel>
-            <Tabs.Panel value="settings">
-              <Stack gap="xl">
-                <SiteForm initialValues={data as Site} />
-                <Group justify="flex-end">
-                  <DeleteSiteModal site={data as Site}>
-                    {(open) => (
-                      <Button
-                        onClick={open}
-                        color="red"
-                        size="sm"
-                        rightSection={<TbTrash size="1.25rem" />}
-                        variant="light"
-                      >
-                        Delete
-                      </Button>
-                    )}
-                  </DeleteSiteModal>
-                </Group>
-              </Stack>
-            </Tabs.Panel>
+            {isOwner && (
+              <Tabs.Panel value="settings">
+                <Stack gap="xl">
+                  <SiteForm initialValues={data as Site} />
+                  <Group justify="flex-end">
+                    <DeleteSiteModal site={data as Site}>
+                      {(open) => (
+                        <Button
+                          onClick={open}
+                          color="red"
+                          size="sm"
+                          rightSection={<TbTrash size="1.25rem" />}
+                          variant="light"
+                        >
+                          Delete
+                        </Button>
+                      )}
+                    </DeleteSiteModal>
+                  </Group>
+                </Stack>
+              </Tabs.Panel>
+            )}
           </Tabs>
         ) : (
           <Center>

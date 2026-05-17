@@ -8,7 +8,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import { Site } from "/src/utils/directus";
+import { Site, getMembership } from "/src/utils/directus";
 import InternalLink from "/src/components/core/InternalLink";
 import useCurrentUser from "/src/hooks/useCurrentUser";
 import { TbBrandGithub, TbBrandGitlab, TbExternalLink } from "react-icons/tb";
@@ -26,7 +26,9 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
     ...site.collaborators.map((c) => c.directus_users_id),
   ].filter(Boolean);
 
-  const isAdmin = (site?.user_created as any)?.id === user.id;
+  const isOwner = (site?.user_created as any)?.id === user.id;
+  const isAdmin = getMembership(site, user.id)?.role === "admin";
+  const canManage = isOwner || isAdmin;
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -37,10 +39,18 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
               <UserAvatar key={u.id} user={u} />
             ))}
           </Avatar.Group>
-          {isAdmin ? (
+          {isOwner ? (
             <Badge size="sm" variant="light">
-              You are the admin
+              You are the owner
             </Badge>
+          ) : isAdmin ? (
+            <Tooltip
+              label={`${(site.user_created as any)?.email} is the owner.`}
+            >
+              <Badge size="sm" variant="light">
+                You are an admin
+              </Badge>
+            </Tooltip>
           ) : (
             <Tooltip
               label={`${(site.user_created as any)?.email} is the owner.`}
@@ -63,14 +73,14 @@ const SiteCard: React.FC<SiteCardProps> = ({ site }) => {
             </Tooltip>
           )}
         </Group>
-        {isAdmin ? (
+        {canManage ? (
           <Button
             component={InternalLink}
             href={`/dashboard/sites/edit?siteId=${site.id}`}
             variant="filled"
             fullWidth
           >
-            Manage site
+            {isOwner ? "Manage site" : "Manage collaborators"}
           </Button>
         ) : (
           <Button

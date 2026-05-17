@@ -34,11 +34,14 @@ export const authenticationStorage: AuthenticationStorage = {
   },
 };
 
+export type CollaboratorRole = 'collaborator' | 'admin';
+
 export interface Collaborator {
   id: number;
   sites_id: Site | string;
   directus_users_id: CustomSchema['directus_users'][number] | string;
   invite_token?: string | null;
+  role: CollaboratorRole;
 };
 
 export interface Site {
@@ -74,6 +77,18 @@ export type CustomSchema = CoreSchema &
   };
 
 export type CustomSchemaEnum = Exclude<keyof CustomSchema, "directus_settings">;
+
+export const getMembership = (
+  site: Site,
+  userId: string,
+): Collaborator | undefined =>
+  site.collaborators.find((c) => {
+    const collaboratorUserId =
+      typeof c.directus_users_id === "object"
+        ? c.directus_users_id?.id
+        : c.directus_users_id;
+    return collaboratorUserId === userId;
+  });
 
 export type StripeSubscriptionStatus =
   | 'incomplete'

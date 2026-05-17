@@ -478,7 +478,11 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             </Stack>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 7 }}>
-            <Tabs value={effectiveTab} onChange={(v) => v && setActiveTab(v)}>
+            <Tabs
+              radius="md"
+              value={effectiveTab}
+              onChange={(v) => v && setActiveTab(v)}
+            >
               <Tabs.List>
                 <Tabs.Tab value="invite-email" fz="xs">
                   Invite Email
