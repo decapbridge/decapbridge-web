@@ -295,7 +295,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
           />
           {tokenLink && (
             <Text size="xs" c="dimmed">
-              You can create it, track it's usage and revoke it here:{" "}
+              You can create it, track its usage and revoke it here:{" "}
               <Anchor
                 href={tokenLink}
                 target="_blank"
