@@ -6,7 +6,6 @@ import {
   Modal,
   Container,
   Notification,
-  Tabs,
   ColorInput,
 } from "@mantine/core";
 import styles from "./utils.module.css";
@@ -52,11 +51,6 @@ export const buildTheme = () =>
       Notification: Notification.extend({
         defaultProps: {
           radius: "sm",
-        },
-      }),
-      Tabs: Tabs.extend({
-        defaultProps: {
-          radius: "lg",
         },
       }),
       ColorInput: ColorInput.extend({

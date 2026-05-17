@@ -4,6 +4,7 @@ import {
   Group,
   Text,
   ActionIcon,
+  Badge,
   Button,
   Divider,
   Paper,
@@ -15,10 +16,17 @@ import {
   Alert,
   useMantineTheme,
 } from "@mantine/core";
-import directus, { CustomSchema, Site } from "/src/utils/directus";
+import directus, {
+  CollaboratorRole,
+  CustomSchema,
+  Site,
+  getMembership,
+} from "/src/utils/directus";
 import TimeAgo from "/src/components/ui/TimeAgo";
 import {
   TbAt,
+  TbArrowDown,
+  TbArrowUp,
   TbCopy,
   TbInfoCircle,
   TbPassword,
@@ -28,7 +36,7 @@ import {
 import RemoveCollaboratorModal from "../../RemoveCollaboratorModal";
 import UserAvatar from "/src/components/misc/UserAvatar";
 import useAsyncForm, { FormWrapper } from "/src/hooks/useAsyncForm";
-import { customEndpoint } from "@directus/sdk";
+import { customEndpoint, updateItem } from "@directus/sdk";
 import z from "zod";
 import { notifications } from "@mantine/notifications";
 import queryClient from "/src/utils/queryClient";
@@ -97,32 +105,74 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
     ...site.collaborators.map((c) => c.directus_users_id),
   ].filter(Boolean) as CustomSchema["directus_users"];
 
-  const rows = allUsers.map((user) => {
-    // const selected = selection.includes(user.id);
+  const ownerId = (site.user_created as any)?.id;
+  const isOwner = ownerId === user.id;
+  const isAdmin = getMembership(site, user.id)?.role === "admin";
+  const canManageRoles = isOwner || isAdmin;
+  const ownerIsPro = isProUser(site.user_created as any);
+
+  const setRole = async (collaboratorId: number, role: CollaboratorRole) => {
+    try {
+      await directus.request(
+        updateItem("sites_directus_users", collaboratorId, { role }),
+      );
+      notifications.show({
+        message:
+          role === "admin"
+            ? "Promoted to admin."
+            : "Demoted to collaborator.",
+      });
+      await queryClient.invalidateQueries({ queryKey: ["sites"] });
+    } catch (error) {
+      notifications.show({
+        color: "red",
+        message:
+          (error as any)?.errors?.[0]?.message ?? "Failed to update role.",
+      });
+    }
+  };
+
+  const rows = allUsers.map((rowUser) => {
+    const isRowOwner = ownerId === rowUser.id;
+    const isSelf = rowUser.id === user.id;
+    const collaborator = getMembership(site, rowUser.id);
+    const role: CollaboratorRole | "owner" = isRowOwner
+      ? "owner"
+      : (collaborator?.role ?? "collaborator");
+
     return (
-      <Table.Tr
-        key={user.id}
-        // className={cx({ [classes.rowSelected]: selected })}
-      >
-        {/* <Table.Td>
-          <Checkbox checked={selection.includes(user.id)} onChange={() => toggleRow(user.id)} />
-        </Table.Td> */}
+      <Table.Tr key={rowUser.id}>
         <Table.Td>
           <Group gap="sm">
-            <UserAvatar size={26} radius={26} user={user} />
+            <UserAvatar size={26} radius={26} user={rowUser} />
             <Text size="sm" fw={500}>
-              {user.first_name} {user.last_name}
+              {rowUser.first_name} {rowUser.last_name}
             </Text>
           </Group>
         </Table.Td>
-        <Table.Td>{user.email}</Table.Td>
+        <Table.Td>{rowUser.email}</Table.Td>
+        <Table.Td>
+          {role === "owner" ? (
+            <Badge size="sm" variant="filled">
+              Owner
+            </Badge>
+          ) : role === "admin" ? (
+            <Badge size="sm" variant="light">
+              Admin
+            </Badge>
+          ) : (
+            <Badge size="sm" variant="outline">
+              Collaborator
+            </Badge>
+          )}
+        </Table.Td>
         <Table.Td>
           <Group gap="xs">
-            {user.provider === "google" ? (
+            {rowUser.provider === "google" ? (
               <Tooltip label="Google login">
                 <GoogleIcon />
               </Tooltip>
-            ) : user.provider === "microsoft" ? (
+            ) : rowUser.provider === "microsoft" ? (
               <Tooltip label="Microsoft login">
                 <MicrosoftIcon />
               </Tooltip>
@@ -131,52 +181,66 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
                 <TbPassword size="1.25rem" />
               </Tooltip>
             )}
-            {user.last_access ? (
-              <TimeAgo fz="sm" timestamp={user.last_access} />
+            {rowUser.last_access ? (
+              <TimeAgo fz="sm" timestamp={rowUser.last_access} />
             ) : (
               ""
             )}
           </Group>
         </Table.Td>
         <Table.Td align="right">
-          {(site.user_created as any)?.id !== user.id && (
+          {!isRowOwner && (
             <Group gap="xs" justify="flex-end">
-              {(() => {
-                const collaborator = site.collaborators.find(
-                  (c) =>
-                    c.directus_users_id &&
-                    (typeof c.directus_users_id === "object"
-                      ? c.directus_users_id.id
-                      : c.directus_users_id) === user.id,
-                );
-                if (!collaborator?.invite_token) return null;
-                const joinUrl = `${getDirectusUrl()}/sites/${site.id}/join?user_id=${user.id}&token=${collaborator.invite_token}`;
-                return (
-                  <Tooltip label="Copy invite link">
-                    <ActionIcon
-                      size="md"
-                      variant="light"
-                      onClick={() => {
-                        navigator.clipboard.writeText(joinUrl);
-                        notifications.show({
-                          message: "Invite link copied to clipboard!",
-                        });
-                      }}
-                    >
-                      <TbCopy size="1em" />
-                    </ActionIcon>
-                  </Tooltip>
-                );
-              })()}
-              <RemoveCollaboratorModal site={site} user={user}>
-                {(open) => (
-                  <Tooltip label="Remove access">
-                    <ActionIcon size="md" variant="light" onClick={open}>
-                      <TbX size="1em" />
-                    </ActionIcon>
-                  </Tooltip>
-                )}
-              </RemoveCollaboratorModal>
+              {collaborator?.invite_token && (
+                <Tooltip label="Copy invite link">
+                  <ActionIcon
+                    size="md"
+                    variant="light"
+                    onClick={() => {
+                      const joinUrl = `${getDirectusUrl()}/sites/${site.id}/join?user_id=${rowUser.id}&token=${collaborator.invite_token}`;
+                      navigator.clipboard.writeText(joinUrl);
+                      notifications.show({
+                        message: "Invite link copied to clipboard!",
+                      });
+                    }}
+                  >
+                    <TbCopy size="1em" />
+                  </ActionIcon>
+                </Tooltip>
+              )}
+              {canManageRoles && ownerIsPro && collaborator && role === "collaborator" && (
+                <Tooltip label="Promote to admin">
+                  <ActionIcon
+                    size="md"
+                    variant="light"
+                    onClick={() => setRole(collaborator.id, "admin")}
+                  >
+                    <TbArrowUp size="1em" />
+                  </ActionIcon>
+                </Tooltip>
+              )}
+              {canManageRoles && ownerIsPro && collaborator && role === "admin" && !isSelf && (
+                <Tooltip label="Demote to collaborator">
+                  <ActionIcon
+                    size="md"
+                    variant="light"
+                    onClick={() => setRole(collaborator.id, "collaborator")}
+                  >
+                    <TbArrowDown size="1em" />
+                  </ActionIcon>
+                </Tooltip>
+              )}
+              {!(isSelf && role === "admin") && (
+                <RemoveCollaboratorModal site={site} user={rowUser}>
+                  {(open) => (
+                    <Tooltip label="Remove access">
+                      <ActionIcon size="md" variant="light" onClick={open}>
+                        <TbX size="1em" />
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
+                </RemoveCollaboratorModal>
+              )}
             </Group>
           )}
         </Table.Td>
@@ -185,7 +249,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
   });
 
   const canAddCollaborators =
-    isProUser(user) || (allUsers?.length ?? 0) < freeCollaboratorLimit;
+    ownerIsPro || (allUsers?.length ?? 0) < freeCollaboratorLimit;
 
   return (
     <Paper withBorder radius="lg" p="xl" shadow="md">
@@ -250,6 +314,7 @@ const CollaboratorsTable: React.FC<CollaboratorsTableProps> = ({ site }) => {
             </Table.Th> */}
                 <Table.Th>Full name</Table.Th>
                 <Table.Th>Email</Table.Th>
+                <Table.Th>Role</Table.Th>
                 <Table.Th>Last access</Table.Th>
                 <Table.Th align="right" ta="right">
                   Action
