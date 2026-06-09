@@ -101,12 +101,6 @@ const FinalizePage: React.FC = () => {
       password: "",
     },
     action: async (values) => {
-      if (values.avatar instanceof File) {
-        const form = new FormData();
-        form.append("file", values.avatar);
-        const avatarFile = await directus.request(uploadFiles(form));
-        values.avatar = avatarFile.id;
-      }
       if (!token) {
         alert("Missing token in URL");
         return;
@@ -122,6 +116,12 @@ const FinalizePage: React.FC = () => {
       if (!me) {
         alert("Error with login");
         return;
+      }
+      if (values.avatar instanceof File) {
+        const form = new FormData();
+        form.append("file", values.avatar);
+        const avatarFile = await directus.request(uploadFiles(form));
+        values.avatar = avatarFile.id;
       }
       await directus.request(
         updateUser(
