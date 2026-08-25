@@ -40,7 +40,7 @@ const usePkceAuth = () => {
   let ssoRedirectUrl = `${getDirectusUrl()}/sso-exchange-token`;
   if (isPkceFlow) {
     ssoRedirectUrl = `${getDirectusUrl()}/sites/${urlParsed.search["site_id"]
-      }/sso-callback?state=${urlParsed.search.state}`;
+      }/sso-callback?state=${urlParsed.search.state}&redirect_uri=${encodeURIComponent(urlParsed.search["redirect_uri"] ?? "")}`;
   }
 
   const getSsoRedirectUrl = useCallback((provider: string) => {
