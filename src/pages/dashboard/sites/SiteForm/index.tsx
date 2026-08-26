@@ -20,6 +20,7 @@ import {
   CloseButton,
   Badge,
   Box,
+  Checkbox,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useHover } from "@mantine/hooks";
@@ -65,6 +66,7 @@ const schema = z.object({
   name: z.string().max(255).nullable(),
   logo: z.any().or(z.file()).nullable(),
   color: z.string().max(255).nullable(),
+  hide_commit_author: z.boolean(),
 });
 
 const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
@@ -90,6 +92,7 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
       access_token: initialValues?.access_token ?? "",
       cms_url: initialValues?.cms_url ?? "",
       auth_type: initialValues?.auth_type ?? "pkce",
+      hide_commit_author: initialValues?.hide_commit_author ?? false,
       name: initialValues?.name ?? null,
       color: initialValues?.color ?? null,
       logo: (initialValues?.logo ?? null) as any,
@@ -307,6 +310,14 @@ const SiteForm: React.FC<SiteFormProps> = ({ initialValues }) => {
             </Text>
           )}
         </Stack>
+        {form.values.git_provider === "github" && (
+          <Checkbox
+            radius="sm"
+            label="Hide commit author"
+            description="Attribute commits to the access token account instead of the editor."
+            {...form.getInputProps("hide_commit_author", { type: "checkbox" })}
+          />
+        )}
         <TextInput
           label="Your Decap CMS login URL"
           placeholder="https://your-site.com/admin/index.html"

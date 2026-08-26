@@ -59,6 +59,7 @@ export interface Site {
   name?: string | null;
   logo?: string | null;
   color?: string | null;
+  hide_commit_author?: boolean;
 }
 
 export interface CustomCollections {
